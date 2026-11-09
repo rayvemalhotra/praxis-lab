@@ -41,7 +41,8 @@ Then open http://localhost:8501.
 | `tests/screenshots.py` | opens every page in a headless browser and saves screenshots (needs Playwright) |
 | `tests/rebuild_cards.py` | rebuilds `results/*.json` from the cached training runs of `system.py` (praxis folders, read only) |
 | `Dockerfile` | the same tool in a container, port 7860 |
-| `.streamlit/config.toml` | upload limit 400 MB, usage statistics off |
+| `.streamlit/config.toml` | upload limit 200 MB, usage statistics off, minimal toolbar |
+| `share.sh` | runs the app with a password on a temporary public https link from one computer (Cloudflare quick tunnel) |
 
 ## Using the engine without the web page
 
@@ -57,13 +58,18 @@ print(card["hypotheses"], card["verdicts"])
 
 Budgets: `QUICK` (one seed, 24 passes, 400 resamples, 40,000 records at most) shows whether the data works in the tool. `PROTOCOL` (three seeds, 61 passes of the largest organization at batch 128, 2,000 resamples over attack events, the nothing-withheld check, tracing with five random forests and a 200-shuffle test) is the praxis budget and the one to report.
 
+## Access password
+
+With no password set, the tool is open (a local install). To ask visitors for a shared password, set the environment variable `PRAXIS_LAB_PASSWORD`
+(on Streamlit Community Cloud or a Hugging Face Space: a secret with that name), or put `[access]` / `password = "..."` in `.streamlit/secrets.toml`
+(never committed). A wrong try is slowed down; a right one is remembered in the browser for a day.
+
 ## Publishing (free hosts)
 
-The folder is ready for a Hugging Face Space (Streamlit SDK, the front matter at the top of this file is read by the Space) or for Streamlit Community Cloud (from a GitHub repository). Both are free. A protocol run on a large upload can take tens of minutes on a free host; the quick look takes about a minute.
-
-- Hugging Face: create a Space, choose the Streamlit SDK, push this folder as the Space repository. `requirements.txt` installs the CPU build of PyTorch.
-- Streamlit Community Cloud: push this folder to a GitHub repository, then deploy `app.py` from it. The free tier has 1 GB of memory; prefer the quick look there.
-- Any machine with Docker: `docker build -t praxis-lab . && docker run -p 7860:7860 praxis-lab`.
+The repository is ready for Streamlit Community Cloud (deploy `app.py` from the GitHub repository; 1 GB of memory, so prefer the quick look there)
+or a Hugging Face Space (Streamlit SDK; the front matter at the top of this file is read by the Space; 16 GB of memory, protocol runs are fine).
+A protocol run on a large upload can take tens of minutes on a free host; the quick look takes about a minute. Any machine with Docker:
+`docker build -t praxis-lab . && docker run -p 7860:7860 praxis-lab`. Tests run on every push (`.github/workflows/tests.yml`).
 
 ## Adding a dataset
 
