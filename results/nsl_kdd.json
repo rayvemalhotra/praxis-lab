@@ -1,0 +1,544 @@
+{
+ "name": "NSL-KDD (KDDTrain+ and KDDTest+)",
+ "about": "The cleaned successor of KDD Cup 1999: connection records with 38 attack names and no host or clock, so organizations are random thirds. Working sample of 85,592 records.",
+ "made": "08 Nov 2026, 23:28",
+ "minutes": 1.4,
+ "budget": {
+  "name": "protocol (shuffle test on 5,000 records per side, 50-tree forests)",
+  "passes": 61,
+  "local_epochs": 4,
+  "resamples": 2000,
+  "trace_seeds": 5,
+  "trace_trees": 300,
+  "trace_permutations": 200,
+  "trace_perm_trees": 50,
+  "trace_perm_rows": 5000,
+  "seeds": [
+   0,
+   1,
+   2
+  ],
+  "max_rows": 0,
+  "nothing_withheld_check": true,
+  "do_trace": true
+ },
+ "seeds": [
+  0,
+  1,
+  2
+ ],
+ "software": {
+  "torch": "2.15.0",
+  "numpy": "2.5.4",
+  "pandas": "2.3.3"
+ },
+ "rules": {
+  "false_alarm_target": 0.05,
+  "min_gain": 0.05,
+  "fp_limit": 0.01,
+  "batch": 128,
+  "passes": 61,
+  "local_epochs": 4,
+  "resamples": 2000,
+  "network": "24-128-64-40",
+  "split": "class-stratified random 50/20/30 inside each organization; no clock, so each record is its own event (ranges are optimistic)",
+  "companies": "organizations = three random thirds of the records (no host column in this data)"
+ },
+ "step1": {
+  "A": {
+   "name": "Organization A",
+   "never_seen": "neptune",
+   "sources": null,
+   "train": 14265,
+   "withheld": 4955,
+   "train_after": 9310,
+   "train_normal": 5023,
+   "train_attack": 4287,
+   "val": 5706,
+   "test": 8559,
+   "test_never_seen": 2999,
+   "events_never_seen": 2999
+  },
+  "B": {
+   "name": "Organization B",
+   "never_seen": "satan",
+   "sources": null,
+   "train": 14265,
+   "withheld": 722,
+   "train_after": 13543,
+   "train_normal": 4964,
+   "train_attack": 8579,
+   "val": 5706,
+   "test": 8560,
+   "test_never_seen": 424,
+   "events_never_seen": 424
+  },
+  "C": {
+   "name": "Organization C",
+   "never_seen": "ipsweep",
+   "sources": null,
+   "train": 14265,
+   "withheld": 600,
+   "train_after": 13665,
+   "train_normal": 5048,
+   "train_attack": 8617,
+   "val": 5706,
+   "test": 8560,
+   "test_never_seen": 383,
+   "events_never_seen": 383
+  }
+ },
+ "step2": {
+  "raw_columns": 42,
+  "kept_numbers": 24,
+  "removed": 17,
+  "kept": [
+   "src_bytes",
+   "dst_bytes",
+   "land",
+   "wrong_fragment",
+   "urgent",
+   "hot",
+   "num_failed_logins",
+   "logged_in",
+   "num_compromised",
+   "root_shell",
+   "su_attempted",
+   "num_root",
+   "num_file_creations",
+   "num_shells",
+   "num_outbound_cmds",
+   "is_guest_login",
+   "count",
+   "srv_count",
+   "serror_rate",
+   "srv_serror_rate",
+   "rerror_rate",
+   "srv_rerror_rate",
+   "same_srv_rate",
+   "diff_srv_rate"
+  ],
+  "removed_columns": [
+   "attack",
+   "difficulty",
+   "dst_host_count",
+   "dst_host_diff_srv_rate",
+   "dst_host_rerror_rate",
+   "dst_host_same_src_port_rate",
+   "dst_host_same_srv_rate",
+   "dst_host_srv_count",
+   "dst_host_srv_diff_host_rate",
+   "dst_host_srv_rerror_rate",
+   "dst_host_srv_serror_rate",
+   "duration",
+   "flag",
+   "is_host_login",
+   "num_access_files",
+   "protocol_type",
+   "service",
+   "srv_diff_host_rate"
+  ]
+ },
+ "classes": [
+  "apache2",
+  "back",
+  "buffer_overflow",
+  "ftp_write",
+  "guess_passwd",
+  "httptunnel",
+  "imap",
+  "ipsweep",
+  "land",
+  "loadmodule",
+  "mailbomb",
+  "mscan",
+  "multihop",
+  "named",
+  "neptune",
+  "nmap",
+  "perl",
+  "phf",
+  "pod",
+  "portsweep",
+  "processtable",
+  "ps",
+  "rootkit",
+  "saint",
+  "satan",
+  "sendmail",
+  "smurf",
+  "snmpgetattack",
+  "snmpguess",
+  "spy",
+  "sqlattack",
+  "teardrop",
+  "udpstorm",
+  "warezclient",
+  "warezmaster",
+  "worm",
+  "xlock",
+  "xsnoop",
+  "xterm"
+ ],
+ "benign": "normal",
+ "companies": {
+  "A": {
+   "name": "Organization A",
+   "never_seen": "neptune",
+   "test_rows": 2999,
+   "named": {
+    "1_isolated": 0.0,
+    "2_sharing": 0.9932199622096255,
+    "3_federated": 1.0,
+    "4_centralized": 0.9952206290985884
+   },
+   "flagged": {
+    "1_isolated": 0.9985550739135268,
+    "2_sharing": 0.9997777036790042,
+    "3_federated": 1.0,
+    "4_centralized": 1.0
+   },
+   "false_alarm": {
+    "1_isolated": 0.04765100671140939,
+    "2_sharing": 0.046420581655480984,
+    "3_federated": 0.049217002237136466,
+    "4_centralized": 0.05212527964205816
+   },
+   "bytes": {
+    "1_isolated": 0,
+    "2_sharing": 1668012,
+    "3_federated": 674688,
+    "4_centralized": 903070
+   },
+   "steps": {
+    "1_isolated": 6527,
+    "2_sharing": 6527,
+    "3_federated": 6864,
+    "4_centralized": 6527
+   },
+   "named_check": {
+    "1_isolated": 0.9966655551850616,
+    "2_sharing": 0.9948871846170947,
+    "3_federated": 0.9951094809380905,
+    "4_centralized": 0.9931088140491274
+   },
+   "gain": {
+    "2_sharing": {
+     "gain": 0.9932199622096255,
+     "lo": 0.9899966655551851,
+     "hi": 0.9961098143825718,
+     "events": 2999
+    },
+    "3_federated": {
+     "gain": 1.0,
+     "lo": 1.0,
+     "hi": 1.0,
+     "events": 2999
+    },
+    "4_centralized": {
+     "gain": 0.9952206290985883,
+     "lo": 0.9927753695676336,
+     "hi": 0.9973324441480493,
+     "events": 2999
+    }
+   },
+   "gain_flagged": {
+    "2_sharing": {
+     "gain": 0.0012226297654773788,
+     "lo": 0.0004445926419918145,
+     "hi": 0.0021118150494607857
+    },
+    "3_federated": {
+     "gain": 0.001444926086473175,
+     "lo": 0.0005557408024897681,
+     "hi": 0.0024452595309546465
+    },
+    "4_centralized": {
+     "gain": 0.001444926086473175,
+     "lo": 0.0005557408024897681,
+     "hi": 0.0024480382349672996
+    }
+   },
+   "records_received": 17196,
+   "trace": null
+  },
+  "B": {
+   "name": "Organization B",
+   "never_seen": "satan",
+   "test_rows": 424,
+   "named": {
+    "1_isolated": 0.0,
+    "2_sharing": 0.7389937106918238,
+    "3_federated": 0.06446540880503145,
+    "4_centralized": 0.7767295597484276
+   },
+   "flagged": {
+    "1_isolated": 0.5455974842767296,
+    "2_sharing": 0.7421383647798742,
+    "3_federated": 0.5943396226415095,
+    "4_centralized": 0.7845911949685535
+   },
+   "false_alarm": {
+    "1_isolated": 0.02586966094231616,
+    "2_sharing": 0.02575957727873184,
+    "3_federated": 0.035887274328489656,
+    "4_centralized": 0.024548656979304268
+   },
+   "bytes": {
+    "1_isolated": 0,
+    "2_sharing": 1251688,
+    "3_federated": 674688,
+    "4_centralized": 1313671
+   },
+   "steps": {
+    "1_isolated": 6527,
+    "2_sharing": 6527,
+    "3_federated": 6864,
+    "4_centralized": 6527
+   },
+   "named_check": {
+    "1_isolated": 0.8545597484276729,
+    "2_sharing": 0.800314465408805,
+    "3_federated": 0.7735849056603774,
+    "4_centralized": 0.8034591194968553
+   },
+   "gain": {
+    "2_sharing": {
+     "gain": 0.7389937106918238,
+     "lo": 0.6973270440251573,
+     "hi": 0.7798742138364779,
+     "events": 424
+    },
+    "3_federated": {
+     "gain": 0.06446540880503145,
+     "lo": 0.04795597484276729,
+     "hi": 0.08178066037735839,
+     "events": 424
+    },
+    "4_centralized": {
+     "gain": 0.7767295597484276,
+     "lo": 0.7405463836477988,
+     "hi": 0.8128930817610062,
+     "events": 424
+    }
+   },
+   "gain_flagged": {
+    "2_sharing": {
+     "gain": 0.19654088050314467,
+     "lo": 0.160377358490566,
+     "hi": 0.23349056603773588
+    },
+    "3_federated": {
+     "gain": 0.04874213836477992,
+     "lo": 0.03301886792452824,
+     "hi": 0.06603773584905659
+    },
+    "4_centralized": {
+     "gain": 0.23899371069182385,
+     "lo": 0.20204402515723274,
+     "hi": 0.27832154088050326
+    }
+   },
+   "records_received": 12904,
+   "trace": null
+  },
+  "C": {
+   "name": "Organization C",
+   "never_seen": "ipsweep",
+   "test_rows": 383,
+   "named": {
+    "1_isolated": 0.0,
+    "2_sharing": 0.6744995648389903,
+    "3_federated": 0.0,
+    "4_centralized": 0.6788511749347258
+   },
+   "flagged": {
+    "1_isolated": 0.711053089643168,
+    "2_sharing": 0.7841601392515231,
+    "3_federated": 0.7180156657963446,
+    "4_centralized": 0.7154046997389033
+   },
+   "false_alarm": {
+    "1_isolated": 0.03775260937153009,
+    "2_sharing": 0.043526537863646464,
+    "3_federated": 0.04208305574061736,
+    "4_centralized": 0.03009105041083722
+   },
+   "bytes": {
+    "1_isolated": 0,
+    "2_sharing": 1248002,
+    "3_federated": 674688,
+    "4_centralized": 1325505
+   },
+   "steps": {
+    "1_isolated": 6527,
+    "2_sharing": 6527,
+    "3_federated": 6864,
+    "4_centralized": 6527
+   },
+   "named_check": {
+    "1_isolated": 0.6666666666666666,
+    "2_sharing": 0.6440382941688424,
+    "3_federated": 0.6788511749347258,
+    "4_centralized": 0.6788511749347258
+   },
+   "gain": {
+    "2_sharing": {
+     "gain": 0.6744995648389904,
+     "lo": 0.6318320278503047,
+     "hi": 0.7223672758920799,
+     "events": 383
+    },
+    "3_federated": {
+     "gain": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "events": 383
+    },
+    "4_centralized": {
+     "gain": 0.6788511749347258,
+     "lo": 0.6318537859007833,
+     "hi": 0.7232375979112271,
+     "events": 383
+    }
+   },
+   "gain_flagged": {
+    "2_sharing": {
+     "gain": 0.07310704960835523,
+     "lo": 0.05657093124456036,
+     "hi": 0.0905352480417756
+    },
+    "3_federated": {
+     "gain": 0.006962576153176747,
+     "lo": -0.0156657963446476,
+     "hi": 0.02959094865100076
+    },
+    "4_centralized": {
+     "gain": 0.004351610095735481,
+     "lo": -0.0174064403829417,
+     "hi": 0.026109660574412556
+    }
+   },
+   "records_received": 12866,
+   "trace": null
+  }
+ },
+ "sharing_minus_federated": {
+  "A": {
+   "diff": -0.006780037790374505,
+   "lo": -0.009781038123819141,
+   "hi": -0.004109703234411409,
+   "events": 2999
+  },
+  "B": {
+   "diff": 0.6745283018867924,
+   "lo": 0.6320754716981134,
+   "hi": 0.7161949685534591,
+   "events": 424
+  },
+  "C": {
+   "diff": 0.6744995648389904,
+   "lo": 0.6292428198433421,
+   "hi": 0.7180374238468232,
+   "events": 383
+  },
+  "mean": {
+   "diff": 0.4474159429784694,
+   "lo": 0.4266147984559442,
+   "hi": 0.4668125455701389
+  }
+ },
+ "hypotheses": {
+  "H1": {
+   "gain": 0.8022377459134798,
+   "lo": 0.7828150131085363,
+   "hi": 0.8236235024942737,
+   "clears": true
+  },
+  "H2": {
+   "gain": 0.3548218029350105,
+   "lo": 0.34931865828092246,
+   "hi": 0.3605935534591195,
+   "clears": true
+  },
+  "H3": null,
+  "H3_note": "this data has no device or host column, so tracing cannot be tested"
+ },
+ "checks": {
+  "pooled": {
+   "gain": 0.8169337879272472,
+   "lo": 0.7969059328226318,
+   "hi": 0.8363334497079049,
+   "clears": true
+  },
+  "flagged": {
+   "H1": {
+    "gain": 0.09029018662565909,
+    "lo": 0.07704887851808132,
+    "hi": 0.10491978914866147,
+    "clears": true
+   },
+   "H2": {
+    "gain": 0.019049880201476615,
+    "lo": 0.00982293257832564,
+    "hi": 0.028632745634354705,
+    "clears": false
+   }
+  },
+  "nothing_withheld": {
+   "H1": {
+    "gain": -0.026217342028219754,
+    "lo": -0.032687874053317134,
+    "hi": -0.020148191292657085,
+    "clears": false
+   },
+   "H2": {
+    "gain": -0.02344880291540256,
+    "lo": -0.031557731579169065,
+    "hi": -0.01563228740189301,
+    "clears": false
+   }
+  },
+  "benign_val_rows": {
+   "A": 1975,
+   "B": 2006,
+   "C": 1974
+  },
+  "rounds": 6
+ },
+ "verdicts": {
+  "A": {
+   "1_isolated": "baseline",
+   "4_centralized": "reference",
+   "2_sharing": "gain met",
+   "3_federated": "gain met"
+  },
+  "B": {
+   "1_isolated": "baseline",
+   "4_centralized": "reference",
+   "2_sharing": "gain met",
+   "3_federated": "not worth it (gain not met)"
+  },
+  "C": {
+   "1_isolated": "baseline",
+   "4_centralized": "reference",
+   "2_sharing": "gain met",
+   "3_federated": "not worth it (gain not met)"
+  }
+ },
+ "id": "nsl_kdd",
+ "study_role": "tool test",
+ "info": {
+  "short": "NSL-KDD",
+  "maker": "Tavallaee, Bagheri, Lu and Ghorbani (2009), from the DARPA 1998 and KDD Cup 1999 data",
+  "year": 2009,
+  "what": "Connection records with 41 features; the classic benchmark, old traffic.",
+  "records": "85,592 records sampled by attack name",
+  "attacks": "38 attack names (DoS, probe, R2L, U2R)",
+  "host": "none",
+  "role": "Tool test",
+  "source": "https://www.unb.ca/cic/datasets/nsl.html",
+  "licence": "Public benchmark; cite the makers."
+ },
+ "computed": "computed by this tool on 08 November 2026 with the protocol (shuffle test on 5,000 records per side, 50-tree forests) budget on the working sample described above; the split is the tool's own"
+}

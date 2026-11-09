@@ -1,0 +1,597 @@
+{
+ "name": "DataSense CIC IIoT 2025 (the study)",
+ "about": "Industrial IoT testbed, 38 devices, 10-second windows per device: 59 behavior numbers (52 network, 7 log) and the attack name. The companies are device groups by role.",
+ "made": "08 Nov 2026, 21:10",
+ "minutes": 0.1,
+ "budget": {
+  "name": "protocol",
+  "passes": 61,
+  "local_epochs": 4,
+  "resamples": 2000,
+  "trace_seeds": 5,
+  "trace_trees": 300,
+  "trace_permutations": 200,
+  "seeds": [
+   0,
+   1,
+   2
+  ],
+  "max_rows": 0,
+  "nothing_withheld_check": true,
+  "do_trace": true
+ },
+ "seeds": [
+  0,
+  1,
+  2
+ ],
+ "software": {
+  "torch": "2.6.0+cpu",
+  "numpy": "2.2.6",
+  "pandas": "2.2.3"
+ },
+ "rules": {
+  "false_alarm_target": 0.05,
+  "min_gain": 0.05,
+  "fp_limit": 0.01,
+  "batch": 128,
+  "passes": 61,
+  "local_epochs": 4,
+  "resamples": 2000,
+  "network": "59-128-64-8",
+  "split": "audited event split of the study (train/validation/test by attack event and by time)",
+  "companies": "organizations = device groups by role (network gear, cameras, sensors)"
+ },
+ "step1": {
+  "A": {
+   "name": "A, infrastructure",
+   "never_seen": "dos",
+   "sources": 7,
+   "train": 3959,
+   "withheld": 392,
+   "train_after": 3567,
+   "train_normal": 1260,
+   "train_attack": 2307,
+   "val": 1518,
+   "test": 2295,
+   "test_never_seen": 240,
+   "events_never_seen": 24
+  },
+  "B": {
+   "name": "B, cameras",
+   "never_seen": "ddos",
+   "sources": 10,
+   "train": 3680,
+   "withheld": 396,
+   "train_after": 3284,
+   "train_normal": 1800,
+   "train_attack": 1484,
+   "val": 1326,
+   "test": 1919,
+   "test_never_seen": 242,
+   "events_never_seen": 22
+  },
+  "C": {
+   "name": "C, sensors",
+   "never_seen": "mitm",
+   "sources": 21,
+   "train": 7868,
+   "withheld": 292,
+   "train_after": 7576,
+   "train_normal": 3780,
+   "train_attack": 3796,
+   "val": 2891,
+   "test": 4118,
+   "test_never_seen": 140,
+   "events_never_seen": 11
+  }
+ },
+ "step2": {
+  "raw_columns": 94,
+  "kept_numbers": 59,
+  "removed": 34,
+  "kept": [
+   "log_data-ranges_avg",
+   "log_data-ranges_max",
+   "log_data-ranges_min",
+   "log_data-ranges_std_deviation",
+   "log_data-types_count",
+   "log_interval-messages",
+   "log_messages_count",
+   "network_fragmentation-score",
+   "network_fragmented-packets",
+   "network_header-length_avg",
+   "network_header-length_max",
+   "network_header-length_min",
+   "network_header-length_std_deviation",
+   "network_interval-packets",
+   "network_ip-flags_avg",
+   "network_ip-flags_max",
+   "network_ip-flags_min",
+   "network_ip-flags_std_deviation",
+   "network_ip-length_avg",
+   "network_ip-length_max",
+   "network_ip-length_min",
+   "network_ip-length_std_deviation",
+   "network_mss_avg",
+   "network_mss_max",
+   "network_mss_min",
+   "network_mss_std_deviation",
+   "network_packet-size_avg",
+   "network_packet-size_max",
+   "network_packet-size_min",
+   "network_packet-size_std_deviation",
+   "network_packets_all_count",
+   "network_packets_dst_count",
+   "network_packets_src_count",
+   "network_payload-length_avg",
+   "network_payload-length_max",
+   "network_payload-length_min",
+   "network_payload-length_std_deviation",
+   "network_tcp-flags-ack_count",
+   "network_tcp-flags-fin_count",
+   "network_tcp-flags-psh_count",
+   "network_tcp-flags-rst_count",
+   "network_tcp-flags-syn_count",
+   "network_tcp-flags-urg_count",
+   "network_tcp-flags_avg",
+   "network_tcp-flags_max",
+   "network_tcp-flags_min",
+   "network_tcp-flags_std_deviation",
+   "network_time-delta_avg",
+   "network_time-delta_max",
+   "network_time-delta_min",
+   "network_time-delta_std_deviation",
+   "network_ttl_avg",
+   "network_ttl_max",
+   "network_ttl_min",
+   "network_ttl_std_deviation",
+   "network_window-size_avg",
+   "network_window-size_max",
+   "network_window-size_min",
+   "network_window-size_std_deviation"
+  ],
+  "removed_columns": [
+   "device_mac",
+   "device_name",
+   "label1",
+   "label2",
+   "label3",
+   "label4",
+   "label_full",
+   "log_data-types",
+   "network_ips_all",
+   "network_ips_all_count",
+   "network_ips_dst",
+   "network_ips_dst_count",
+   "network_ips_src",
+   "network_ips_src_count",
+   "network_macs_all",
+   "network_macs_all_count",
+   "network_macs_dst",
+   "network_macs_dst_count",
+   "network_macs_src",
+   "network_macs_src_count",
+   "network_ports_all",
+   "network_ports_all_count",
+   "network_ports_dst",
+   "network_ports_dst_count",
+   "network_ports_src",
+   "network_ports_src_count",
+   "network_protocols_all",
+   "network_protocols_all_count",
+   "network_protocols_dst",
+   "network_protocols_dst_count",
+   "network_protocols_src",
+   "network_protocols_src_count",
+   "timestamp",
+   "timestamp_end",
+   "timestamp_start"
+  ]
+ },
+ "classes": [
+  "bruteforce",
+  "ddos",
+  "dos",
+  "malware",
+  "mitm",
+  "recon",
+  "web"
+ ],
+ "benign": "benign",
+ "companies": {
+  "A": {
+   "name": "A, infrastructure",
+   "never_seen": "dos",
+   "test_rows": 240,
+   "named": {
+    "1_isolated": 0.0,
+    "2_sharing": 0.5972222222222222,
+    "3_federated": 0.576388888888889,
+    "4_centralized": 0.6555555555555556
+   },
+   "flagged": {
+    "1_isolated": 0.9583333333333334,
+    "2_sharing": 0.9694444444444444,
+    "3_federated": 0.9805555555555555,
+    "4_centralized": 0.9763888888888889
+   },
+   "false_alarm": {
+    "1_isolated": 0.06994047619047619,
+    "2_sharing": 0.06101190476190477,
+    "3_federated": 0.04315476190476191,
+    "4_centralized": 0.06994047619047619
+   },
+   "bytes": {
+    "1_isolated": 0,
+    "2_sharing": 1251360,
+    "3_federated": 1053184,
+    "4_centralized": 845379
+   },
+   "steps": {
+    "1_isolated": 3660,
+    "2_sharing": 3660,
+    "3_federated": 3648,
+    "4_centralized": 3660
+   },
+   "named_check": {
+    "1_isolated": 0.7486111111111112,
+    "2_sharing": 0.8652777777777777,
+    "3_federated": 0.6972222222222223,
+    "4_centralized": 0.7902777777777777
+   },
+   "gain": {
+    "2_sharing": {
+     "gain": 0.5972222222222222,
+     "lo": 0.40198238652186025,
+     "hi": 0.7804931536157467,
+     "events": 24
+    },
+    "3_federated": {
+     "gain": 0.5763888888888888,
+     "lo": 0.37573099415204686,
+     "hi": 0.7648603657324589,
+     "events": 24
+    },
+    "4_centralized": {
+     "gain": 0.6555555555555554,
+     "lo": 0.4861111111111111,
+     "hi": 0.8111175710594316,
+     "events": 24
+    }
+   },
+   "gain_flagged": {
+    "2_sharing": {
+     "gain": 0.011111111111111072,
+     "lo": 0.0,
+     "hi": 0.03418803418803418
+    },
+    "3_federated": {
+     "gain": 0.022222222222222143,
+     "lo": 0.0,
+     "hi": 0.07017543859649122
+    },
+    "4_centralized": {
+     "gain": 0.018055555555555602,
+     "lo": 0.0,
+     "hi": 0.05701754385964908
+    }
+   },
+   "records_received": 5280,
+   "trace": {
+    "records": 2307,
+    "sources": 7,
+    "traced": 0.552579107065453,
+    "guessing": 0.34547030775899434,
+    "balanced": 0.40661186968774166,
+    "advantage": 0.20710879930645865,
+    "lo": 0.11805313151982025,
+    "hi": 0.290797480437369,
+    "p_value": 0.004975124378109453
+   }
+  },
+  "B": {
+   "name": "B, cameras",
+   "never_seen": "ddos",
+   "test_rows": 242,
+   "named": {
+    "1_isolated": 0.0,
+    "2_sharing": 0.6308539944903582,
+    "3_federated": 0.8030303030303031,
+    "4_centralized": 0.6763085399449036
+   },
+   "flagged": {
+    "1_isolated": 0.987603305785124,
+    "2_sharing": 0.9807162534435262,
+    "3_federated": 0.9807162534435262,
+    "4_centralized": 0.9820936639118457
+   },
+   "false_alarm": {
+    "1_isolated": 0.06319444444444444,
+    "2_sharing": 0.06180555555555556,
+    "3_federated": 0.05486111111111111,
+    "4_centralized": 0.07222222222222223
+   },
+   "bytes": {
+    "1_isolated": 0,
+    "2_sharing": 1446411,
+    "3_federated": 1053184,
+    "4_centralized": 778308
+   },
+   "steps": {
+    "1_isolated": 3660,
+    "2_sharing": 3660,
+    "3_federated": 3648,
+    "4_centralized": 3660
+   },
+   "named_check": {
+    "1_isolated": 0.8126721763085399,
+    "2_sharing": 0.8236914600550964,
+    "3_federated": 0.9159779614325069,
+    "4_centralized": 0.8292011019283746
+   },
+   "gain": {
+    "2_sharing": {
+     "gain": 0.6308539944903581,
+     "lo": 0.4517906336088154,
+     "hi": 0.7961432506887052,
+     "events": 22
+    },
+    "3_federated": {
+     "gain": 0.803030303030303,
+     "lo": 0.6308539944903582,
+     "hi": 0.9393939393939394,
+     "events": 22
+    },
+    "4_centralized": {
+     "gain": 0.6763085399449037,
+     "lo": 0.5151170798898072,
+     "hi": 0.8333333333333334,
+     "events": 22
+    }
+   },
+   "gain_flagged": {
+    "2_sharing": {
+     "gain": -0.006887052341597921,
+     "lo": -0.02066115702479343,
+     "hi": 0.0
+    },
+    "3_federated": {
+     "gain": -0.006887052341597921,
+     "lo": -0.02066115702479343,
+     "hi": 0.0
+    },
+    "4_centralized": {
+     "gain": -0.0055096418732781816,
+     "lo": -0.016528925619834767,
+     "hi": 0.0
+    }
+   },
+   "records_received": 6103,
+   "trace": {
+    "records": 1484,
+    "sources": 10,
+    "traced": 0.41212938005390837,
+    "guessing": 0.16913746630727763,
+    "balanced": 0.3243752007576069,
+    "advantage": 0.24299191374663073,
+    "lo": 0.17649336900574952,
+    "hi": 0.3215443165325241,
+    "p_value": 0.004975124378109453
+   }
+  },
+  "C": {
+   "name": "C, sensors",
+   "never_seen": "mitm",
+   "test_rows": 140,
+   "named": {
+    "1_isolated": 0.0,
+    "2_sharing": 0.0,
+    "3_federated": 0.0,
+    "4_centralized": 0.0
+   },
+   "flagged": {
+    "1_isolated": 0.6190476190476191,
+    "2_sharing": 0.5023809523809524,
+    "3_federated": 0.4714285714285715,
+    "4_centralized": 0.4928571428571429
+   },
+   "false_alarm": {
+    "1_isolated": 0.04646164021164021,
+    "2_sharing": 0.049933862433862435,
+    "3_federated": 0.06415343915343916,
+    "4_centralized": 0.05406746031746032
+   },
+   "bytes": {
+    "1_isolated": 0,
+    "2_sharing": 898467,
+    "3_federated": 1053184,
+    "4_centralized": 1795512
+   },
+   "steps": {
+    "1_isolated": 3660,
+    "2_sharing": 3660,
+    "3_federated": 3648,
+    "4_centralized": 3660
+   },
+   "named_check": {
+    "1_isolated": 0.5642857142857144,
+    "2_sharing": 0.46428571428571425,
+    "3_federated": 0.5238095238095238,
+    "4_centralized": 0.6
+   },
+   "gain": {
+    "2_sharing": {
+     "gain": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "events": 11
+    },
+    "3_federated": {
+     "gain": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "events": 11
+    },
+    "4_centralized": {
+     "gain": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "events": 11
+    }
+   },
+   "gain_flagged": {
+    "2_sharing": {
+     "gain": -0.1166666666666667,
+     "lo": -0.2597137014314929,
+     "hi": 0.0
+    },
+    "3_federated": {
+     "gain": -0.14761904761904765,
+     "lo": -0.3170780683710453,
+     "hi": 0.0
+    },
+    "4_centralized": {
+     "gain": -0.1261904761904762,
+     "lo": -0.27495291902071567,
+     "hi": 0.0
+    }
+   },
+   "records_received": 3791,
+   "trace": {
+    "records": 3796,
+    "sources": 21,
+    "traced": 0.4111169652265542,
+    "guessing": 0.07270811380400422,
+    "balanced": 0.3687399038805781,
+    "advantage": 0.33840885142255,
+    "lo": 0.2394794826423997,
+    "hi": 0.41125531717716596,
+    "p_value": 0.004975124378109453
+   }
+  }
+ },
+ "sharing_minus_federated": {
+  "A": {
+   "diff": 0.02083333333333337,
+   "lo": -0.2588850174216029,
+   "hi": 0.291336382113821,
+   "events": 24
+  },
+  "B": {
+   "diff": -0.17217630853994492,
+   "lo": -0.29893250688705253,
+   "hi": -0.07300275482093666,
+   "events": 22
+  },
+  "C": {
+   "diff": 0.0,
+   "lo": 0.0,
+   "hi": 0.0,
+   "events": 11
+  },
+  "mean": {
+   "diff": -0.05044765840220385,
+   "lo": -0.14925390734615165,
+   "hi": 0.0455440202599293
+  }
+ },
+ "hypotheses": {
+  "H1": {
+   "gain": 0.40935873890419344,
+   "lo": 0.3233365855524946,
+   "hi": 0.49450184321304047,
+   "clears": true
+  },
+  "H2": {
+   "gain": 0.4598063973063973,
+   "lo": 0.37086705802614894,
+   "hi": 0.540591398640641,
+   "clears": true
+  },
+  "H3": {
+   "yes": true,
+   "companies": 3,
+   "low": 0.20710879930645865,
+   "high": 0.33840885142255
+  },
+  "H3_note": null
+ },
+ "checks": {
+  "pooled": {
+   "gain": 0.443954698500153,
+   "lo": 0.36697300314724557,
+   "hi": 0.5171416419302254,
+   "clears": true
+  },
+  "flagged": {
+   "H1": {
+    "gain": -0.03748086929905118,
+    "lo": -0.08905594353959587,
+    "hi": 0.005111723293541408,
+    "clears": false
+   },
+   "H2": {
+    "gain": -0.04409462591280781,
+    "lo": -0.1057623036003664,
+    "hi": 0.009863005762284457,
+    "clears": false
+   }
+  },
+  "nothing_withheld": {
+   "H1": {
+    "gain": 0.009228650137741027,
+    "lo": -0.045723202579097136,
+    "hi": 0.06473541623231234,
+    "clears": false
+   },
+   "H2": {
+    "gain": 0.003813568586295816,
+    "lo": -0.06134931299028245,
+    "hi": 0.07449655019839728,
+    "clears": false
+   }
+  },
+  "benign_val_rows": {
+   "A": 504,
+   "B": 720,
+   "C": 1512
+  },
+  "rounds": 8
+ },
+ "verdicts": {
+  "A": {
+   "1_isolated": "baseline",
+   "4_centralized": "reference",
+   "2_sharing": "gain met, privacy trade-off",
+   "3_federated": "gain met"
+  },
+  "B": {
+   "1_isolated": "baseline",
+   "4_centralized": "reference",
+   "2_sharing": "gain met, privacy trade-off",
+   "3_federated": "gain met"
+  },
+  "C": {
+   "1_isolated": "baseline",
+   "4_centralized": "reference",
+   "2_sharing": "not worth it (gain not met)",
+   "3_federated": "not worth it (gain not met)"
+  }
+ },
+ "id": "datasense",
+ "study_role": "the study",
+ "info": {
+  "short": "DataSense CIC IIoT 2025",
+  "maker": "Canadian Institute for Cybersecurity, University of New Brunswick (Firouzi, Dadkhah, Maret and Ghorbani, 2025)",
+  "year": 2025,
+  "what": "A real industrial IoT testbed: 38 devices (routers, an MQTT broker, cameras, sensors, smart plugs) recorded under normal use and under attack. Each record summarizes 10 seconds of one device as 59 numbers (52 about its network traffic, 7 about its log messages) plus the attack name.",
+  "records": "29,574 records used (the audited split of the praxis)",
+  "attacks": "7 attack types: DoS, DDoS, MITM, reconnaissance, malware, brute force, web",
+  "host": "device name (38 devices)",
+  "role": "Primary study dataset",
+  "role_text": "The praxis claims about H1, H2 and H3 rest on this dataset alone. Companies are real device groups by role; the train/validation/test split was audited on 23 September.",
+  "source": "https://doi.org/10.3390/electronics14204095"
+ },
+ "computed": "training results cached from the 5 and 6 October 2026 runs of system.py; scorecard recomputed by this tool"
+}

@@ -1,0 +1,929 @@
+2026-11-08 22:44:59  run_all: 19 settings files, budget protocol
+2026-11-08 22:44:59  bot_iot_5pct: 95,944 records, 47 columns; starting
+2026-11-08 22:44:59  bot_iot_5pct:   Step 1: load the records and make the three organizations
+2026-11-08 22:44:59  bot_iot_5pct:     Organization A: withheld attack type Reconnaissance_Service_Scan; training records 15,844 (4,157 withheld, 11,687 kept); test records of the withheld type 2,510
+2026-11-08 22:44:59  bot_iot_5pct:     Organization B: withheld attack type DoS_UDP; training records 15,735 (3,956 withheld, 11,779 kept); test records of the withheld type 2,413
+2026-11-08 22:44:59  bot_iot_5pct:     Organization C: withheld attack type DoS_TCP; training records 15,811 (3,366 withheld, 12,445 kept); test records of the withheld type 2,096
+2026-11-08 22:44:59  bot_iot_5pct:   Step 2: sanitize. 47 columns in the raw data; 32 numbers plus the attack type kept; 14 removed
+2026-11-08 22:44:59  bot_iot_5pct:   Step 3 and 4: train under the four training conditions and test, withheld attack types, seed 0
+2026-11-08 22:45:06  bot_iot_5pct:   seed 0: isolated training done
+2026-11-08 22:45:11  bot_iot_5pct:   seed 0: sanitized attack-record sharing done
+2026-11-08 22:45:13  bot_iot_5pct:   seed 0: federated learning done (5 rounds)
+2026-11-08 22:45:14  bot_iot_5pct:   seed 0: centralized training done
+2026-11-08 22:45:14  bot_iot_5pct:     done in 15 s
+2026-11-08 22:45:14  bot_iot_5pct:   Step 3 and 4: train under the four training conditions and test, withheld attack types, seed 1
+2026-11-08 22:45:20  bot_iot_5pct:   seed 1: isolated training done
+2026-11-08 22:45:25  bot_iot_5pct:   seed 1: sanitized attack-record sharing done
+2026-11-08 22:45:26  bot_iot_5pct:   seed 1: federated learning done (5 rounds)
+2026-11-08 22:45:28  bot_iot_5pct:   seed 1: centralized training done
+2026-11-08 22:45:28  bot_iot_5pct:     done in 14 s
+2026-11-08 22:45:28  bot_iot_5pct:   Step 3 and 4: train under the four training conditions and test, withheld attack types, seed 2
+2026-11-08 22:45:33  bot_iot_5pct:   seed 2: isolated training done
+2026-11-08 22:45:39  bot_iot_5pct:   seed 2: sanitized attack-record sharing done
+2026-11-08 22:45:41  bot_iot_5pct:   seed 2: federated learning done (5 rounds)
+2026-11-08 22:45:42  bot_iot_5pct:   seed 2: centralized training done
+2026-11-08 22:45:42  bot_iot_5pct:     done in 14 s
+2026-11-08 22:45:42  bot_iot_5pct:   Step 3 and 4: train under the four training conditions and test, nothing withheld (check), seed 0
+2026-11-08 22:45:49  bot_iot_5pct:   seed 0: isolated training done
+2026-11-08 22:45:55  bot_iot_5pct:   seed 0: sanitized attack-record sharing done
+2026-11-08 22:45:57  bot_iot_5pct:   seed 0: federated learning done (5 rounds)
+2026-11-08 22:45:59  bot_iot_5pct:   seed 0: centralized training done
+2026-11-08 22:45:59  bot_iot_5pct:     done in 17 s
+2026-11-08 22:45:59  bot_iot_5pct:   Step 3 and 4: train under the four training conditions and test, nothing withheld (check), seed 1
+2026-11-08 22:46:07  bot_iot_5pct:   seed 1: isolated training done
+2026-11-08 22:46:16  bot_iot_5pct:   seed 1: sanitized attack-record sharing done
+2026-11-08 22:46:19  bot_iot_5pct:   seed 1: federated learning done (5 rounds)
+2026-11-08 22:46:22  bot_iot_5pct:   seed 1: centralized training done
+2026-11-08 22:46:22  bot_iot_5pct:     done in 22 s
+2026-11-08 22:46:22  bot_iot_5pct:   Step 3 and 4: train under the four training conditions and test, nothing withheld (check), seed 2
+2026-11-08 22:46:30  bot_iot_5pct:   seed 2: isolated training done
+2026-11-08 22:46:38  bot_iot_5pct:   seed 2: sanitized attack-record sharing done
+2026-11-08 22:46:42  bot_iot_5pct:   seed 2: federated learning done (5 rounds)
+2026-11-08 22:46:45  bot_iot_5pct:   seed 2: centralized training done
+2026-11-08 22:46:45  bot_iot_5pct:     done in 23 s
+2026-11-08 22:46:45  bot_iot_5pct:   Step 5: scorecard
+2026-11-08 22:46:46  bot_iot_5pct:   Step 5b: can sanitized records be traced back to their source host?
+2026-11-08 22:47:10  bot_iot_5pct:   tracing Organization A: traced 0.0% against guessing 33.8%
+2026-11-08 22:47:33  bot_iot_5pct:   tracing Organization B: traced 3.9% against guessing 40.9%
+2026-11-08 22:47:55  bot_iot_5pct:   tracing Organization C: traced 0.0% against guessing 43.7%
+2026-11-08 22:47:55  bot_iot_5pct:   H1 sanitized attack-record sharing: +88.2 points [+84.6, +92.0]
+2026-11-08 22:47:55  bot_iot_5pct:   H2 federated learning: +57.5 points [+52.3, +63.1]
+2026-11-08 22:47:55  bot_iot_5pct:   done in 2.9 min
+2026-11-08 22:47:55  bot_iot_5pct: done in 2.9 min. H1 +88.2 [+84.6, +92.0]  H2 +57.5 [+52.3, +63.1]  H3 {'yes': False, 'companies': 3, 'low': -0.43700469027979943, 'high': -0.3380985187736824}
+2026-11-08 22:47:56  cic_ids2017: 120,013 records, 85 columns; starting
+2026-11-08 22:47:56  cic_ids2017:   Step 1: load the records and make the three organizations
+2026-11-08 22:47:57  cic_ids2017:     Organization A: withheld attack type PortScan; training records 19,713 (3,731 withheld, 15,982 kept); test records of the withheld type 2,326
+2026-11-08 22:47:57  cic_ids2017:     Organization B: withheld attack type DDoS; training records 19,747 (3,752 withheld, 15,995 kept); test records of the withheld type 2,288
+2026-11-08 22:47:57  cic_ids2017:     Organization C: withheld attack type DoS Hulk; training records 19,700 (3,715 withheld, 15,985 kept); test records of the withheld type 2,268
+2026-11-08 22:47:57  cic_ids2017:   Step 2: sanitize. 85 columns in the raw data; 69 numbers plus the attack type kept; 15 removed
+2026-11-08 22:47:57  cic_ids2017:   Step 3 and 4: train under the four training conditions and test, withheld attack types, seed 0
+2026-11-08 22:48:04  cic_ids2017:   seed 0: isolated training done
+2026-11-08 22:48:11  cic_ids2017:   seed 0: sanitized attack-record sharing done
+2026-11-08 22:48:14  cic_ids2017:   seed 0: federated learning done (5 rounds)
+2026-11-08 22:48:16  cic_ids2017:   seed 0: centralized training done
+2026-11-08 22:48:16  cic_ids2017:     done in 19 s
+2026-11-08 22:48:16  cic_ids2017:   Step 3 and 4: train under the four training conditions and test, withheld attack types, seed 1
+2026-11-08 22:48:23  cic_ids2017:   seed 1: isolated training done
+2026-11-08 22:48:30  cic_ids2017:   seed 1: sanitized attack-record sharing done
+2026-11-08 22:48:32  cic_ids2017:   seed 1: federated learning done (5 rounds)
+2026-11-08 22:48:35  cic_ids2017:   seed 1: centralized training done
+2026-11-08 22:48:35  cic_ids2017:     done in 18 s
+2026-11-08 22:48:35  cic_ids2017:   Step 3 and 4: train under the four training conditions and test, withheld attack types, seed 2
+2026-11-08 22:48:41  cic_ids2017:   seed 2: isolated training done
+2026-11-08 22:48:47  cic_ids2017:   seed 2: sanitized attack-record sharing done
+2026-11-08 22:48:49  cic_ids2017:   seed 2: federated learning done (5 rounds)
+2026-11-08 22:48:51  cic_ids2017:   seed 2: centralized training done
+2026-11-08 22:48:51  cic_ids2017:     done in 17 s
+2026-11-08 22:48:51  cic_ids2017:   Step 3 and 4: train under the four training conditions and test, nothing withheld (check), seed 0
+2026-11-08 22:48:59  cic_ids2017:   seed 0: isolated training done
+2026-11-08 22:49:07  cic_ids2017:   seed 0: sanitized attack-record sharing done
+2026-11-08 22:49:09  cic_ids2017:   seed 0: federated learning done (5 rounds)
+2026-11-08 22:49:12  cic_ids2017:   seed 0: centralized training done
+2026-11-08 22:49:12  cic_ids2017:     done in 21 s
+2026-11-08 22:49:12  cic_ids2017:   Step 3 and 4: train under the four training conditions and test, nothing withheld (check), seed 1
+2026-11-08 22:49:20  cic_ids2017:   seed 1: isolated training done
+2026-11-08 22:49:28  cic_ids2017:   seed 1: sanitized attack-record sharing done
+2026-11-08 22:49:31  cic_ids2017:   seed 1: federated learning done (5 rounds)
+2026-11-08 22:49:33  cic_ids2017:   seed 1: centralized training done
+2026-11-08 22:49:33  cic_ids2017:     done in 21 s
+2026-11-08 22:49:33  cic_ids2017:   Step 3 and 4: train under the four training conditions and test, nothing withheld (check), seed 2
+2026-11-08 22:49:41  cic_ids2017:   seed 2: isolated training done
+2026-11-08 22:49:49  cic_ids2017:   seed 2: sanitized attack-record sharing done
+2026-11-08 22:49:51  cic_ids2017:   seed 2: federated learning done (5 rounds)
+2026-11-08 22:49:54  cic_ids2017:   seed 2: centralized training done
+2026-11-08 22:49:54  cic_ids2017:     done in 20 s
+2026-11-08 22:49:54  cic_ids2017:   Step 5: scorecard
+2026-11-08 22:49:54  cic_ids2017:   Step 5b: can sanitized records be traced back to their source host?
+2026-11-08 22:56:33  run_all: 19 settings files, budget protocol (shuffle test on 5,000 records per side, 50-tree forests)
+2026-11-08 22:56:33  bot_iot_5pct: result exists, skipped
+2026-11-08 22:56:34  cic_ids2017: 120,013 records, 85 columns; starting
+2026-11-08 22:56:34  cic_ids2017:   Step 1: load the records and make the three organizations
+2026-11-08 22:56:35  cic_ids2017:     Organization A: withheld attack type PortScan; training records 19,713 (3,731 withheld, 15,982 kept); test records of the withheld type 2,326
+2026-11-08 22:56:35  cic_ids2017:     Organization B: withheld attack type DDoS; training records 19,747 (3,752 withheld, 15,995 kept); test records of the withheld type 2,288
+2026-11-08 22:56:35  cic_ids2017:     Organization C: withheld attack type DoS Hulk; training records 19,700 (3,715 withheld, 15,985 kept); test records of the withheld type 2,268
+2026-11-08 22:56:35  cic_ids2017:   Step 2: sanitize. 85 columns in the raw data; 69 numbers plus the attack type kept; 15 removed
+2026-11-08 22:56:35  cic_ids2017:   Step 5: scorecard
+2026-11-08 22:56:36  cic_ids2017:   Step 5b: can sanitized records be traced back to their source host?
+2026-11-08 23:01:08  run_all: 19 settings files, budget protocol (shuffle test on 5,000 records per side, 50-tree forests)
+2026-11-08 23:01:08  bot_iot_5pct: result exists, skipped
+2026-11-08 23:01:09  cic_ids2017: 120,013 records, 85 columns; starting
+2026-11-08 23:01:09  cic_ids2017:   Step 1: load the records and make the three organizations
+2026-11-08 23:01:09  cic_ids2017:     Organization A: withheld attack type PortScan; training records 19,713 (3,731 withheld, 15,982 kept); test records of the withheld type 2,326
+2026-11-08 23:01:09  cic_ids2017:     Organization B: withheld attack type DDoS; training records 19,747 (3,752 withheld, 15,995 kept); test records of the withheld type 2,288
+2026-11-08 23:01:09  cic_ids2017:     Organization C: withheld attack type DoS Hulk; training records 19,700 (3,715 withheld, 15,985 kept); test records of the withheld type 2,268
+2026-11-08 23:01:09  cic_ids2017:   Step 2: sanitize. 85 columns in the raw data; 69 numbers plus the attack type kept; 15 removed
+2026-11-08 23:01:09  cic_ids2017:   Step 5: scorecard
+2026-11-08 23:01:10  cic_ids2017:   Step 5b: can sanitized records be traced back to their source host?
+2026-11-08 23:01:30  cic_ids2017:   tracing Organization A: traced 4.2% against guessing 97.9%
+2026-11-08 23:01:50  cic_ids2017:   tracing Organization B: traced 7.0% against guessing 97.9%
+2026-11-08 23:02:10  cic_ids2017:   tracing Organization C: traced 6.2% against guessing 98.0%
+2026-11-08 23:02:10  cic_ids2017:   H1 sanitized attack-record sharing: +98.7 points [+98.5, +98.9]
+2026-11-08 23:02:10  cic_ids2017:   H2 federated learning: +96.6 points [+96.3, +97.0]
+2026-11-08 23:02:10  cic_ids2017:   done in 1.0 min
+2026-11-08 23:02:10  cic_ids2017: done in 1.0 min. H1 +98.7 [+98.5, +98.9]  H2 +96.6 [+96.3, +97.0]  H3 {'yes': False, 'companies': 3, 'low': -0.9370367340260165, 'high': -0.9094148414514547}
+2026-11-08 23:02:11  cic_ids2017_improved: 120,069 records, 91 columns; starting
+2026-11-08 23:02:11  cic_ids2017_improved:   Step 1: load the records and make the three organizations
+2026-11-08 23:02:12  cic_ids2017_improved:     Organization A: withheld attack type Infiltration - Portscan; training records 19,605 (3,117 withheld, 16,488 kept); test records of the withheld type 1,928
+2026-11-08 23:02:12  cic_ids2017_improved:     Organization B: withheld attack type DDoS; training records 19,638 (3,111 withheld, 16,527 kept); test records of the withheld type 1,954
+2026-11-08 23:02:12  cic_ids2017_improved:     Organization C: withheld attack type DoS Hulk; training records 19,683 (3,132 withheld, 16,551 kept); test records of the withheld type 1,936
+2026-11-08 23:02:12  cic_ids2017_improved:   Step 2: sanitize. 91 columns in the raw data; 80 numbers plus the attack type kept; 10 removed
+2026-11-08 23:02:12  cic_ids2017_improved:   Step 3 and 4: train under the four training conditions and test, withheld attack types, seed 0
+2026-11-08 23:02:19  cic_ids2017_improved:   seed 0: isolated training done
+2026-11-08 23:02:26  cic_ids2017_improved:   seed 0: sanitized attack-record sharing done
+2026-11-08 23:02:28  cic_ids2017_improved:   seed 0: federated learning done (5 rounds)
+2026-11-08 23:02:31  cic_ids2017_improved:   seed 0: centralized training done
+2026-11-08 23:02:31  cic_ids2017_improved:     done in 19 s
+2026-11-08 23:02:31  cic_ids2017_improved:   Step 3 and 4: train under the four training conditions and test, withheld attack types, seed 1
+2026-11-08 23:02:37  cic_ids2017_improved:   seed 1: isolated training done
+2026-11-08 23:02:44  cic_ids2017_improved:   seed 1: sanitized attack-record sharing done
+2026-11-08 23:02:46  cic_ids2017_improved:   seed 1: federated learning done (5 rounds)
+2026-11-08 23:02:48  cic_ids2017_improved:   seed 1: centralized training done
+2026-11-08 23:02:48  cic_ids2017_improved:     done in 18 s
+2026-11-08 23:02:48  cic_ids2017_improved:   Step 3 and 4: train under the four training conditions and test, withheld attack types, seed 2
+2026-11-08 23:02:55  cic_ids2017_improved:   seed 2: isolated training done
+2026-11-08 23:03:01  cic_ids2017_improved:   seed 2: sanitized attack-record sharing done
+2026-11-08 23:03:04  cic_ids2017_improved:   seed 2: federated learning done (5 rounds)
+2026-11-08 23:03:06  cic_ids2017_improved:   seed 2: centralized training done
+2026-11-08 23:03:06  cic_ids2017_improved:     done in 18 s
+2026-11-08 23:03:06  cic_ids2017_improved:   Step 3 and 4: train under the four training conditions and test, nothing withheld (check), seed 0
+2026-11-08 23:03:14  cic_ids2017_improved:   seed 0: isolated training done
+2026-11-08 23:03:22  cic_ids2017_improved:   seed 0: sanitized attack-record sharing done
+2026-11-08 23:03:25  cic_ids2017_improved:   seed 0: federated learning done (5 rounds)
+2026-11-08 23:03:27  cic_ids2017_improved:   seed 0: centralized training done
+2026-11-08 23:03:27  cic_ids2017_improved:     done in 22 s
+2026-11-08 23:03:27  cic_ids2017_improved:   Step 3 and 4: train under the four training conditions and test, nothing withheld (check), seed 1
+2026-11-08 23:03:35  cic_ids2017_improved:   seed 1: isolated training done
+2026-11-08 23:03:43  cic_ids2017_improved:   seed 1: sanitized attack-record sharing done
+2026-11-08 23:03:45  cic_ids2017_improved:   seed 1: federated learning done (5 rounds)
+2026-11-08 23:03:48  cic_ids2017_improved:   seed 1: centralized training done
+2026-11-08 23:03:48  cic_ids2017_improved:     done in 21 s
+2026-11-08 23:03:48  cic_ids2017_improved:   Step 3 and 4: train under the four training conditions and test, nothing withheld (check), seed 2
+2026-11-08 23:03:56  cic_ids2017_improved:   seed 2: isolated training done
+2026-11-08 23:04:04  cic_ids2017_improved:   seed 2: sanitized attack-record sharing done
+2026-11-08 23:04:06  cic_ids2017_improved:   seed 2: federated learning done (5 rounds)
+2026-11-08 23:04:09  cic_ids2017_improved:   seed 2: centralized training done
+2026-11-08 23:04:09  cic_ids2017_improved:     done in 21 s
+2026-11-08 23:04:09  cic_ids2017_improved:   Step 5: scorecard
+2026-11-08 23:04:10  cic_ids2017_improved:   Step 5b: can sanitized records be traced back to their source host?
+2026-11-08 23:04:28  cic_ids2017_improved:   tracing Organization A: traced 4.2% against guessing 95.5%
+2026-11-08 23:04:45  cic_ids2017_improved:   tracing Organization B: traced 4.2% against guessing 73.9%
+2026-11-08 23:05:02  cic_ids2017_improved:   tracing Organization C: traced 3.4% against guessing 73.5%
+2026-11-08 23:05:02  cic_ids2017_improved:   H1 sanitized attack-record sharing: +97.2 points [+96.2, +98.0]
+2026-11-08 23:05:02  cic_ids2017_improved:   H2 federated learning: +90.1 points [+87.7, +92.6]
+2026-11-08 23:05:02  cic_ids2017_improved:   done in 2.9 min
+2026-11-08 23:05:02  cic_ids2017_improved: done in 2.9 min. H1 +97.2 [+96.2, +98.0]  H2 +90.1 [+87.7, +92.6]  H3 {'yes': False, 'companies': 3, 'low': -0.9134149087906314, 'high': -0.697605148929801}
+2026-11-08 23:05:02  ciciot2023: 120,624 records, 40 columns; starting
+2026-11-08 23:05:02  ciciot2023:   Step 1: load the records and make the three organizations
+2026-11-08 23:05:03  ciciot2023:     Organization A: withheld attack type DDOS-ICMP_FLOOD; training records 20,103 (937 withheld, 19,166 kept); test records of the withheld type 563
+2026-11-08 23:05:03  ciciot2023:     Organization B: withheld attack type DDOS-PSHACK_FLOOD; training records 20,104 (937 withheld, 19,167 kept); test records of the withheld type 563
+2026-11-08 23:05:03  ciciot2023:     Organization C: withheld attack type DOS-TCP_FLOOD; training records 20,104 (937 withheld, 19,167 kept); test records of the withheld type 563
+2026-11-08 23:05:03  ciciot2023:   Step 2: sanitize. 40 columns in the raw data; 39 numbers plus the attack type kept; 0 removed
+2026-11-08 23:05:03  ciciot2023:   Step 3 and 4: train under the four training conditions and test, withheld attack types, seed 0
+2026-11-08 23:05:10  ciciot2023:   seed 0: isolated training done
+2026-11-08 23:05:18  ciciot2023:   seed 0: sanitized attack-record sharing done
+2026-11-08 23:05:21  ciciot2023:   seed 0: federated learning done (5 rounds)
+2026-11-08 23:05:23  ciciot2023:   seed 0: centralized training done
+2026-11-08 23:05:23  ciciot2023:     done in 20 s
+2026-11-08 23:05:23  ciciot2023:   Step 3 and 4: train under the four training conditions and test, withheld attack types, seed 1
+2026-11-08 23:05:31  ciciot2023:   seed 1: isolated training done
+2026-11-08 23:05:39  ciciot2023:   seed 1: sanitized attack-record sharing done
+2026-11-08 23:05:41  ciciot2023:   seed 1: federated learning done (5 rounds)
+2026-11-08 23:05:44  ciciot2023:   seed 1: centralized training done
+2026-11-08 23:05:44  ciciot2023:     done in 21 s
+2026-11-08 23:05:44  ciciot2023:   Step 3 and 4: train under the four training conditions and test, withheld attack types, seed 2
+2026-11-08 23:05:51  ciciot2023:   seed 2: isolated training done
+2026-11-08 23:05:59  ciciot2023:   seed 2: sanitized attack-record sharing done
+2026-11-08 23:06:01  ciciot2023:   seed 2: federated learning done (5 rounds)
+2026-11-08 23:06:04  ciciot2023:   seed 2: centralized training done
+2026-11-08 23:06:04  ciciot2023:     done in 20 s
+2026-11-08 23:06:04  ciciot2023:   Step 3 and 4: train under the four training conditions and test, nothing withheld (check), seed 0
+2026-11-08 23:06:12  ciciot2023:   seed 0: isolated training done
+2026-11-08 23:06:20  ciciot2023:   seed 0: sanitized attack-record sharing done
+2026-11-08 23:06:23  ciciot2023:   seed 0: federated learning done (5 rounds)
+2026-11-08 23:06:25  ciciot2023:   seed 0: centralized training done
+2026-11-08 23:06:25  ciciot2023:     done in 21 s
+2026-11-08 23:06:25  ciciot2023:   Step 3 and 4: train under the four training conditions and test, nothing withheld (check), seed 1
+2026-11-08 23:06:33  ciciot2023:   seed 1: isolated training done
+2026-11-08 23:06:42  ciciot2023:   seed 1: sanitized attack-record sharing done
+2026-11-08 23:06:44  ciciot2023:   seed 1: federated learning done (5 rounds)
+2026-11-08 23:06:47  ciciot2023:   seed 1: centralized training done
+2026-11-08 23:06:47  ciciot2023:     done in 21 s
+2026-11-08 23:06:47  ciciot2023:   Step 3 and 4: train under the four training conditions and test, nothing withheld (check), seed 2
+2026-11-08 23:06:55  ciciot2023:   seed 2: isolated training done
+2026-11-08 23:07:03  ciciot2023:   seed 2: sanitized attack-record sharing done
+2026-11-08 23:07:06  ciciot2023:   seed 2: federated learning done (5 rounds)
+2026-11-08 23:07:09  ciciot2023:   seed 2: centralized training done
+2026-11-08 23:07:09  ciciot2023:     done in 22 s
+2026-11-08 23:07:09  ciciot2023:   Step 5: scorecard
+2026-11-08 23:07:10  ciciot2023:   H1 sanitized attack-record sharing: +69.0 points [+68.3, +69.7]
+2026-11-08 23:07:10  ciciot2023:   H2 federated learning: +66.2 points [+65.9, +66.5]
+2026-11-08 23:07:10  ciciot2023:   done in 2.1 min
+2026-11-08 23:07:10  ciciot2023: done in 2.1 min. H1 +69.0 [+68.3, +69.7]  H2 +66.2 [+65.9, +66.5]  H3 None
+2026-11-08 23:07:10  cidds001: 95,753 records, 16 columns; starting
+2026-11-08 23:07:10  cidds001:   Step 1: load the records and make the three organizations
+2026-11-08 23:07:10  cidds001:     Organization A: withheld attack type portScan; training records 22,803 (8,616 withheld, 14,187 kept); test records of the withheld type 5,170
+2026-11-08 23:07:10  cidds001:     Organization B: withheld attack type pingScan; training records 15,285 (401 withheld, 14,884 kept); test records of the withheld type 241
+2026-11-08 23:07:10  cidds001:     Organization C: withheld attack type bruteForce; training records 9,522 (435 withheld, 9,087 kept); test records of the withheld type 267
+2026-11-08 23:07:10  cidds001:   Step 2: sanitize. 16 columns in the raw data; 4 numbers plus the attack type kept; 11 removed
+2026-11-08 23:07:10  cidds001:   Step 3 and 4: train under the four training conditions and test, withheld attack types, seed 0
+2026-11-08 23:07:15  cidds001:   seed 0: isolated training done
+2026-11-08 23:07:20  cidds001:   seed 0: sanitized attack-record sharing done
+2026-11-08 23:07:21  cidds001:   seed 0: federated learning done (6 rounds)
+2026-11-08 23:07:23  cidds001:   seed 0: centralized training done
+2026-11-08 23:07:23  cidds001:     done in 12 s
+2026-11-08 23:07:23  cidds001:   Step 3 and 4: train under the four training conditions and test, withheld attack types, seed 1
+2026-11-08 23:07:27  cidds001:   seed 1: isolated training done
+2026-11-08 23:07:32  cidds001:   seed 1: sanitized attack-record sharing done
+2026-11-08 23:07:34  cidds001:   seed 1: federated learning done (6 rounds)
+2026-11-08 23:07:35  cidds001:   seed 1: centralized training done
+2026-11-08 23:07:35  cidds001:     done in 13 s
+2026-11-08 23:07:35  cidds001:   Step 3 and 4: train under the four training conditions and test, withheld attack types, seed 2
+2026-11-08 23:07:40  cidds001:   seed 2: isolated training done
+2026-11-08 23:07:45  cidds001:   seed 2: sanitized attack-record sharing done
+2026-11-08 23:07:47  cidds001:   seed 2: federated learning done (6 rounds)
+2026-11-08 23:07:49  cidds001:   seed 2: centralized training done
+2026-11-08 23:07:49  cidds001:     done in 13 s
+2026-11-08 23:07:49  cidds001:   Step 3 and 4: train under the four training conditions and test, nothing withheld (check), seed 0
+2026-11-08 23:07:56  cidds001:   seed 0: isolated training done
+2026-11-08 23:08:04  cidds001:   seed 0: sanitized attack-record sharing done
+2026-11-08 23:08:06  cidds001:   seed 0: federated learning done (7 rounds)
+2026-11-08 23:08:08  cidds001:   seed 0: centralized training done
+2026-11-08 23:08:08  cidds001:     done in 20 s
+2026-11-08 23:08:08  cidds001:   Step 3 and 4: train under the four training conditions and test, nothing withheld (check), seed 1
+2026-11-08 23:08:16  cidds001:   seed 1: isolated training done
+2026-11-08 23:08:23  cidds001:   seed 1: sanitized attack-record sharing done
+2026-11-08 23:08:25  cidds001:   seed 1: federated learning done (7 rounds)
+2026-11-08 23:08:28  cidds001:   seed 1: centralized training done
+2026-11-08 23:08:28  cidds001:     done in 19 s
+2026-11-08 23:08:28  cidds001:   Step 3 and 4: train under the four training conditions and test, nothing withheld (check), seed 2
+2026-11-08 23:08:35  cidds001:   seed 2: isolated training done
+2026-11-08 23:08:42  cidds001:   seed 2: sanitized attack-record sharing done
+2026-11-08 23:08:44  cidds001:   seed 2: federated learning done (7 rounds)
+2026-11-08 23:08:47  cidds001:   seed 2: centralized training done
+2026-11-08 23:08:47  cidds001:     done in 19 s
+2026-11-08 23:08:47  cidds001:   Step 5: scorecard
+2026-11-08 23:08:48  cidds001:   Step 5b: can sanitized records be traced back to their source host?
+2026-11-08 23:09:07  cidds001:   tracing Organization A: traced 13.0% against guessing 97.7%
+2026-11-08 23:09:24  cidds001:   tracing Organization B: traced 87.8% against guessing 82.7%
+2026-11-08 23:09:38  cidds001:   tracing Organization C: traced 3.3% against guessing 26.2%
+2026-11-08 23:09:38  cidds001:   H1 sanitized attack-record sharing: +13.0 points [+9.9, +16.3]
+2026-11-08 23:09:38  cidds001:   H2 federated learning: +0.8 points [+0.3, +1.7]
+2026-11-08 23:09:38  cidds001:   done in 2.5 min
+2026-11-08 23:09:38  cidds001: done in 2.5 min. H1 +13.0 [+9.9, +16.3]  H2 +0.8 [+0.3, +1.7]  H3 {'yes': False, 'companies': 3, 'low': -0.8473659117997616, 'high': 0.050393013100436534}
+2026-11-08 23:09:38  cidds002: 60,000 records, 16 columns; starting
+2026-11-08 23:09:38  cidds002:   Step 1: load the records and make the three organizations
+2026-11-08 23:09:39  cidds002: FAILED after 0.0 min: at least three attack types are needed so that each organization can withhold a different one
+2026-11-08 23:09:40  cse_cic_ids2018: 120,089 records, 80 columns; starting
+2026-11-08 23:09:40  cse_cic_ids2018:   Step 1: load the records and make the three organizations
+2026-11-08 23:09:43  cse_cic_ids2018:     Organization A: withheld attack type FTP-BruteForce; training records 19,701 (2,246 withheld, 17,455 kept); test records of the withheld type 1,435
+2026-11-08 23:09:43  cse_cic_ids2018:     Organization B: withheld attack type SSH-Bruteforce; training records 19,690 (2,270 withheld, 17,420 kept); test records of the withheld type 1,439
+2026-11-08 23:09:43  cse_cic_ids2018:     Organization C: withheld attack type DoS attacks-SlowHTTPTest; training records 19,778 (2,301 withheld, 17,477 kept); test records of the withheld type 1,446
+2026-11-08 23:09:43  cse_cic_ids2018:   Step 2: sanitize. 80 columns in the raw data; 66 numbers plus the attack type kept; 13 removed
+2026-11-08 23:09:43  cse_cic_ids2018:   Step 3 and 4: train under the four training conditions and test, withheld attack types, seed 0
+2026-11-08 23:09:50  cse_cic_ids2018:   seed 0: isolated training done
+2026-11-08 23:09:56  cse_cic_ids2018:   seed 0: sanitized attack-record sharing done
+2026-11-08 23:09:59  cse_cic_ids2018:   seed 0: federated learning done (5 rounds)
+2026-11-08 23:10:01  cse_cic_ids2018:   seed 0: centralized training done
+2026-11-08 23:10:01  cse_cic_ids2018:     done in 18 s
+2026-11-08 23:10:01  cse_cic_ids2018:   Step 3 and 4: train under the four training conditions and test, withheld attack types, seed 1
+2026-11-08 23:10:08  cse_cic_ids2018:   seed 1: isolated training done
+2026-11-08 23:10:15  cse_cic_ids2018:   seed 1: sanitized attack-record sharing done
+2026-11-08 23:10:17  cse_cic_ids2018:   seed 1: federated learning done (5 rounds)
+2026-11-08 23:10:20  cse_cic_ids2018:   seed 1: centralized training done
+2026-11-08 23:10:20  cse_cic_ids2018:     done in 18 s
+2026-11-08 23:10:20  cse_cic_ids2018:   Step 3 and 4: train under the four training conditions and test, withheld attack types, seed 2
+2026-11-08 23:10:26  cse_cic_ids2018:   seed 2: isolated training done
+2026-11-08 23:10:33  cse_cic_ids2018:   seed 2: sanitized attack-record sharing done
+2026-11-08 23:10:35  cse_cic_ids2018:   seed 2: federated learning done (5 rounds)
+2026-11-08 23:10:38  cse_cic_ids2018:   seed 2: centralized training done
+2026-11-08 23:10:38  cse_cic_ids2018:     done in 18 s
+2026-11-08 23:10:38  cse_cic_ids2018:   Step 3 and 4: train under the four training conditions and test, nothing withheld (check), seed 0
+2026-11-08 23:10:45  cse_cic_ids2018:   seed 0: isolated training done
+2026-11-08 23:10:54  cse_cic_ids2018:   seed 0: sanitized attack-record sharing done
+2026-11-08 23:10:57  cse_cic_ids2018:   seed 0: federated learning done (5 rounds)
+2026-11-08 23:10:59  cse_cic_ids2018:   seed 0: centralized training done
+2026-11-08 23:10:59  cse_cic_ids2018:     done in 22 s
+2026-11-08 23:10:59  cse_cic_ids2018:   Step 3 and 4: train under the four training conditions and test, nothing withheld (check), seed 1
+2026-11-08 23:11:08  cse_cic_ids2018:   seed 1: isolated training done
+2026-11-08 23:11:15  cse_cic_ids2018:   seed 1: sanitized attack-record sharing done
+2026-11-08 23:11:18  cse_cic_ids2018:   seed 1: federated learning done (5 rounds)
+2026-11-08 23:11:21  cse_cic_ids2018:   seed 1: centralized training done
+2026-11-08 23:11:21  cse_cic_ids2018:     done in 21 s
+2026-11-08 23:11:21  cse_cic_ids2018:   Step 3 and 4: train under the four training conditions and test, nothing withheld (check), seed 2
+2026-11-08 23:11:28  cse_cic_ids2018:   seed 2: isolated training done
+2026-11-08 23:11:36  cse_cic_ids2018:   seed 2: sanitized attack-record sharing done
+2026-11-08 23:11:39  cse_cic_ids2018:   seed 2: federated learning done (5 rounds)
+2026-11-08 23:11:41  cse_cic_ids2018:   seed 2: centralized training done
+2026-11-08 23:11:41  cse_cic_ids2018:     done in 21 s
+2026-11-08 23:11:41  cse_cic_ids2018:   Step 5: scorecard
+2026-11-08 23:11:42  cse_cic_ids2018:   H1 sanitized attack-record sharing: +78.4 points [+77.6, +79.2]
+2026-11-08 23:11:42  cse_cic_ids2018:   H2 federated learning: +70.1 points [+68.9, +71.1]
+2026-11-08 23:11:42  cse_cic_ids2018:   done in 2.0 min
+2026-11-08 23:11:42  cse_cic_ids2018: done in 2.1 min. H1 +78.4 [+77.6, +79.2]  H2 +70.1 [+68.9, +71.1]  H3 None
+2026-11-08 23:11:42  ctu13_nettisa: 41,070 records, 32 columns; starting
+2026-11-08 23:11:42  ctu13_nettisa:   Step 1: load the records and make the three organizations
+2026-11-08 23:11:42  ctu13_nettisa:     Organization A: withheld attack type neris; training records 6,819 (1,053 withheld, 5,766 kept); test records of the withheld type 635
+2026-11-08 23:11:42  ctu13_nettisa:     Organization B: withheld attack type fast_flux; training records 6,835 (727 withheld, 6,108 kept); test records of the withheld type 437
+2026-11-08 23:11:42  ctu13_nettisa:     Organization C: withheld attack type qvod; training records 6,798 (43 withheld, 6,755 kept); test records of the withheld type 29
+2026-11-08 23:11:42  ctu13_nettisa:   Step 2: sanitize. 32 columns in the raw data; 24 numbers plus the attack type kept; 7 removed
+2026-11-08 23:11:42  ctu13_nettisa:   Step 3 and 4: train under the four training conditions and test, withheld attack types, seed 0
+2026-11-08 23:11:45  ctu13_nettisa:   seed 0: isolated training done
+2026-11-08 23:11:47  ctu13_nettisa:   seed 0: sanitized attack-record sharing done
+2026-11-08 23:11:48  ctu13_nettisa:   seed 0: federated learning done (5 rounds)
+2026-11-08 23:11:49  ctu13_nettisa:   seed 0: centralized training done
+2026-11-08 23:11:49  ctu13_nettisa:     done in 6 s
+2026-11-08 23:11:49  ctu13_nettisa:   Step 3 and 4: train under the four training conditions and test, withheld attack types, seed 1
+2026-11-08 23:11:51  ctu13_nettisa:   seed 1: isolated training done
+2026-11-08 23:11:54  ctu13_nettisa:   seed 1: sanitized attack-record sharing done
+2026-11-08 23:11:55  ctu13_nettisa:   seed 1: federated learning done (5 rounds)
+2026-11-08 23:11:56  ctu13_nettisa:   seed 1: centralized training done
+2026-11-08 23:11:56  ctu13_nettisa:     done in 7 s
+2026-11-08 23:11:56  ctu13_nettisa:   Step 3 and 4: train under the four training conditions and test, withheld attack types, seed 2
+2026-11-08 23:11:58  ctu13_nettisa:   seed 2: isolated training done
+2026-11-08 23:12:00  ctu13_nettisa:   seed 2: sanitized attack-record sharing done
+2026-11-08 23:12:01  ctu13_nettisa:   seed 2: federated learning done (5 rounds)
+2026-11-08 23:12:02  ctu13_nettisa:   seed 2: centralized training done
+2026-11-08 23:12:02  ctu13_nettisa:     done in 6 s
+2026-11-08 23:12:02  ctu13_nettisa:   Step 3 and 4: train under the four training conditions and test, nothing withheld (check), seed 0
+2026-11-08 23:12:04  ctu13_nettisa:   seed 0: isolated training done
+2026-11-08 23:12:07  ctu13_nettisa:   seed 0: sanitized attack-record sharing done
+2026-11-08 23:12:08  ctu13_nettisa:   seed 0: federated learning done (5 rounds)
+2026-11-08 23:12:09  ctu13_nettisa:   seed 0: centralized training done
+2026-11-08 23:12:09  ctu13_nettisa:     done in 7 s
+2026-11-08 23:12:09  ctu13_nettisa:   Step 3 and 4: train under the four training conditions and test, nothing withheld (check), seed 1
+2026-11-08 23:12:11  ctu13_nettisa:   seed 1: isolated training done
+2026-11-08 23:12:14  ctu13_nettisa:   seed 1: sanitized attack-record sharing done
+2026-11-08 23:12:14  ctu13_nettisa:   seed 1: federated learning done (5 rounds)
+2026-11-08 23:12:15  ctu13_nettisa:   seed 1: centralized training done
+2026-11-08 23:12:15  ctu13_nettisa:     done in 7 s
+2026-11-08 23:12:15  ctu13_nettisa:   Step 3 and 4: train under the four training conditions and test, nothing withheld (check), seed 2
+2026-11-08 23:12:18  ctu13_nettisa:   seed 2: isolated training done
+2026-11-08 23:12:20  ctu13_nettisa:   seed 2: sanitized attack-record sharing done
+2026-11-08 23:12:21  ctu13_nettisa:   seed 2: federated learning done (5 rounds)
+2026-11-08 23:12:22  ctu13_nettisa:   seed 2: centralized training done
+2026-11-08 23:12:22  ctu13_nettisa:     done in 7 s
+2026-11-08 23:12:22  ctu13_nettisa:   Step 5: scorecard
+2026-11-08 23:12:23  ctu13_nettisa:   Step 5b: can sanitized records be traced back to their source host?
+2026-11-08 23:12:23  ctu13_nettisa:   H1 sanitized attack-record sharing: +92.4 points [+88.8, +94.6]
+2026-11-08 23:12:23  ctu13_nettisa:   H2 federated learning: +90.0 points [+85.8, +92.8]
+2026-11-08 23:12:23  ctu13_nettisa:   done in 0.7 min
+2026-11-08 23:12:23  ctu13_nettisa: done in 0.7 min. H1 +92.4 [+88.8, +94.6]  H2 +90.0 [+85.8, +92.8]  H3 None
+2026-11-08 23:12:23  dnp3: 41,596 records, 86 columns; starting
+2026-11-08 23:12:23  dnp3:   Step 1: load the records and make the three organizations
+2026-11-08 23:12:24  dnp3:     Organization A: withheld attack type COLD_RESTART; training records 8,383 (720 withheld, 7,663 kept); test records of the withheld type 432
+2026-11-08 23:12:24  dnp3:     Organization B: withheld attack type DISABLE_UNSOLICITED; training records 6,318 (1,080 withheld, 5,238 kept); test records of the withheld type 648
+2026-11-08 23:12:24  dnp3:     Organization C: withheld attack type WARM_RESTART; training records 6,077 (1,080 withheld, 4,997 kept); test records of the withheld type 648
+2026-11-08 23:12:24  dnp3:   Step 2: sanitize. 86 columns in the raw data; 65 numbers plus the attack type kept; 20 removed
+2026-11-08 23:12:24  dnp3:   Step 3 and 4: train under the four training conditions and test, withheld attack types, seed 0
+2026-11-08 23:12:27  dnp3:   seed 0: isolated training done
+2026-11-08 23:12:30  dnp3:   seed 0: sanitized attack-record sharing done
+2026-11-08 23:12:31  dnp3:   seed 0: federated learning done (6 rounds)
+2026-11-08 23:12:32  dnp3:   seed 0: centralized training done
+2026-11-08 23:12:32  dnp3:     done in 8 s
+2026-11-08 23:12:32  dnp3:   Step 3 and 4: train under the four training conditions and test, withheld attack types, seed 1
+2026-11-08 23:12:34  dnp3:   seed 1: isolated training done
+2026-11-08 23:12:37  dnp3:   seed 1: sanitized attack-record sharing done
+2026-11-08 23:12:38  dnp3:   seed 1: federated learning done (6 rounds)
+2026-11-08 23:12:40  dnp3:   seed 1: centralized training done
+2026-11-08 23:12:40  dnp3:     done in 8 s
+2026-11-08 23:12:40  dnp3:   Step 3 and 4: train under the four training conditions and test, withheld attack types, seed 2
+2026-11-08 23:12:43  dnp3:   seed 2: isolated training done
+2026-11-08 23:12:46  dnp3:   seed 2: sanitized attack-record sharing done
+2026-11-08 23:12:47  dnp3:   seed 2: federated learning done (6 rounds)
+2026-11-08 23:12:48  dnp3:   seed 2: centralized training done
+2026-11-08 23:12:48  dnp3:     done in 8 s
+2026-11-08 23:12:48  dnp3:   Step 3 and 4: train under the four training conditions and test, nothing withheld (check), seed 0
+2026-11-08 23:12:51  dnp3:   seed 0: isolated training done
+2026-11-08 23:12:54  dnp3:   seed 0: sanitized attack-record sharing done
+2026-11-08 23:12:55  dnp3:   seed 0: federated learning done (6 rounds)
+2026-11-08 23:12:57  dnp3:   seed 0: centralized training done
+2026-11-08 23:12:57  dnp3:     done in 9 s
+2026-11-08 23:12:57  dnp3:   Step 3 and 4: train under the four training conditions and test, nothing withheld (check), seed 1
+2026-11-08 23:13:00  dnp3:   seed 1: isolated training done
+2026-11-08 23:13:03  dnp3:   seed 1: sanitized attack-record sharing done
+2026-11-08 23:13:04  dnp3:   seed 1: federated learning done (6 rounds)
+2026-11-08 23:13:05  dnp3:   seed 1: centralized training done
+2026-11-08 23:13:05  dnp3:     done in 9 s
+2026-11-08 23:13:05  dnp3:   Step 3 and 4: train under the four training conditions and test, nothing withheld (check), seed 2
+2026-11-08 23:13:09  dnp3:   seed 2: isolated training done
+2026-11-08 23:13:12  dnp3:   seed 2: sanitized attack-record sharing done
+2026-11-08 23:13:13  dnp3:   seed 2: federated learning done (6 rounds)
+2026-11-08 23:13:14  dnp3:   seed 2: centralized training done
+2026-11-08 23:13:14  dnp3:     done in 9 s
+2026-11-08 23:13:14  dnp3:   Step 5: scorecard
+2026-11-08 23:13:15  dnp3:   Step 5b: can sanitized records be traced back to their source host?
+2026-11-08 23:13:37  dnp3:   tracing Organization A: traced 60.6% against guessing 61.3%
+2026-11-08 23:13:50  dnp3:   tracing Organization B: traced 58.9% against guessing 53.9%
+2026-11-08 23:14:04  dnp3:   tracing Organization C: traced 49.4% against guessing 55.4%
+2026-11-08 23:14:04  dnp3:   H1 sanitized attack-record sharing: +60.9 points [+59.8, +62.0]
+2026-11-08 23:14:04  dnp3:   H2 federated learning: +33.3 points [+33.2, +33.3]
+2026-11-08 23:14:04  dnp3:   done in 1.7 min
+2026-11-08 23:14:04  dnp3: done in 1.7 min. H1 +60.9 [+59.8, +62.0]  H2 +33.3 [+33.2, +33.3]  H3 {'yes': False, 'companies': 3, 'low': -0.060159911772815045, 'high': 0.049605055292259226}
+2026-11-08 23:14:05  edge_iiotset_ml: 119,994 records, 63 columns; starting
+2026-11-08 23:14:05  edge_iiotset_ml:   Step 1: load the records and make the three organizations
+2026-11-08 23:14:07  edge_iiotset_ml:     Organization A: withheld attack type DDoS_UDP; training records 19,624 (1,799 withheld, 17,825 kept); test records of the withheld type 1,154
+2026-11-08 23:14:07  edge_iiotset_ml:     Organization B: withheld attack type DDoS_ICMP; training records 19,688 (1,733 withheld, 17,955 kept); test records of the withheld type 1,125
+2026-11-08 23:14:07  edge_iiotset_ml:     Organization C: withheld attack type DDoS_HTTP; training records 19,633 (1,272 withheld, 18,361 kept); test records of the withheld type 858
+2026-11-08 23:14:07  edge_iiotset_ml:   Step 2: sanitize. 63 columns in the raw data; 32 numbers plus the attack type kept; 30 removed
+2026-11-08 23:14:07  edge_iiotset_ml:   Step 3 and 4: train under the four training conditions and test, withheld attack types, seed 0
+2026-11-08 23:14:14  edge_iiotset_ml:   seed 0: isolated training done
+2026-11-08 23:14:21  edge_iiotset_ml:   seed 0: sanitized attack-record sharing done
+2026-11-08 23:14:23  edge_iiotset_ml:   seed 0: federated learning done (5 rounds)
+2026-11-08 23:14:26  edge_iiotset_ml:   seed 0: centralized training done
+2026-11-08 23:14:26  edge_iiotset_ml:     done in 18 s
+2026-11-08 23:14:26  edge_iiotset_ml:   Step 3 and 4: train under the four training conditions and test, withheld attack types, seed 1
+2026-11-08 23:14:32  edge_iiotset_ml:   seed 1: isolated training done
+2026-11-08 23:14:39  edge_iiotset_ml:   seed 1: sanitized attack-record sharing done
+2026-11-08 23:14:41  edge_iiotset_ml:   seed 1: federated learning done (5 rounds)
+2026-11-08 23:14:44  edge_iiotset_ml:   seed 1: centralized training done
+2026-11-08 23:14:44  edge_iiotset_ml:     done in 18 s
+2026-11-08 23:14:44  edge_iiotset_ml:   Step 3 and 4: train under the four training conditions and test, withheld attack types, seed 2
+2026-11-08 23:14:51  edge_iiotset_ml:   seed 2: isolated training done
+2026-11-08 23:14:58  edge_iiotset_ml:   seed 2: sanitized attack-record sharing done
+2026-11-08 23:15:00  edge_iiotset_ml:   seed 2: federated learning done (5 rounds)
+2026-11-08 23:15:02  edge_iiotset_ml:   seed 2: centralized training done
+2026-11-08 23:15:02  edge_iiotset_ml:     done in 18 s
+2026-11-08 23:15:02  edge_iiotset_ml:   Step 3 and 4: train under the four training conditions and test, nothing withheld (check), seed 0
+2026-11-08 23:15:10  edge_iiotset_ml:   seed 0: isolated training done
+2026-11-08 23:15:17  edge_iiotset_ml:   seed 0: sanitized attack-record sharing done
+2026-11-08 23:15:19  edge_iiotset_ml:   seed 0: federated learning done (5 rounds)
+2026-11-08 23:15:22  edge_iiotset_ml:   seed 0: centralized training done
+2026-11-08 23:15:22  edge_iiotset_ml:     done in 19 s
+2026-11-08 23:15:22  edge_iiotset_ml:   Step 3 and 4: train under the four training conditions and test, nothing withheld (check), seed 1
+2026-11-08 23:15:29  edge_iiotset_ml:   seed 1: isolated training done
+2026-11-08 23:15:36  edge_iiotset_ml:   seed 1: sanitized attack-record sharing done
+2026-11-08 23:15:39  edge_iiotset_ml:   seed 1: federated learning done (5 rounds)
+2026-11-08 23:15:41  edge_iiotset_ml:   seed 1: centralized training done
+2026-11-08 23:15:41  edge_iiotset_ml:     done in 19 s
+2026-11-08 23:15:41  edge_iiotset_ml:   Step 3 and 4: train under the four training conditions and test, nothing withheld (check), seed 2
+2026-11-08 23:15:49  edge_iiotset_ml:   seed 2: isolated training done
+2026-11-08 23:15:56  edge_iiotset_ml:   seed 2: sanitized attack-record sharing done
+2026-11-08 23:15:58  edge_iiotset_ml:   seed 2: federated learning done (5 rounds)
+2026-11-08 23:16:01  edge_iiotset_ml:   seed 2: centralized training done
+2026-11-08 23:16:01  edge_iiotset_ml:     done in 20 s
+2026-11-08 23:16:01  edge_iiotset_ml:   Step 5: scorecard
+2026-11-08 23:16:02  edge_iiotset_ml:   Step 5b: can sanitized records be traced back to their source host?
+2026-11-08 23:16:15  edge_iiotset_ml:   tracing Organization A: traced 30.6% against guessing 58.2%
+2026-11-08 23:16:29  edge_iiotset_ml:   tracing Organization B: traced 40.5% against guessing 47.3%
+2026-11-08 23:16:43  edge_iiotset_ml:   tracing Organization C: traced 37.2% against guessing 51.3%
+2026-11-08 23:16:43  edge_iiotset_ml:   H1 sanitized attack-record sharing: +74.5 points [+70.6, +78.6]
+2026-11-08 23:16:43  edge_iiotset_ml:   H2 federated learning: +62.8 points [+62.2, +63.4]
+2026-11-08 23:16:43  edge_iiotset_ml:   done in 2.6 min
+2026-11-08 23:16:43  edge_iiotset_ml: done in 2.7 min. H1 +74.5 [+70.6, +78.6]  H2 +62.8 [+62.2, +63.4]  H3 {'yes': False, 'companies': 3, 'low': -0.2762434129791381, 'high': -0.06815147895735263}
+2026-11-08 23:16:43  electra_modbus: 119,994 records, 11 columns; starting
+2026-11-08 23:16:43  electra_modbus:   Step 1: load the records and make the three organizations
+2026-11-08 23:16:43  electra_modbus:     Organization A: withheld attack type READ_ATTACK; training records 19,987 (4,058 withheld, 15,929 kept); test records of the withheld type 2,438
+2026-11-08 23:16:43  electra_modbus:     Organization B: withheld attack type MITM_UNALTERED; training records 19,973 (4,057 withheld, 15,916 kept); test records of the withheld type 2,436
+2026-11-08 23:16:43  electra_modbus:     Organization C: withheld attack type RECOGNITION_ATTACK; training records 19,989 (4,059 withheld, 15,930 kept); test records of the withheld type 2,436
+2026-11-08 23:16:43  electra_modbus:   Step 2: sanitize. 11 columns in the raw data; 5 numbers plus the attack type kept; 5 removed
+2026-11-08 23:16:43  electra_modbus:   Step 3 and 4: train under the four training conditions and test, withheld attack types, seed 0
+2026-11-08 23:16:49  electra_modbus:   seed 0: isolated training done
+2026-11-08 23:16:54  electra_modbus:   seed 0: sanitized attack-record sharing done
+2026-11-08 23:16:55  electra_modbus:   seed 0: federated learning done (5 rounds)
+2026-11-08 23:16:57  electra_modbus:   seed 0: centralized training done
+2026-11-08 23:16:57  electra_modbus:     done in 14 s
+2026-11-08 23:16:57  electra_modbus:   Step 3 and 4: train under the four training conditions and test, withheld attack types, seed 1
+2026-11-08 23:17:02  electra_modbus:   seed 1: isolated training done
+2026-11-08 23:17:07  electra_modbus:   seed 1: sanitized attack-record sharing done
+2026-11-08 23:17:09  electra_modbus:   seed 1: federated learning done (5 rounds)
+2026-11-08 23:17:10  electra_modbus:   seed 1: centralized training done
+2026-11-08 23:17:10  electra_modbus:     done in 13 s
+2026-11-08 23:17:10  electra_modbus:   Step 3 and 4: train under the four training conditions and test, withheld attack types, seed 2
+2026-11-08 23:17:15  electra_modbus:   seed 2: isolated training done
+2026-11-08 23:17:20  electra_modbus:   seed 2: sanitized attack-record sharing done
+2026-11-08 23:17:22  electra_modbus:   seed 2: federated learning done (5 rounds)
+2026-11-08 23:17:24  electra_modbus:   seed 2: centralized training done
+2026-11-08 23:17:24  electra_modbus:     done in 13 s
+2026-11-08 23:17:24  electra_modbus:   Step 3 and 4: train under the four training conditions and test, nothing withheld (check), seed 0
+2026-11-08 23:17:30  electra_modbus:   seed 0: isolated training done
+2026-11-08 23:17:36  electra_modbus:   seed 0: sanitized attack-record sharing done
+2026-11-08 23:17:38  electra_modbus:   seed 0: federated learning done (5 rounds)
+2026-11-08 23:17:40  electra_modbus:   seed 0: centralized training done
+2026-11-08 23:17:40  electra_modbus:     done in 17 s
+2026-11-08 23:17:40  electra_modbus:   Step 3 and 4: train under the four training conditions and test, nothing withheld (check), seed 1
+2026-11-08 23:17:46  electra_modbus:   seed 1: isolated training done
+2026-11-08 23:17:53  electra_modbus:   seed 1: sanitized attack-record sharing done
+2026-11-08 23:17:55  electra_modbus:   seed 1: federated learning done (5 rounds)
+2026-11-08 23:17:57  electra_modbus:   seed 1: centralized training done
+2026-11-08 23:17:57  electra_modbus:     done in 17 s
+2026-11-08 23:17:57  electra_modbus:   Step 3 and 4: train under the four training conditions and test, nothing withheld (check), seed 2
+2026-11-08 23:18:03  electra_modbus:   seed 2: isolated training done
+2026-11-08 23:18:10  electra_modbus:   seed 2: sanitized attack-record sharing done
+2026-11-08 23:18:12  electra_modbus:   seed 2: federated learning done (5 rounds)
+2026-11-08 23:18:14  electra_modbus:   seed 2: centralized training done
+2026-11-08 23:18:14  electra_modbus:     done in 17 s
+2026-11-08 23:18:14  electra_modbus:   Step 5: scorecard
+2026-11-08 23:18:16  electra_modbus:   Step 5b: can sanitized records be traced back to their source host?
+2026-11-08 23:18:27  electra_modbus:   tracing Organization A: traced 53.6% against guessing 53.6%
+2026-11-08 23:18:39  electra_modbus:   tracing Organization B: traced 20.0% against guessing 56.2%
+2026-11-08 23:18:52  electra_modbus:   tracing Organization C: traced 53.4% against guessing 53.4%
+2026-11-08 23:18:52  electra_modbus:   H1 sanitized attack-record sharing: +50.8 points [+49.7, +51.9]
+2026-11-08 23:18:52  electra_modbus:   H2 federated learning: +41.4 points [+40.4, +42.2]
+2026-11-08 23:18:52  electra_modbus:   done in 2.1 min
+2026-11-08 23:18:52  electra_modbus: done in 2.1 min. H1 +50.8 [+49.7, +51.9]  H2 +41.4 [+40.4, +42.2]  H3 {'yes': False, 'companies': 3, 'low': -0.36282364847769244, 'high': 0.0}
+2026-11-08 23:18:52  electra_s7comm: 119,996 records, 11 columns; starting
+2026-11-08 23:18:52  electra_s7comm:   Step 1: load the records and make the three organizations
+2026-11-08 23:18:52  electra_s7comm:     Organization A: withheld attack type FALSE_ERROR_RESPONSE_ATTACK; training records 19,986 (2,531 withheld, 17,455 kept); test records of the withheld type 1,522
+2026-11-08 23:18:52  electra_s7comm:     Organization B: withheld attack type READ_ATTACK; training records 19,981 (2,534 withheld, 17,447 kept); test records of the withheld type 1,527
+2026-11-08 23:18:52  electra_s7comm:     Organization C: withheld attack type COMMAND_ATTACK; training records 19,994 (2,534 withheld, 17,460 kept); test records of the withheld type 1,521
+2026-11-08 23:18:52  electra_s7comm:   Step 2: sanitize. 11 columns in the raw data; 4 numbers plus the attack type kept; 6 removed
+2026-11-08 23:18:52  electra_s7comm:   Step 3 and 4: train under the four training conditions and test, withheld attack types, seed 0
+2026-11-08 23:18:58  electra_s7comm:   seed 0: isolated training done
+2026-11-08 23:19:03  electra_s7comm:   seed 0: sanitized attack-record sharing done
+2026-11-08 23:19:05  electra_s7comm:   seed 0: federated learning done (5 rounds)
+2026-11-08 23:19:06  electra_s7comm:   seed 0: centralized training done
+2026-11-08 23:19:06  electra_s7comm:     done in 14 s
+2026-11-08 23:19:06  electra_s7comm:   Step 3 and 4: train under the four training conditions and test, withheld attack types, seed 1
+2026-11-08 23:19:12  electra_s7comm:   seed 1: isolated training done
+2026-11-08 23:19:17  electra_s7comm:   seed 1: sanitized attack-record sharing done
+2026-11-08 23:19:19  electra_s7comm:   seed 1: federated learning done (5 rounds)
+2026-11-08 23:19:20  electra_s7comm:   seed 1: centralized training done
+2026-11-08 23:19:20  electra_s7comm:     done in 14 s
+2026-11-08 23:19:20  electra_s7comm:   Step 3 and 4: train under the four training conditions and test, withheld attack types, seed 2
+2026-11-08 23:19:25  electra_s7comm:   seed 2: isolated training done
+2026-11-08 23:19:31  electra_s7comm:   seed 2: sanitized attack-record sharing done
+2026-11-08 23:19:32  electra_s7comm:   seed 2: federated learning done (5 rounds)
+2026-11-08 23:19:34  electra_s7comm:   seed 2: centralized training done
+2026-11-08 23:19:34  electra_s7comm:     done in 14 s
+2026-11-08 23:19:34  electra_s7comm:   Step 3 and 4: train under the four training conditions and test, nothing withheld (check), seed 0
+2026-11-08 23:19:40  electra_s7comm:   seed 0: isolated training done
+2026-11-08 23:19:46  electra_s7comm:   seed 0: sanitized attack-record sharing done
+2026-11-08 23:19:48  electra_s7comm:   seed 0: federated learning done (5 rounds)
+2026-11-08 23:19:50  electra_s7comm:   seed 0: centralized training done
+2026-11-08 23:19:50  electra_s7comm:     done in 16 s
+2026-11-08 23:19:50  electra_s7comm:   Step 3 and 4: train under the four training conditions and test, nothing withheld (check), seed 1
+2026-11-08 23:19:56  electra_s7comm:   seed 1: isolated training done
+2026-11-08 23:20:02  electra_s7comm:   seed 1: sanitized attack-record sharing done
+2026-11-08 23:20:04  electra_s7comm:   seed 1: federated learning done (5 rounds)
+2026-11-08 23:20:06  electra_s7comm:   seed 1: centralized training done
+2026-11-08 23:20:06  electra_s7comm:     done in 16 s
+2026-11-08 23:20:06  electra_s7comm:   Step 3 and 4: train under the four training conditions and test, nothing withheld (check), seed 2
+2026-11-08 23:20:12  electra_s7comm:   seed 2: isolated training done
+2026-11-08 23:20:18  electra_s7comm:   seed 2: sanitized attack-record sharing done
+2026-11-08 23:20:20  electra_s7comm:   seed 2: federated learning done (5 rounds)
+2026-11-08 23:20:22  electra_s7comm:   seed 2: centralized training done
+2026-11-08 23:20:22  electra_s7comm:     done in 16 s
+2026-11-08 23:20:22  electra_s7comm:   Step 5: scorecard
+2026-11-08 23:20:23  electra_s7comm:   Step 5b: can sanitized records be traced back to their source host?
+2026-11-08 23:20:35  electra_s7comm:   tracing Organization A: traced 61.1% against guessing 61.1%
+2026-11-08 23:20:47  electra_s7comm:   tracing Organization B: traced 60.5% against guessing 60.5%
+2026-11-08 23:21:00  electra_s7comm:   tracing Organization C: traced 44.1% against guessing 44.1%
+2026-11-08 23:21:00  electra_s7comm:   H1 sanitized attack-record sharing: +35.6 points [+35.2, +36.0]
+2026-11-08 23:21:00  electra_s7comm:   H2 federated learning: +33.3 points [+33.3, +33.3]
+2026-11-08 23:21:00  electra_s7comm:   done in 2.1 min
+2026-11-08 23:21:00  electra_s7comm: done in 2.1 min. H1 +35.6 [+35.2, +36.0]  H2 +33.3 [+33.3, +33.3]  H3 {'yes': False, 'companies': 3, 'low': 0.0, 'high': 0.0}
+2026-11-08 23:21:00  iec104: 6,828 records, 84 columns; starting
+2026-11-08 23:21:00  iec104:   Step 1: load the records and make the three organizations
+2026-11-08 23:21:00  iec104:     Organization A: withheld attack type c_ci_na_1; training records 1,136 (95 withheld, 1,041 kept); test records of the withheld type 57
+2026-11-08 23:21:00  iec104:     Organization B: withheld attack type c_ci_na_1_DoS; training records 1,136 (95 withheld, 1,041 kept); test records of the withheld type 57
+2026-11-08 23:21:00  iec104:     Organization C: withheld attack type c_rd_na_1; training records 1,136 (95 withheld, 1,041 kept); test records of the withheld type 57
+2026-11-08 23:21:00  iec104:   Step 2: sanitize. 84 columns in the raw data; 56 numbers plus the attack type kept; 27 removed
+2026-11-08 23:21:00  iec104:   Step 3 and 4: train under the four training conditions and test, withheld attack types, seed 0
+2026-11-08 23:21:01  iec104:   seed 0: isolated training done
+2026-11-08 23:21:01  iec104:   seed 0: sanitized attack-record sharing done
+2026-11-08 23:21:01  iec104:   seed 0: federated learning done (5 rounds)
+2026-11-08 23:21:02  iec104:   seed 0: centralized training done
+2026-11-08 23:21:02  iec104:     done in 1 s
+2026-11-08 23:21:02  iec104:   Step 3 and 4: train under the four training conditions and test, withheld attack types, seed 1
+2026-11-08 23:21:02  iec104:   seed 1: isolated training done
+2026-11-08 23:21:02  iec104:   seed 1: sanitized attack-record sharing done
+2026-11-08 23:21:03  iec104:   seed 1: federated learning done (5 rounds)
+2026-11-08 23:21:03  iec104:   seed 1: centralized training done
+2026-11-08 23:21:03  iec104:     done in 1 s
+2026-11-08 23:21:03  iec104:   Step 3 and 4: train under the four training conditions and test, withheld attack types, seed 2
+2026-11-08 23:21:03  iec104:   seed 2: isolated training done
+2026-11-08 23:21:04  iec104:   seed 2: sanitized attack-record sharing done
+2026-11-08 23:21:04  iec104:   seed 2: federated learning done (5 rounds)
+2026-11-08 23:21:04  iec104:   seed 2: centralized training done
+2026-11-08 23:21:04  iec104:     done in 1 s
+2026-11-08 23:21:04  iec104:   Step 3 and 4: train under the four training conditions and test, nothing withheld (check), seed 0
+2026-11-08 23:21:04  iec104:   seed 0: isolated training done
+2026-11-08 23:21:05  iec104:   seed 0: sanitized attack-record sharing done
+2026-11-08 23:21:05  iec104:   seed 0: federated learning done (5 rounds)
+2026-11-08 23:21:05  iec104:   seed 0: centralized training done
+2026-11-08 23:21:05  iec104:     done in 1 s
+2026-11-08 23:21:05  iec104:   Step 3 and 4: train under the four training conditions and test, nothing withheld (check), seed 1
+2026-11-08 23:21:05  iec104:   seed 1: isolated training done
+2026-11-08 23:21:06  iec104:   seed 1: sanitized attack-record sharing done
+2026-11-08 23:21:06  iec104:   seed 1: federated learning done (5 rounds)
+2026-11-08 23:21:06  iec104:   seed 1: centralized training done
+2026-11-08 23:21:06  iec104:     done in 1 s
+2026-11-08 23:21:06  iec104:   Step 3 and 4: train under the four training conditions and test, nothing withheld (check), seed 2
+2026-11-08 23:21:07  iec104:   seed 2: isolated training done
+2026-11-08 23:21:07  iec104:   seed 2: sanitized attack-record sharing done
+2026-11-08 23:21:07  iec104:   seed 2: federated learning done (5 rounds)
+2026-11-08 23:21:07  iec104:   seed 2: centralized training done
+2026-11-08 23:21:07  iec104:     done in 1 s
+2026-11-08 23:21:07  iec104:   Step 5: scorecard
+2026-11-08 23:21:08  iec104:   Step 5b: can sanitized records be traced back to their source host?
+2026-11-08 23:21:18  iec104:   tracing Organization A: traced 6.1% against guessing 26.2%
+2026-11-08 23:21:27  iec104:   tracing Organization B: traced 5.2% against guessing 27.9%
+2026-11-08 23:21:37  iec104:   tracing Organization C: traced 9.7% against guessing 26.1%
+2026-11-08 23:21:37  iec104:   H1 sanitized attack-record sharing: +45.2 points [+39.6, +50.5]
+2026-11-08 23:21:37  iec104:   H2 federated learning: +6.6 points [+4.9, +8.6]
+2026-11-08 23:21:37  iec104:   done in 0.6 min
+2026-11-08 23:21:37  iec104: done in 0.6 min. H1 +45.2 [+39.6, +50.5]  H2 +6.6 [+4.9, +8.6]  H3 {'yes': False, 'companies': 3, 'low': -0.227061310782241, 'high': -0.16427061310782243}
+2026-11-08 23:21:38  insdn: 120,001 records, 84 columns; starting
+2026-11-08 23:21:38  insdn:   Step 1: load the records and make the three organizations
+2026-11-08 23:21:38  insdn:     Organization A: withheld attack type Probe; training records 19,834 (4,885 withheld, 14,949 kept); test records of the withheld type 2,974
+2026-11-08 23:21:38  insdn:     Organization B: withheld attack type DoS; training records 19,880 (4,927 withheld, 14,953 kept); test records of the withheld type 2,986
+2026-11-08 23:21:38  insdn:     Organization C: withheld attack type DDoS; training records 19,874 (4,911 withheld, 14,963 kept); test records of the withheld type 3,013
+2026-11-08 23:21:38  insdn:   Step 2: sanitize. 84 columns in the raw data; 62 numbers plus the attack type kept; 21 removed
+2026-11-08 23:21:38  insdn:   Step 3 and 4: train under the four training conditions and test, withheld attack types, seed 0
+2026-11-08 23:21:44  insdn:   seed 0: isolated training done
+2026-11-08 23:21:49  insdn:   seed 0: sanitized attack-record sharing done
+2026-11-08 23:21:51  insdn:   seed 0: federated learning done (5 rounds)
+2026-11-08 23:21:52  insdn:   seed 0: centralized training done
+2026-11-08 23:21:52  insdn:     done in 14 s
+2026-11-08 23:21:52  insdn:   Step 3 and 4: train under the four training conditions and test, withheld attack types, seed 1
+2026-11-08 23:21:58  insdn:   seed 1: isolated training done
+2026-11-08 23:22:03  insdn:   seed 1: sanitized attack-record sharing done
+2026-11-08 23:22:05  insdn:   seed 1: federated learning done (5 rounds)
+2026-11-08 23:22:07  insdn:   seed 1: centralized training done
+2026-11-08 23:22:07  insdn:     done in 14 s
+2026-11-08 23:22:07  insdn:   Step 3 and 4: train under the four training conditions and test, withheld attack types, seed 2
+2026-11-08 23:22:12  insdn:   seed 2: isolated training done
+2026-11-08 23:22:18  insdn:   seed 2: sanitized attack-record sharing done
+2026-11-08 23:22:19  insdn:   seed 2: federated learning done (5 rounds)
+2026-11-08 23:22:21  insdn:   seed 2: centralized training done
+2026-11-08 23:22:21  insdn:     done in 14 s
+2026-11-08 23:22:21  insdn:   Step 3 and 4: train under the four training conditions and test, nothing withheld (check), seed 0
+2026-11-08 23:22:28  insdn:   seed 0: isolated training done
+2026-11-08 23:22:36  insdn:   seed 0: sanitized attack-record sharing done
+2026-11-08 23:22:38  insdn:   seed 0: federated learning done (5 rounds)
+2026-11-08 23:22:40  insdn:   seed 0: centralized training done
+2026-11-08 23:22:40  insdn:     done in 19 s
+2026-11-08 23:22:40  insdn:   Step 3 and 4: train under the four training conditions and test, nothing withheld (check), seed 1
+2026-11-08 23:22:47  insdn:   seed 1: isolated training done
+2026-11-08 23:22:55  insdn:   seed 1: sanitized attack-record sharing done
+2026-11-08 23:22:57  insdn:   seed 1: federated learning done (5 rounds)
+2026-11-08 23:23:00  insdn:   seed 1: centralized training done
+2026-11-08 23:23:00  insdn:     done in 19 s
+2026-11-08 23:23:00  insdn:   Step 3 and 4: train under the four training conditions and test, nothing withheld (check), seed 2
+2026-11-08 23:23:07  insdn:   seed 2: isolated training done
+2026-11-08 23:23:14  insdn:   seed 2: sanitized attack-record sharing done
+2026-11-08 23:23:16  insdn:   seed 2: federated learning done (5 rounds)
+2026-11-08 23:23:19  insdn:   seed 2: centralized training done
+2026-11-08 23:23:19  insdn:     done in 19 s
+2026-11-08 23:23:19  insdn:   Step 5: scorecard
+2026-11-08 23:23:20  insdn:   Step 5b: can sanitized records be traced back to their source host?
+2026-11-08 23:23:46  insdn:   tracing Organization A: traced 0.0% against guessing 47.3%
+2026-11-08 23:24:13  insdn:   tracing Organization B: traced 0.0% against guessing 67.7%
+2026-11-08 23:24:38  insdn:   tracing Organization C: traced 0.0% against guessing 43.3%
+2026-11-08 23:24:38  insdn:   H1 sanitized attack-record sharing: +99.5 points [+98.7, +99.9]
+2026-11-08 23:24:38  insdn:   H2 federated learning: +98.9 points [+98.5, +99.2]
+2026-11-08 23:24:38  insdn:   done in 3.0 min
+2026-11-08 23:24:38  insdn: done in 3.0 min. H1 +99.5 [+98.7, +99.9]  H2 +98.9 [+98.5, +99.2]  H3 {'yes': False, 'companies': 3, 'low': -0.6774483378256964, 'high': -0.4327584488086931}
+2026-11-08 23:24:39  iot23: 102,373 records, 20 columns; starting
+2026-11-08 23:24:39  iot23:   Step 1: load the records and make the three organizations
+2026-11-08 23:24:39  iot23:     Organization A: withheld attack type PartOfAHorizontalPortScan; training records 24,394 (4,155 withheld, 20,239 kept); test records of the withheld type 2,494
+2026-11-08 23:24:39  iot23:     Organization B: withheld attack type C&C; training records 14,168 (3,357 withheld, 10,811 kept); test records of the withheld type 2,064
+2026-11-08 23:24:39  iot23:     Organization C: withheld attack type Attack; training records 12,436 (1,413 withheld, 11,023 kept); test records of the withheld type 851
+2026-11-08 23:24:39  iot23:   Step 2: sanitize. 20 columns in the raw data; 6 numbers plus the attack type kept; 13 removed
+2026-11-08 23:24:39  iot23:   Step 3 and 4: train under the four training conditions and test, withheld attack types, seed 0
+2026-11-08 23:24:45  iot23:   seed 0: isolated training done
+2026-11-08 23:24:51  iot23:   seed 0: sanitized attack-record sharing done
+2026-11-08 23:24:53  iot23:   seed 0: federated learning done (7 rounds)
+2026-11-08 23:24:55  iot23:   seed 0: centralized training done
+2026-11-08 23:24:55  iot23:     done in 16 s
+2026-11-08 23:24:55  iot23:   Step 3 and 4: train under the four training conditions and test, withheld attack types, seed 1
+2026-11-08 23:25:01  iot23:   seed 1: isolated training done
+2026-11-08 23:25:08  iot23:   seed 1: sanitized attack-record sharing done
+2026-11-08 23:25:09  iot23:   seed 1: federated learning done (7 rounds)
+2026-11-08 23:25:12  iot23:   seed 1: centralized training done
+2026-11-08 23:25:12  iot23:     done in 16 s
+2026-11-08 23:25:12  iot23:   Step 3 and 4: train under the four training conditions and test, withheld attack types, seed 2
+2026-11-08 23:25:18  iot23:   seed 2: isolated training done
+2026-11-08 23:25:24  iot23:   seed 2: sanitized attack-record sharing done
+2026-11-08 23:25:26  iot23:   seed 2: federated learning done (7 rounds)
+2026-11-08 23:25:28  iot23:   seed 2: centralized training done
+2026-11-08 23:25:28  iot23:     done in 16 s
+2026-11-08 23:25:28  iot23:   Step 3 and 4: train under the four training conditions and test, nothing withheld (check), seed 0
+2026-11-08 23:25:35  iot23:   seed 0: isolated training done
+2026-11-08 23:25:42  iot23:   seed 0: sanitized attack-record sharing done
+2026-11-08 23:25:45  iot23:   seed 0: federated learning done (7 rounds)
+2026-11-08 23:25:47  iot23:   seed 0: centralized training done
+2026-11-08 23:25:47  iot23:     done in 20 s
+2026-11-08 23:25:47  iot23:   Step 3 and 4: train under the four training conditions and test, nothing withheld (check), seed 1
+2026-11-08 23:25:55  iot23:   seed 1: isolated training done
+2026-11-08 23:26:02  iot23:   seed 1: sanitized attack-record sharing done
+2026-11-08 23:26:04  iot23:   seed 1: federated learning done (7 rounds)
+2026-11-08 23:26:07  iot23:   seed 1: centralized training done
+2026-11-08 23:26:07  iot23:     done in 20 s
+2026-11-08 23:26:07  iot23:   Step 3 and 4: train under the four training conditions and test, nothing withheld (check), seed 2
+2026-11-08 23:26:14  iot23:   seed 2: isolated training done
+2026-11-08 23:26:22  iot23:   seed 2: sanitized attack-record sharing done
+2026-11-08 23:26:24  iot23:   seed 2: federated learning done (7 rounds)
+2026-11-08 23:26:26  iot23:   seed 2: centralized training done
+2026-11-08 23:26:26  iot23:     done in 19 s
+2026-11-08 23:26:26  iot23:   Step 5: scorecard
+2026-11-08 23:26:28  iot23:   Step 5b: can sanitized records be traced back to their source host?
+2026-11-08 23:26:38  iot23:   tracing Organization A: traced 0.0% against guessing 80.1%
+2026-11-08 23:26:49  iot23:   tracing Organization B: traced 3.2% against guessing 47.1%
+2026-11-08 23:26:59  iot23:   tracing Organization C: traced 0.0% against guessing 95.1%
+2026-11-08 23:26:59  iot23:   H1 sanitized attack-record sharing: +61.9 points [+61.5, +62.4]
+2026-11-08 23:26:59  iot23:   H2 federated learning: +23.7 points [+22.1, +26.3]
+2026-11-08 23:26:59  iot23:   done in 2.3 min
+2026-11-08 23:26:59  iot23: done in 2.3 min. H1 +61.9 [+61.5, +62.4]  H2 +23.7 [+22.1, +26.3]  H3 {'yes': False, 'companies': 3, 'low': -0.9509259259259258, 'high': -0.43815283122594834}
+2026-11-08 23:26:59  n_baiot: 22,500 records, 117 columns; starting
+2026-11-08 23:26:59  n_baiot:   Step 1: load the records and make the three organizations
+2026-11-08 23:27:00  n_baiot: FAILED after 0.0 min: at least three attack types are needed so that each organization can withhold a different one
+2026-11-08 23:27:00  nsl_kdd: 85,592 records, 42 columns; starting
+2026-11-08 23:27:00  nsl_kdd:   Step 1: load the records and make the three organizations
+2026-11-08 23:27:00  nsl_kdd:     Organization A: withheld attack type neptune; training records 14,265 (4,955 withheld, 9,310 kept); test records of the withheld type 2,999
+2026-11-08 23:27:00  nsl_kdd:     Organization B: withheld attack type satan; training records 14,265 (722 withheld, 13,543 kept); test records of the withheld type 424
+2026-11-08 23:27:00  nsl_kdd:     Organization C: withheld attack type ipsweep; training records 14,265 (600 withheld, 13,665 kept); test records of the withheld type 383
+2026-11-08 23:27:00  nsl_kdd:   Step 2: sanitize. 42 columns in the raw data; 24 numbers plus the attack type kept; 17 removed
+2026-11-08 23:27:00  nsl_kdd:   Step 3 and 4: train under the four training conditions and test, withheld attack types, seed 0
+2026-11-08 23:27:05  nsl_kdd:   seed 0: isolated training done
+2026-11-08 23:27:10  nsl_kdd:   seed 0: sanitized attack-record sharing done
+2026-11-08 23:27:12  nsl_kdd:   seed 0: federated learning done (6 rounds)
+2026-11-08 23:27:14  nsl_kdd:   seed 0: centralized training done
+2026-11-08 23:27:14  nsl_kdd:     done in 14 s
+2026-11-08 23:27:14  nsl_kdd:   Step 3 and 4: train under the four training conditions and test, withheld attack types, seed 1
+2026-11-08 23:27:19  nsl_kdd:   seed 1: isolated training done
+2026-11-08 23:27:24  nsl_kdd:   seed 1: sanitized attack-record sharing done
+2026-11-08 23:27:26  nsl_kdd:   seed 1: federated learning done (6 rounds)
+2026-11-08 23:27:27  nsl_kdd:   seed 1: centralized training done
+2026-11-08 23:27:27  nsl_kdd:     done in 14 s
+2026-11-08 23:27:27  nsl_kdd:   Step 3 and 4: train under the four training conditions and test, withheld attack types, seed 2
+2026-11-08 23:27:32  nsl_kdd:   seed 2: isolated training done
+2026-11-08 23:27:37  nsl_kdd:   seed 2: sanitized attack-record sharing done
+2026-11-08 23:27:39  nsl_kdd:   seed 2: federated learning done (6 rounds)
+2026-11-08 23:27:41  nsl_kdd:   seed 2: centralized training done
+2026-11-08 23:27:41  nsl_kdd:     done in 14 s
+2026-11-08 23:27:41  nsl_kdd:   Step 3 and 4: train under the four training conditions and test, nothing withheld (check), seed 0
+2026-11-08 23:27:46  nsl_kdd:   seed 0: isolated training done
+2026-11-08 23:27:51  nsl_kdd:   seed 0: sanitized attack-record sharing done
+2026-11-08 23:27:53  nsl_kdd:   seed 0: federated learning done (5 rounds)
+2026-11-08 23:27:55  nsl_kdd:   seed 0: centralized training done
+2026-11-08 23:27:55  nsl_kdd:     done in 14 s
+2026-11-08 23:27:55  nsl_kdd:   Step 3 and 4: train under the four training conditions and test, nothing withheld (check), seed 1
+2026-11-08 23:28:00  nsl_kdd:   seed 1: isolated training done
+2026-11-08 23:28:05  nsl_kdd:   seed 1: sanitized attack-record sharing done
+2026-11-08 23:28:07  nsl_kdd:   seed 1: federated learning done (5 rounds)
+2026-11-08 23:28:09  nsl_kdd:   seed 1: centralized training done
+2026-11-08 23:28:10  nsl_kdd:     done in 15 s
+2026-11-08 23:28:10  nsl_kdd:   Step 3 and 4: train under the four training conditions and test, nothing withheld (check), seed 2
+2026-11-08 23:28:15  nsl_kdd:   seed 2: isolated training done
+2026-11-08 23:28:20  nsl_kdd:   seed 2: sanitized attack-record sharing done
+2026-11-08 23:28:22  nsl_kdd:   seed 2: federated learning done (5 rounds)
+2026-11-08 23:28:24  nsl_kdd:   seed 2: centralized training done
+2026-11-08 23:28:24  nsl_kdd:     done in 14 s
+2026-11-08 23:28:24  nsl_kdd:   Step 5: scorecard
+2026-11-08 23:28:25  nsl_kdd:   H1 sanitized attack-record sharing: +80.2 points [+78.3, +82.4]
+2026-11-08 23:28:25  nsl_kdd:   H2 federated learning: +35.5 points [+34.9, +36.1]
+2026-11-08 23:28:25  nsl_kdd:   done in 1.4 min
+2026-11-08 23:28:25  nsl_kdd: done in 1.4 min. H1 +80.2 [+78.3, +82.4]  H2 +35.5 [+34.9, +36.1]  H3 None
+2026-11-08 23:28:25  rt_iot2022: 68,458 records, 85 columns; starting
+2026-11-08 23:28:25  rt_iot2022:   Step 1: load the records and make the three organizations
+2026-11-08 23:28:26  rt_iot2022:     Organization A: withheld attack type DOS_SYN_Hping; training records 11,409 (6,666 withheld, 4,743 kept); test records of the withheld type 4,000
+2026-11-08 23:28:26  rt_iot2022:     Organization B: withheld attack type ARP_poisioning; training records 11,409 (1,291 withheld, 10,118 kept); test records of the withheld type 775
+2026-11-08 23:28:26  rt_iot2022:     Organization C: withheld attack type NMAP_UDP_SCAN; training records 11,410 (432 withheld, 10,978 kept); test records of the withheld type 259
+2026-11-08 23:28:26  rt_iot2022:   Step 2: sanitize. 85 columns in the raw data; 78 numbers plus the attack type kept; 6 removed
+2026-11-08 23:28:26  rt_iot2022:   Step 3 and 4: train under the four training conditions and test, withheld attack types, seed 0
+2026-11-08 23:28:29  rt_iot2022:   seed 0: isolated training done
+2026-11-08 23:28:34  rt_iot2022:   seed 0: sanitized attack-record sharing done
+2026-11-08 23:28:35  rt_iot2022:   seed 0: federated learning done (6 rounds)
+2026-11-08 23:28:36  rt_iot2022:   seed 0: centralized training done
+2026-11-08 23:28:36  rt_iot2022:     done in 11 s
+2026-11-08 23:28:36  rt_iot2022:   Step 3 and 4: train under the four training conditions and test, withheld attack types, seed 1
+2026-11-08 23:28:40  rt_iot2022:   seed 1: isolated training done
+2026-11-08 23:28:45  rt_iot2022:   seed 1: sanitized attack-record sharing done
+2026-11-08 23:28:46  rt_iot2022:   seed 1: federated learning done (6 rounds)
+2026-11-08 23:28:47  rt_iot2022:   seed 1: centralized training done
+2026-11-08 23:28:47  rt_iot2022:     done in 11 s
+2026-11-08 23:28:47  rt_iot2022:   Step 3 and 4: train under the four training conditions and test, withheld attack types, seed 2
+2026-11-08 23:28:51  rt_iot2022:   seed 2: isolated training done
+2026-11-08 23:28:56  rt_iot2022:   seed 2: sanitized attack-record sharing done
+2026-11-08 23:28:57  rt_iot2022:   seed 2: federated learning done (6 rounds)
+2026-11-08 23:28:58  rt_iot2022:   seed 2: centralized training done
+2026-11-08 23:28:58  rt_iot2022:     done in 11 s
+2026-11-08 23:28:58  rt_iot2022:   Step 3 and 4: train under the four training conditions and test, nothing withheld (check), seed 0
+2026-11-08 23:29:02  rt_iot2022:   seed 0: isolated training done
+2026-11-08 23:29:07  rt_iot2022:   seed 0: sanitized attack-record sharing done
+2026-11-08 23:29:08  rt_iot2022:   seed 0: federated learning done (5 rounds)
+2026-11-08 23:29:09  rt_iot2022:   seed 0: centralized training done
+2026-11-08 23:29:09  rt_iot2022:     done in 11 s
+2026-11-08 23:29:09  rt_iot2022:   Step 3 and 4: train under the four training conditions and test, nothing withheld (check), seed 1
+2026-11-08 23:29:14  rt_iot2022:   seed 1: isolated training done
+2026-11-08 23:29:18  rt_iot2022:   seed 1: sanitized attack-record sharing done
+2026-11-08 23:29:20  rt_iot2022:   seed 1: federated learning done (5 rounds)
+2026-11-08 23:29:21  rt_iot2022:   seed 1: centralized training done
+2026-11-08 23:29:21  rt_iot2022:     done in 12 s
+2026-11-08 23:29:21  rt_iot2022:   Step 3 and 4: train under the four training conditions and test, nothing withheld (check), seed 2
+2026-11-08 23:29:25  rt_iot2022:   seed 2: isolated training done
+2026-11-08 23:29:29  rt_iot2022:   seed 2: sanitized attack-record sharing done
+2026-11-08 23:29:31  rt_iot2022:   seed 2: federated learning done (5 rounds)
+2026-11-08 23:29:32  rt_iot2022:   seed 2: centralized training done
+2026-11-08 23:29:32  rt_iot2022:     done in 11 s
+2026-11-08 23:29:32  rt_iot2022:   Step 5: scorecard
+2026-11-08 23:29:34  rt_iot2022:   H1 sanitized attack-record sharing: +94.5 points [+93.5, +95.4]
+2026-11-08 23:29:34  rt_iot2022:   H2 federated learning: +73.4 points [+71.8, +75.0]
+2026-11-08 23:29:34  rt_iot2022:   done in 1.1 min
+2026-11-08 23:29:34  rt_iot2022: done in 1.1 min. H1 +94.5 [+93.5, +95.4]  H2 +73.4 [+71.8, +75.0]  H3 None
+2026-11-08 23:29:34  ton_iot_network: 119,994 records, 44 columns; starting
+2026-11-08 23:29:34  ton_iot_network:   Step 1: load the records and make the three organizations
+2026-11-08 23:29:35  ton_iot_network:     Organization A: withheld attack type ddos; training records 24,765 (2,120 withheld, 22,645 kept); test records of the withheld type 1,272
+2026-11-08 23:29:35  ton_iot_network:     Organization B: withheld attack type dos; training records 18,770 (2,493 withheld, 16,277 kept); test records of the withheld type 1,496
+2026-11-08 23:29:35  ton_iot_network:     Organization C: withheld attack type xss; training records 16,461 (3,533 withheld, 12,928 kept); test records of the withheld type 2,100
+2026-11-08 23:29:35  ton_iot_network:   Step 2: sanitize. 44 columns in the raw data; 12 numbers plus the attack type kept; 31 removed
+2026-11-08 23:29:35  ton_iot_network:   Step 3 and 4: train under the four training conditions and test, withheld attack types, seed 0
+2026-11-08 23:29:42  ton_iot_network:   seed 0: isolated training done
+2026-11-08 23:29:49  ton_iot_network:   seed 0: sanitized attack-record sharing done
+2026-11-08 23:29:51  ton_iot_network:   seed 0: federated learning done (7 rounds)
+2026-11-08 23:29:53  ton_iot_network:   seed 0: centralized training done
+2026-11-08 23:29:53  ton_iot_network:     done in 18 s
+2026-11-08 23:29:53  ton_iot_network:   Step 3 and 4: train under the four training conditions and test, withheld attack types, seed 1
+2026-11-08 23:30:00  ton_iot_network:   seed 1: isolated training done
+2026-11-08 23:30:07  ton_iot_network:   seed 1: sanitized attack-record sharing done
+2026-11-08 23:30:10  ton_iot_network:   seed 1: federated learning done (7 rounds)
+2026-11-08 23:30:12  ton_iot_network:   seed 1: centralized training done
+2026-11-08 23:30:12  ton_iot_network:     done in 19 s
+2026-11-08 23:30:12  ton_iot_network:   Step 3 and 4: train under the four training conditions and test, withheld attack types, seed 2
+2026-11-08 23:30:19  ton_iot_network:   seed 2: isolated training done
+2026-11-08 23:30:26  ton_iot_network:   seed 2: sanitized attack-record sharing done
+2026-11-08 23:30:28  ton_iot_network:   seed 2: federated learning done (7 rounds)
+2026-11-08 23:30:31  ton_iot_network:   seed 2: centralized training done
+2026-11-08 23:30:31  ton_iot_network:     done in 19 s
+2026-11-08 23:30:31  ton_iot_network:   Step 3 and 4: train under the four training conditions and test, nothing withheld (check), seed 0
+2026-11-08 23:30:38  ton_iot_network:   seed 0: isolated training done
+2026-11-08 23:30:46  ton_iot_network:   seed 0: sanitized attack-record sharing done
+2026-11-08 23:30:49  ton_iot_network:   seed 0: federated learning done (6 rounds)
+2026-11-08 23:30:51  ton_iot_network:   seed 0: centralized training done
+2026-11-08 23:30:51  ton_iot_network:     done in 20 s
+2026-11-08 23:30:51  ton_iot_network:   Step 3 and 4: train under the four training conditions and test, nothing withheld (check), seed 1
+2026-11-08 23:31:00  ton_iot_network:   seed 1: isolated training done
+2026-11-08 23:31:07  ton_iot_network:   seed 1: sanitized attack-record sharing done
+2026-11-08 23:31:10  ton_iot_network:   seed 1: federated learning done (6 rounds)
+2026-11-08 23:31:13  ton_iot_network:   seed 1: centralized training done
+2026-11-08 23:31:13  ton_iot_network:     done in 21 s
+2026-11-08 23:31:13  ton_iot_network:   Step 3 and 4: train under the four training conditions and test, nothing withheld (check), seed 2
+2026-11-08 23:31:21  ton_iot_network:   seed 2: isolated training done
+2026-11-08 23:31:28  ton_iot_network:   seed 2: sanitized attack-record sharing done
+2026-11-08 23:31:31  ton_iot_network:   seed 2: federated learning done (6 rounds)
+2026-11-08 23:31:33  ton_iot_network:   seed 2: centralized training done
+2026-11-08 23:31:33  ton_iot_network:     done in 21 s
+2026-11-08 23:31:33  ton_iot_network:   Step 5: scorecard
+2026-11-08 23:31:35  ton_iot_network:   Step 5b: can sanitized records be traced back to their source host?
+2026-11-08 23:31:53  ton_iot_network:   tracing Organization A: traced 15.1% against guessing 35.1%
+2026-11-08 23:32:08  ton_iot_network:   tracing Organization B: traced 0.1% against guessing 39.4%
+2026-11-08 23:32:24  ton_iot_network:   tracing Organization C: traced 21.1% against guessing 37.5%
+2026-11-08 23:32:24  ton_iot_network:   H1 sanitized attack-record sharing: +25.6 points [+24.9, +26.3]
+2026-11-08 23:32:24  ton_iot_network:   H2 federated learning: +0.0 points [+0.0, +0.0]
+2026-11-08 23:32:24  ton_iot_network:   done in 2.8 min
+2026-11-08 23:32:24  ton_iot_network: done in 2.8 min. H1 +25.6 [+24.9, +26.3]  H2 +0.0 [+0.0, +0.0]  H3 {'yes': False, 'companies': 3, 'low': -0.3932413328845507, 'high': -0.16417424605074196}
+2026-11-08 23:32:24  run_all: finished
+2026-11-08 23:34:04  run_all: 1 settings files, budget protocol (shuffle test on 5,000 records per side, 50-tree forests)
+2026-11-08 23:34:07  n_baiot: 222,500 records, 117 columns; starting
+2026-11-08 23:34:07  n_baiot:   Step 1: load the records and make the three organizations
+2026-11-08 23:34:09  n_baiot:     Organization A: withheld attack type gafgyt_combo; training records 41,250 (3,750 withheld, 37,500 kept); test records of the withheld type 2,250
+2026-11-08 23:34:09  n_baiot:     Organization B: withheld attack type gafgyt_junk; training records 35,000 (3,750 withheld, 31,250 kept); test records of the withheld type 2,250
+2026-11-08 23:34:09  n_baiot:     Organization C: withheld attack type gafgyt_scan; training records 35,000 (3,750 withheld, 31,250 kept); test records of the withheld type 2,250
+2026-11-08 23:34:09  n_baiot:   Step 2: sanitize. 117 columns in the raw data; 115 numbers plus the attack type kept; 1 removed
+2026-11-08 23:34:09  n_baiot:   Step 3 and 4: train under the four training conditions and test, withheld attack types, seed 0
+2026-11-08 23:34:24  n_baiot:   seed 0: isolated training done
+2026-11-08 23:34:39  n_baiot:   seed 0: sanitized attack-record sharing done
+2026-11-08 23:34:44  n_baiot:   seed 0: federated learning done (6 rounds)
+2026-11-08 23:34:49  n_baiot:   seed 0: centralized training done
+2026-11-08 23:34:49  n_baiot:     done in 41 s
+2026-11-08 23:34:49  n_baiot:   Step 3 and 4: train under the four training conditions and test, withheld attack types, seed 1
+2026-11-08 23:35:03  n_baiot:   seed 1: isolated training done
+2026-11-08 23:35:19  n_baiot:   seed 1: sanitized attack-record sharing done
+2026-11-08 23:35:24  n_baiot:   seed 1: federated learning done (6 rounds)
+2026-11-08 23:35:29  n_baiot:   seed 1: centralized training done
+2026-11-08 23:35:29  n_baiot:     done in 40 s
+2026-11-08 23:35:29  n_baiot:   Step 3 and 4: train under the four training conditions and test, withheld attack types, seed 2
+2026-11-08 23:35:43  n_baiot:   seed 2: isolated training done
+2026-11-08 23:35:59  n_baiot:   seed 2: sanitized attack-record sharing done
+2026-11-08 23:36:04  n_baiot:   seed 2: federated learning done (6 rounds)
+2026-11-08 23:36:09  n_baiot:   seed 2: centralized training done
+2026-11-08 23:36:09  n_baiot:     done in 40 s
+2026-11-08 23:36:09  n_baiot:   Step 3 and 4: train under the four training conditions and test, nothing withheld (check), seed 0
+2026-11-08 23:36:25  n_baiot:   seed 0: isolated training done
+2026-11-08 23:36:41  n_baiot:   seed 0: sanitized attack-record sharing done
+2026-11-08 23:36:47  n_baiot:   seed 0: federated learning done (6 rounds)
+2026-11-08 23:36:53  n_baiot:   seed 0: centralized training done
+2026-11-08 23:36:53  n_baiot:     done in 44 s
+2026-11-08 23:36:53  n_baiot:   Step 3 and 4: train under the four training conditions and test, nothing withheld (check), seed 1
+2026-11-08 23:37:09  n_baiot:   seed 1: isolated training done
+2026-11-08 23:37:25  n_baiot:   seed 1: sanitized attack-record sharing done
+2026-11-08 23:37:31  n_baiot:   seed 1: federated learning done (6 rounds)
+2026-11-08 23:37:37  n_baiot:   seed 1: centralized training done
+2026-11-08 23:37:37  n_baiot:     done in 45 s
+2026-11-08 23:37:37  n_baiot:   Step 3 and 4: train under the four training conditions and test, nothing withheld (check), seed 2
+2026-11-08 23:37:53  n_baiot:   seed 2: isolated training done
+2026-11-08 23:38:10  n_baiot:   seed 2: sanitized attack-record sharing done
+2026-11-08 23:38:15  n_baiot:   seed 2: federated learning done (6 rounds)
+2026-11-08 23:38:21  n_baiot:   seed 2: centralized training done
+2026-11-08 23:38:21  n_baiot:     done in 44 s
+2026-11-08 23:38:21  n_baiot:   Step 5: scorecard
+2026-11-08 23:38:22  n_baiot:   Step 5b: can sanitized records be traced back to their source host?
+2026-11-08 23:38:52  n_baiot:   tracing Organization A: traced 33.0% against guessing 33.6%
+2026-11-08 23:39:19  n_baiot:   tracing Organization B: traced 32.6% against guessing 41.2%
+2026-11-08 23:39:48  n_baiot:   tracing Organization C: traced 27.2% against guessing 41.0%
+2026-11-08 23:39:48  n_baiot:   H1 sanitized attack-record sharing: +97.3 points [+97.0, +97.5]
+2026-11-08 23:39:48  n_baiot:   H2 federated learning: +76.9 points [+76.3, +77.6]
+2026-11-08 23:39:48  n_baiot:   done in 5.7 min
+2026-11-08 23:39:48  n_baiot: done in 5.7 min. H1 +97.3 [+97.0, +97.5]  H2 +76.9 [+76.3, +77.6]  H3 {'yes': False, 'companies': 3, 'low': -0.13862666666666668, 'high': -0.005946666666666656}
+2026-11-08 23:39:48  run_all: finished

@@ -1,0 +1,529 @@
+{
+ "name": "IoT-23 (twelve scenarios, Zeek connection logs)",
+ "about": "Real IoT malware captures and honeypots from the Stratosphere laboratory; attack types from the detailed label. Responding host as the organization asset. Working sample of 102,373 connections.",
+ "made": "08 Nov 2026, 23:26",
+ "minutes": 2.3,
+ "budget": {
+  "name": "protocol (shuffle test on 5,000 records per side, 50-tree forests)",
+  "passes": 61,
+  "local_epochs": 4,
+  "resamples": 2000,
+  "trace_seeds": 5,
+  "trace_trees": 300,
+  "trace_permutations": 200,
+  "trace_perm_trees": 50,
+  "trace_perm_rows": 5000,
+  "seeds": [
+   0,
+   1,
+   2
+  ],
+  "max_rows": 0,
+  "nothing_withheld_check": true,
+  "do_trace": true
+ },
+ "seeds": [
+  0,
+  1,
+  2
+ ],
+ "software": {
+  "torch": "2.15.0",
+  "numpy": "2.5.4",
+  "pandas": "2.3.3"
+ },
+ "rules": {
+  "false_alarm_target": 0.05,
+  "min_gain": 0.05,
+  "fp_limit": 0.01,
+  "batch": 128,
+  "passes": 61,
+  "local_epochs": 4,
+  "resamples": 2000,
+  "network": "6-128-64-9",
+  "split": "by event inside each organization (records of one attack on one host under 15 s apart stay together; 50/20/30 train/validation/test by record count)",
+  "companies": "organizations = groups of hosts (each host belongs to one organization)"
+ },
+ "step1": {
+  "A": {
+   "name": "Organization A",
+   "never_seen": "PartOfAHorizontalPortScan",
+   "sources": 16755,
+   "train": 24394,
+   "withheld": 4155,
+   "train_after": 20239,
+   "train_normal": 4362,
+   "train_attack": 15877,
+   "val": 9806,
+   "test": 14858,
+   "test_never_seen": 2494,
+   "events_never_seen": 2482
+  },
+  "B": {
+   "name": "Organization B",
+   "never_seen": "C&C",
+   "sources": 16755,
+   "train": 14168,
+   "withheld": 3357,
+   "train_after": 10811,
+   "train_normal": 4359,
+   "train_attack": 6452,
+   "val": 5629,
+   "test": 8609,
+   "test_never_seen": 2064,
+   "events_never_seen": 193
+  },
+  "C": {
+   "name": "Organization C",
+   "never_seen": "Attack",
+   "sources": 16755,
+   "train": 12436,
+   "withheld": 1413,
+   "train_after": 11023,
+   "train_normal": 4692,
+   "train_attack": 6331,
+   "val": 4975,
+   "test": 7470,
+   "test_never_seen": 851,
+   "events_never_seen": 342
+  }
+ },
+ "step2": {
+  "raw_columns": 20,
+  "kept_numbers": 6,
+  "removed": 13,
+  "kept": [
+   "duration",
+   "orig_bytes",
+   "resp_bytes",
+   "missed_bytes",
+   "orig_pkts",
+   "resp_pkts"
+  ],
+  "removed_columns": [
+   "attack_type",
+   "conn_state",
+   "history",
+   "id.orig_h",
+   "id.orig_p",
+   "id.resp_h",
+   "id.resp_p",
+   "label",
+   "orig_ip_bytes",
+   "proto",
+   "resp_ip_bytes",
+   "scenario",
+   "service",
+   "ts"
+  ]
+ },
+ "classes": [
+  "Attack",
+  "C&C",
+  "C&C-HeartBeat",
+  "C&C-HeartBeat-Attack",
+  "C&C-PartOfAHorizontalPortScan",
+  "C&C-Torii",
+  "DDoS",
+  "PartOfAHorizontalPortScan"
+ ],
+ "benign": "Benign",
+ "companies": {
+  "A": {
+   "name": "Organization A",
+   "never_seen": "PartOfAHorizontalPortScan",
+   "test_rows": 2494,
+   "named": {
+    "1_isolated": 0.0,
+    "2_sharing": 0.8635391606522319,
+    "3_federated": 0.0,
+    "4_centralized": 0.9061748195669607
+   },
+   "flagged": {
+    "1_isolated": 0.9073777064955895,
+    "2_sharing": 0.9073777064955895,
+    "3_federated": 0.7634322373696873,
+    "4_centralized": 0.9073777064955895
+   },
+   "false_alarm": {
+    "1_isolated": 0.039343009931245225,
+    "2_sharing": 0.033358798064680416,
+    "3_federated": 0.04379933791698498,
+    "4_centralized": 0.04367201426024955
+   },
+   "bytes": {
+    "1_isolated": 0,
+    "2_sharing": 319575,
+    "3_federated": 545272,
+    "4_centralized": 505975
+   },
+   "steps": {
+    "1_isolated": 9699,
+    "2_sharing": 9699,
+    "3_federated": 9268,
+    "4_centralized": 9699
+   },
+   "named_check": {
+    "1_isolated": 0.8432237369687249,
+    "2_sharing": 0.8432237369687249,
+    "3_federated": 0.904971932638332,
+    "4_centralized": 0.8845228548516438
+   },
+   "gain": {
+    "2_sharing": {
+     "gain": 0.8635391606522319,
+     "lo": 0.8515069500133654,
+     "hi": 0.8760035976179218,
+     "events": 2482
+    },
+    "3_federated": {
+     "gain": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "events": 2482
+    },
+    "4_centralized": {
+     "gain": 0.9061748195669607,
+     "lo": 0.8948197705416973,
+     "hi": 0.9174025918717948,
+     "events": 2482
+    }
+   },
+   "gain_flagged": {
+    "2_sharing": {
+     "gain": 0.0,
+     "lo": 0.0,
+     "hi": 0.0
+    },
+    "3_federated": {
+     "gain": -0.14394546912590223,
+     "lo": -0.15055520989833665,
+     "hi": -0.13729425933360095
+    },
+    "4_centralized": {
+     "gain": 0.0,
+     "lo": 0.0,
+     "hi": 0.0
+    }
+   },
+   "records_received": 12783,
+   "trace": {
+    "records": 15000,
+    "sources": 27,
+    "traced": 0.0,
+    "guessing": 0.8014,
+    "balanced": 0.0,
+    "advantage": -0.8014,
+    "lo": -0.8426174042938862,
+    "hi": -0.747709405514102,
+    "p_value": 1.0,
+    "note": "the sender has 4,292 hosts; the test covers its 50 busiest hosts only"
+   }
+  },
+  "B": {
+   "name": "Organization B",
+   "never_seen": "C&C",
+   "test_rows": 2064,
+   "named": {
+    "1_isolated": 0.0,
+    "2_sharing": 0.0,
+    "3_federated": 0.5760658914728682,
+    "4_centralized": 0.0
+   },
+   "flagged": {
+    "1_isolated": 0.622577519379845,
+    "2_sharing": 0.6233850129198967,
+    "3_federated": 0.6232235142118863,
+    "4_centralized": 0.623062015503876
+   },
+   "false_alarm": {
+    "1_isolated": 0.04994903160040775,
+    "2_sharing": 0.05020387359836901,
+    "3_federated": 0.05275229357798165,
+    "4_centralized": 0.053644240570846075
+   },
+   "bytes": {
+    "1_isolated": 0,
+    "2_sharing": 555200,
+    "3_federated": 545272,
+    "4_centralized": 270275
+   },
+   "steps": {
+    "1_isolated": 9699,
+    "2_sharing": 9699,
+    "3_federated": 9268,
+    "4_centralized": 9699
+   },
+   "named_check": {
+    "1_isolated": 0.4883720930232558,
+    "2_sharing": 0.21414728682170545,
+    "3_federated": 0.27099483204134367,
+    "4_centralized": 0.3501291989664083
+   },
+   "gain": {
+    "2_sharing": {
+     "gain": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "events": 193
+    },
+    "3_federated": {
+     "gain": 0.5760658914728682,
+     "lo": 0.5539396392581362,
+     "hi": 0.5969082935348942,
+     "events": 193
+    },
+    "4_centralized": {
+     "gain": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "events": 193
+    }
+   },
+   "gain_flagged": {
+    "2_sharing": {
+     "gain": 0.000807493540051607,
+     "lo": -0.0009089060495383356,
+     "hi": 0.0030242557845117594
+    },
+    "3_federated": {
+     "gain": 0.0006459948320411968,
+     "lo": -0.0003883769604672904,
+     "hi": 0.001955082036831815
+    },
+    "4_centralized": {
+     "gain": 0.0004844961240310086,
+     "lo": 0.0,
+     "hi": 0.0013807080963265381
+    }
+   },
+   "records_received": 22208,
+   "trace": {
+    "records": 1819,
+    "sources": 22,
+    "traced": 0.032435404068169325,
+    "guessing": 0.47058823529411764,
+    "balanced": 0.045454545454545456,
+    "advantage": -0.43815283122594834,
+    "lo": -0.6046095578241719,
+    "hi": -0.3034113360962226,
+    "p_value": 0.009950248756218905,
+    "note": "the sender has 8,478 hosts; the test covers its 50 busiest hosts only"
+   }
+  },
+  "C": {
+   "name": "Organization C",
+   "never_seen": "Attack",
+   "test_rows": 851,
+   "named": {
+    "1_isolated": 0.0,
+    "2_sharing": 0.9941245593419507,
+    "3_federated": 0.1335683509596553,
+    "4_centralized": 0.6333725029377203
+   },
+   "flagged": {
+    "1_isolated": 0.39874657265961616,
+    "2_sharing": 0.9952996474735606,
+    "3_federated": 0.5534665099882491,
+    "4_centralized": 0.8143360752056404
+   },
+   "false_alarm": {
+    "1_isolated": 0.04237689393939394,
+    "2_sharing": 0.03456439393939394,
+    "3_federated": 0.025804924242424244,
+    "4_centralized": 0.034209280303030304
+   },
+   "bytes": {
+    "1_isolated": 0,
+    "2_sharing": 558225,
+    "3_federated": 545272,
+    "4_centralized": 275575
+   },
+   "steps": {
+    "1_isolated": 9699,
+    "2_sharing": 9699,
+    "3_federated": 9268,
+    "4_centralized": 9699
+   },
+   "named_check": {
+    "1_isolated": 0.9964747356051703,
+    "2_sharing": 0.9937328632980806,
+    "3_federated": 0.020368194281237758,
+    "4_centralized": 0.6314140227183705
+   },
+   "gain": {
+    "2_sharing": {
+     "gain": 0.9941245593419507,
+     "lo": 0.9876307808303894,
+     "hi": 0.998000986593765,
+     "events": 342
+    },
+    "3_federated": {
+     "gain": 0.1335683509596553,
+     "lo": 0.090628287843027,
+     "hi": 0.20791844025539674,
+     "events": 342
+    },
+    "4_centralized": {
+     "gain": 0.6333725029377203,
+     "lo": 0.43503642567465917,
+     "hi": 0.7433113402990452,
+     "events": 342
+    }
+   },
+   "gain_flagged": {
+    "2_sharing": {
+     "gain": 0.5965530748139445,
+     "lo": 0.49901203925596266,
+     "hi": 0.6658265210213322
+    },
+    "3_federated": {
+     "gain": 0.15471993732863315,
+     "lo": -0.005444173264584667,
+     "hi": 0.2479645625209031
+    },
+    "4_centralized": {
+     "gain": 0.4155895025460244,
+     "lo": 0.23172779105194632,
+     "hi": 0.5287686229160642
+    }
+   },
+   "records_received": 22329,
+   "trace": {
+    "records": 2160,
+    "sources": 16,
+    "traced": 0.0004629629629629629,
+    "guessing": 0.9513888888888888,
+    "balanced": 0.0625,
+    "advantage": -0.9509259259259258,
+    "lo": -0.9615578203060235,
+    "hi": -0.939155513440509,
+    "p_value": 0.004975124378109453,
+    "note": "the sender has 7,865 hosts; the test covers its 50 busiest hosts only"
+   }
+  }
+ },
+ "sharing_minus_federated": {
+  "A": {
+   "diff": 0.8635391606522319,
+   "lo": 0.8511675127855283,
+   "hi": 0.8762723514391351,
+   "events": 2482
+  },
+  "B": {
+   "diff": -0.5760658914728682,
+   "lo": -0.5988022922570527,
+   "hi": -0.55398312904342,
+   "events": 193
+  },
+  "C": {
+   "diff": 0.8605562083822953,
+   "lo": 0.7819114839061647,
+   "hi": 0.9056985691167744,
+   "events": 342
+  },
+  "mean": {
+   "diff": 0.38267649252055297,
+   "lo": 0.3556592861545836,
+   "hi": 0.40015814366291313
+  }
+ },
+ "hypotheses": {
+  "H1": {
+   "gain": 0.6192212399980609,
+   "lo": 0.6145248800500258,
+   "hi": 0.6235553105675333,
+   "clears": true
+  },
+  "H2": {
+   "gain": 0.23654474747750784,
+   "lo": 0.22075790705062737,
+   "hi": 0.2628291385073554,
+   "clears": true
+  },
+  "H3": {
+   "yes": false,
+   "companies": 3,
+   "low": -0.9509259259259258,
+   "high": -0.43815283122594834
+  },
+  "H3_note": null
+ },
+ "checks": {
+  "pooled": {
+   "gain": 0.5131824408348936,
+   "lo": 0.44669054533484676,
+   "hi": 0.5498193005644108,
+   "clears": true
+  },
+  "flagged": {
+   "H1": {
+    "gain": 0.19912018945133203,
+    "lo": 0.16681304689741897,
+    "hi": 0.22211371032038726,
+    "clears": true
+   },
+   "H2": {
+    "gain": 0.0038068210115907073,
+    "lo": -0.04954039856434382,
+    "hi": 0.035272504650219465,
+    "clears": false
+   }
+  },
+  "nothing_withheld": {
+   "H1": {
+    "gain": -0.09232222616954672,
+    "lo": -0.09630576401120626,
+    "hi": -0.088579743630606,
+    "clears": false
+   },
+   "H2": {
+    "gain": -0.3772452022120793,
+    "lo": -0.3927168588392054,
+    "hi": -0.36206669926859214,
+    "clears": false
+   }
+  },
+  "benign_val_rows": {
+   "A": 1744,
+   "B": 1743,
+   "C": 1876
+  },
+  "rounds": 7
+ },
+ "verdicts": {
+  "A": {
+   "1_isolated": "baseline",
+   "4_centralized": "reference",
+   "2_sharing": "gain met",
+   "3_federated": "not worth it (gain not met)"
+  },
+  "B": {
+   "1_isolated": "baseline",
+   "4_centralized": "reference",
+   "2_sharing": "not worth it (gain not met)",
+   "3_federated": "gain met"
+  },
+  "C": {
+   "1_isolated": "baseline",
+   "4_centralized": "reference",
+   "2_sharing": "gain met",
+   "3_federated": "gain met"
+  }
+ },
+ "id": "iot23",
+ "study_role": "tool test",
+ "info": {
+  "short": "IoT-23",
+  "maker": "Stratosphere Laboratory, CTU Prague (Garcia, Parmisano and Erquiaga, 2020)",
+  "year": 2020,
+  "what": "Twenty IoT malware captures (Mirai, Torii, Okiru, Hajime and others) and three benign device captures; this sample uses twelve of them.",
+  "records": "102,373 connections sampled by detailed label",
+  "attacks": "C&C, DDoS, horizontal port scan, attack, heartbeat and file-download variants",
+  "host": "responding IP",
+  "role": "Tool test",
+  "source": "https://www.stratosphereips.org/datasets-iot23",
+  "licence": "CC BY 4.0."
+ },
+ "computed": "computed by this tool on 08 November 2026 with the protocol (shuffle test on 5,000 records per side, 50-tree forests) budget on the working sample described above; the split is the tool's own"
+}

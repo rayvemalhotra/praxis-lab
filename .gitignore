@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+.venv/
+cache/
+
+.streamlit/secrets.toml
+.access
+tunnel.url
+ACCESS_PASSWORD.txt
+.pytest_cache/
+*.log
+*.out
+screenshots/

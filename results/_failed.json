@@ -1,0 +1,7 @@
+{
+ "cidds002": {
+  "error": "at least three attack types are needed so that each organization can withhold a different one",
+  "when": "2026-11-08 23:09",
+  "trace": "Traceback (most recent call last):\n  File \"/Users/malhotra/Documents/Claude/Projects/Dissertation/Praxis_Lab/tools/run_all.py\", line 68, in <module>\n    card = engine.run(cfg, frame=frame, budget=budget, log=lambda m: log(f\"{did}:   {m}\"), cache=os.path.join(HERE, \"cache\", did))\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/malhotra/Documents/Claude/Projects/Dissertation/Praxis_Lab/engine.py\", line 552, in run\n    data = Data(cfg, frame=frame, budget=budget, log=log)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/malhotra/Documents/Claude/Projects/Dissertation/Praxis_Lab/engine.py\", line 103, in __init__\n    self.companies = cfg[\"companies\"] if isinstance(cfg.get(\"companies\"), dict) else self._auto_companies()\n                                                                                     ^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/malhotra/Documents/Claude/Projects/Dissertation/Praxis_Lab/engine.py\", line 281, in _auto_companies\n    raise ValueError(\"at least three attack types are needed so that each organization can withhold a different one\")\nValueError: at least three attack types are needed so that each organization can withhold a different one\n"
+ }
+}

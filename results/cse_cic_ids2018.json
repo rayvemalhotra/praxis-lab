@@ -1,0 +1,559 @@
+{
+ "name": "CSE-CIC-IDS2018 (seven days)",
+ "about": "Large enterprise testbed on AWS, flows from seven attack days: brute force, DoS, DDoS, web attacks and botnet. No host column in these day files, so organizations are random thirds. Working sample of up to 120,000 flows.",
+ "made": "08 Nov 2026, 23:11",
+ "minutes": 2.0,
+ "budget": {
+  "name": "protocol (shuffle test on 5,000 records per side, 50-tree forests)",
+  "passes": 61,
+  "local_epochs": 4,
+  "resamples": 2000,
+  "trace_seeds": 5,
+  "trace_trees": 300,
+  "trace_permutations": 200,
+  "trace_perm_trees": 50,
+  "trace_perm_rows": 5000,
+  "seeds": [
+   0,
+   1,
+   2
+  ],
+  "max_rows": 0,
+  "nothing_withheld_check": true,
+  "do_trace": true
+ },
+ "seeds": [
+  0,
+  1,
+  2
+ ],
+ "software": {
+  "torch": "2.15.0",
+  "numpy": "2.5.4",
+  "pandas": "2.3.3"
+ },
+ "rules": {
+  "false_alarm_target": 0.05,
+  "min_gain": 0.05,
+  "fp_limit": 0.01,
+  "batch": 128,
+  "passes": 61,
+  "local_epochs": 4,
+  "resamples": 2000,
+  "network": "66-128-64-13",
+  "split": "by event inside each organization (records of one attack on one host under 15 s apart stay together; 50/20/30 train/validation/test by record count)",
+  "companies": "organizations = three random thirds of the records (no host column in this data)"
+ },
+ "step1": {
+  "A": {
+   "name": "Organization A",
+   "never_seen": "FTP-BruteForce",
+   "sources": null,
+   "train": 19701,
+   "withheld": 2246,
+   "train_after": 17455,
+   "train_normal": 2296,
+   "train_attack": 15159,
+   "val": 8135,
+   "test": 12193,
+   "test_never_seen": 1435,
+   "events_never_seen": 22
+  },
+  "B": {
+   "name": "Organization B",
+   "never_seen": "SSH-Bruteforce",
+   "sources": null,
+   "train": 19690,
+   "withheld": 2270,
+   "train_after": 17420,
+   "train_normal": 2260,
+   "train_attack": 15160,
+   "val": 8064,
+   "test": 12275,
+   "test_never_seen": 1439,
+   "events_never_seen": 22
+  },
+  "C": {
+   "name": "Organization C",
+   "never_seen": "DoS attacks-SlowHTTPTest",
+   "sources": null,
+   "train": 19778,
+   "withheld": 2301,
+   "train_after": 17477,
+   "train_normal": 2254,
+   "train_attack": 15223,
+   "val": 7918,
+   "test": 12334,
+   "test_never_seen": 1446,
+   "events_never_seen": 22
+  }
+ },
+ "step2": {
+  "raw_columns": 80,
+  "kept_numbers": 66,
+  "removed": 13,
+  "kept": [
+   "Flow Duration",
+   "Tot Fwd Pkts",
+   "Tot Bwd Pkts",
+   "TotLen Fwd Pkts",
+   "TotLen Bwd Pkts",
+   "Fwd Pkt Len Max",
+   "Fwd Pkt Len Min",
+   "Fwd Pkt Len Mean",
+   "Fwd Pkt Len Std",
+   "Bwd Pkt Len Max",
+   "Bwd Pkt Len Min",
+   "Bwd Pkt Len Mean",
+   "Bwd Pkt Len Std",
+   "Flow Byts/s",
+   "Flow Pkts/s",
+   "Flow IAT Mean",
+   "Flow IAT Std",
+   "Flow IAT Max",
+   "Flow IAT Min",
+   "Fwd IAT Tot",
+   "Fwd IAT Mean",
+   "Fwd IAT Std",
+   "Fwd IAT Max",
+   "Fwd IAT Min",
+   "Bwd IAT Tot",
+   "Bwd IAT Mean",
+   "Bwd IAT Std",
+   "Bwd IAT Max",
+   "Bwd IAT Min",
+   "Fwd PSH Flags",
+   "Fwd Header Len",
+   "Bwd Header Len",
+   "Fwd Pkts/s",
+   "Bwd Pkts/s",
+   "Pkt Len Min",
+   "Pkt Len Max",
+   "Pkt Len Mean",
+   "Pkt Len Std",
+   "Pkt Len Var",
+   "FIN Flag Cnt",
+   "SYN Flag Cnt",
+   "RST Flag Cnt",
+   "PSH Flag Cnt",
+   "ACK Flag Cnt",
+   "URG Flag Cnt",
+   "ECE Flag Cnt",
+   "Down/Up Ratio",
+   "Pkt Size Avg",
+   "Fwd Seg Size Avg",
+   "Bwd Seg Size Avg",
+   "Subflow Fwd Pkts",
+   "Subflow Fwd Byts",
+   "Subflow Bwd Pkts",
+   "Subflow Bwd Byts",
+   "Init Fwd Win Byts",
+   "Init Bwd Win Byts",
+   "Fwd Act Data Pkts",
+   "Fwd Seg Size Min",
+   "Active Mean",
+   "Active Std",
+   "Active Max",
+   "Active Min",
+   "Idle Mean",
+   "Idle Std",
+   "Idle Max",
+   "Idle Min"
+  ],
+  "removed_columns": [
+   "Bwd Blk Rate Avg",
+   "Bwd Byts/b Avg",
+   "Bwd PSH Flags",
+   "Bwd Pkts/b Avg",
+   "Bwd URG Flags",
+   "CWE Flag Count",
+   "Dst IP",
+   "Dst Port",
+   "Flow ID",
+   "Fwd Blk Rate Avg",
+   "Fwd Byts/b Avg",
+   "Fwd Pkts/b Avg",
+   "Fwd URG Flags",
+   "Label",
+   "Protocol",
+   "Src IP",
+   "Src Port",
+   "Timestamp"
+  ]
+ },
+ "classes": [
+  "Bot",
+  "Brute Force -Web",
+  "Brute Force -XSS",
+  "DDOS attack-HOIC",
+  "DDOS attack-LOIC-UDP",
+  "DoS attacks-GoldenEye",
+  "DoS attacks-Hulk",
+  "DoS attacks-SlowHTTPTest",
+  "DoS attacks-Slowloris",
+  "FTP-BruteForce",
+  "SQL Injection",
+  "SSH-Bruteforce"
+ ],
+ "benign": "Benign",
+ "companies": {
+  "A": {
+   "name": "Organization A",
+   "never_seen": "FTP-BruteForce",
+   "test_rows": 1435,
+   "named": {
+    "1_isolated": 0.0,
+    "2_sharing": 0.7231126596980255,
+    "3_federated": 0.9105691056910569,
+    "4_centralized": 0.548664343786295
+   },
+   "flagged": {
+    "1_isolated": 1.0,
+    "2_sharing": 1.0,
+    "3_federated": 1.0,
+    "4_centralized": 1.0
+   },
+   "false_alarm": {
+    "1_isolated": 0.041726618705035974,
+    "2_sharing": 0.04100719424460431,
+    "3_federated": 0.04244604316546763,
+    "4_centralized": 0.04700239808153477
+   },
+   "bytes": {
+    "1_isolated": 0,
+    "2_sharing": 8051495,
+    "3_federated": 707080,
+    "4_centralized": 4625575
+   },
+   "steps": {
+    "1_isolated": 8357,
+    "2_sharing": 8357,
+    "3_federated": 8220,
+    "4_centralized": 8357
+   },
+   "named_check": {
+    "1_isolated": 0.7203252032520325,
+    "2_sharing": 0.8520325203252033,
+    "3_federated": 0.5423925667828107,
+    "4_centralized": 0.7031358885017421
+   },
+   "gain": {
+    "2_sharing": {
+     "gain": 0.7231126596980256,
+     "lo": 0.7054805059190828,
+     "hi": 0.7407420357420358,
+     "events": 22
+    },
+    "3_federated": {
+     "gain": 0.910569105691057,
+     "lo": 0.8988242079810577,
+     "hi": 0.9214220458110326,
+     "events": 22
+    },
+    "4_centralized": {
+     "gain": 0.5486643437862949,
+     "lo": 0.5287829943528657,
+     "hi": 0.5691296327957674,
+     "events": 22
+    }
+   },
+   "gain_flagged": {
+    "2_sharing": {
+     "gain": 0.0,
+     "lo": 0.0,
+     "hi": 0.0
+    },
+    "3_federated": {
+     "gain": 0.0,
+     "lo": 0.0,
+     "hi": 0.0
+    },
+    "4_centralized": {
+     "gain": 0.0,
+     "lo": 0.0,
+     "hi": 0.0
+    }
+   },
+   "records_received": 30383,
+   "trace": null
+  },
+  "B": {
+   "name": "Organization B",
+   "never_seen": "SSH-Bruteforce",
+   "test_rows": 1439,
+   "named": {
+    "1_isolated": 0.0,
+    "2_sharing": 1.0,
+    "3_federated": 0.752605976372481,
+    "4_centralized": 1.0
+   },
+   "flagged": {
+    "1_isolated": 0.000926569376882094,
+    "2_sharing": 1.0,
+    "3_federated": 0.9955987954598101,
+    "4_centralized": 1.0
+   },
+   "false_alarm": {
+    "1_isolated": 0.059750646906610215,
+    "2_sharing": 0.06257351211479652,
+    "3_federated": 0.0632792284168431,
+    "4_centralized": 0.05998588567395907
+   },
+   "bytes": {
+    "1_isolated": 0,
+    "2_sharing": 8051230,
+    "3_federated": 707080,
+    "4_centralized": 4616300
+   },
+   "steps": {
+    "1_isolated": 8357,
+    "2_sharing": 8357,
+    "3_federated": 8220,
+    "4_centralized": 8357
+   },
+   "named_check": {
+    "1_isolated": 1.0,
+    "2_sharing": 1.0,
+    "3_federated": 1.0,
+    "4_centralized": 1.0
+   },
+   "gain": {
+    "2_sharing": {
+     "gain": 1.0,
+     "lo": 1.0,
+     "hi": 1.0,
+     "events": 22
+    },
+    "3_federated": {
+     "gain": 0.752605976372481,
+     "lo": 0.7404021161889898,
+     "hi": 0.762919716123309,
+     "events": 22
+    },
+    "4_centralized": {
+     "gain": 1.0,
+     "lo": 1.0,
+     "hi": 1.0,
+     "events": 22
+    }
+   },
+   "gain_flagged": {
+    "2_sharing": {
+     "gain": 0.9990734306231179,
+     "lo": 0.9981734846848878,
+     "hi": 0.9997758350145707
+    },
+    "3_federated": {
+     "gain": 0.9946722260829282,
+     "lo": 0.9926316891000794,
+     "hi": 0.9965182269168337
+    },
+    "4_centralized": {
+     "gain": 0.9990734306231179,
+     "lo": 0.9981220326421768,
+     "hi": 0.999773708296142
+    }
+   },
+   "records_received": 30382,
+   "trace": null
+  },
+  "C": {
+   "name": "Organization C",
+   "never_seen": "DoS attacks-SlowHTTPTest",
+   "test_rows": 1446,
+   "named": {
+    "1_isolated": 0.0,
+    "2_sharing": 0.6288612263715998,
+    "3_federated": 0.4384508990318119,
+    "4_centralized": 0.797141539880129
+   },
+   "flagged": {
+    "1_isolated": 1.0,
+    "2_sharing": 1.0,
+    "3_federated": 1.0,
+    "4_centralized": 1.0
+   },
+   "false_alarm": {
+    "1_isolated": 0.051263710061993324,
+    "2_sharing": 0.05150214592274679,
+    "3_federated": 0.05102527420123987,
+    "4_centralized": 0.05054840247973295
+   },
+   "bytes": {
+    "1_isolated": 0,
+    "2_sharing": 8034535,
+    "3_federated": 707080,
+    "4_centralized": 4631405
+   },
+   "steps": {
+    "1_isolated": 8357,
+    "2_sharing": 8357,
+    "3_federated": 8220,
+    "4_centralized": 8357
+   },
+   "named_check": {
+    "1_isolated": 0.6224066390041494,
+    "2_sharing": 0.8248040571692025,
+    "3_federated": 0.9167819271553711,
+    "4_centralized": 0.6406177962194559
+   },
+   "gain": {
+    "2_sharing": {
+     "gain": 0.6288612263715997,
+     "lo": 0.6119123230721168,
+     "hi": 0.6463112795576406,
+     "events": 22
+    },
+    "3_federated": {
+     "gain": 0.4384508990318119,
+     "lo": 0.40948925840433686,
+     "hi": 0.4679186317515871,
+     "events": 22
+    },
+    "4_centralized": {
+     "gain": 0.7971415398801291,
+     "lo": 0.7868666010214282,
+     "hi": 0.8076925307353282,
+     "events": 22
+    }
+   },
+   "gain_flagged": {
+    "2_sharing": {
+     "gain": 0.0,
+     "lo": 0.0,
+     "hi": 0.0
+    },
+    "3_federated": {
+     "gain": 0.0,
+     "lo": 0.0,
+     "hi": 0.0
+    },
+    "4_centralized": {
+     "gain": 0.0,
+     "lo": 0.0,
+     "hi": 0.0
+    }
+   },
+   "records_received": 30319,
+   "trace": null
+  }
+ },
+ "sharing_minus_federated": {
+  "A": {
+   "diff": -0.18745644599303135,
+   "lo": -0.20600448692631065,
+   "hi": -0.16844927499055576,
+   "events": 22
+  },
+  "B": {
+   "diff": 0.24739402362751906,
+   "lo": 0.23714720369664266,
+   "hi": 0.25918096008346736,
+   "events": 22
+  },
+  "C": {
+   "diff": 0.1904103273397878,
+   "lo": 0.17788274652224895,
+   "hi": 0.2026211341217451,
+   "events": 22
+  },
+  "mean": {
+   "diff": 0.08344930165809183,
+   "lo": 0.0750833581611568,
+   "hi": 0.09192963797239577
+  }
+ },
+ "hypotheses": {
+  "H1": {
+   "gain": 0.7839912953565418,
+   "lo": 0.7759375398597189,
+   "hi": 0.7918943563574833,
+   "clears": true
+  },
+  "H2": {
+   "gain": 0.70054199369845,
+   "lo": 0.6889351182401823,
+   "hi": 0.7111607193976571,
+   "clears": true
+  },
+  "H3": null,
+  "H3_note": "this data has no device or host column, so tracing cannot be tested"
+ },
+ "checks": {
+  "pooled": {
+   "gain": 0.7819352945554746,
+   "lo": 0.7745867690593913,
+   "hi": 0.7895921151398654,
+   "clears": true
+  },
+  "flagged": {
+   "H1": {
+    "gain": 0.33302447687437264,
+    "lo": 0.3327244948949626,
+    "hi": 0.33325861167152354,
+    "clears": true
+   },
+   "H2": {
+    "gain": 0.3315574086943094,
+    "lo": 0.3308772297000265,
+    "hi": 0.3321727423056112,
+    "clears": true
+   }
+  },
+  "nothing_withheld": {
+   "H1": {
+    "gain": 0.11136824507940794,
+    "lo": 0.10599597344177626,
+    "hi": 0.11656422347662622,
+    "clears": true
+   },
+   "H2": {
+    "gain": 0.03881421722733336,
+    "lo": 0.03266479819592342,
+    "hi": 0.044717931617363135,
+    "clears": false
+   }
+  },
+  "benign_val_rows": {
+   "A": 920,
+   "B": 930,
+   "C": 955
+  },
+  "rounds": 5
+ },
+ "verdicts": {
+  "A": {
+   "1_isolated": "baseline",
+   "4_centralized": "reference",
+   "2_sharing": "gain met",
+   "3_federated": "gain met"
+  },
+  "B": {
+   "1_isolated": "baseline",
+   "4_centralized": "reference",
+   "2_sharing": "gain met",
+   "3_federated": "gain met"
+  },
+  "C": {
+   "1_isolated": "baseline",
+   "4_centralized": "reference",
+   "2_sharing": "gain met",
+   "3_federated": "gain met"
+  }
+ },
+ "id": "cse_cic_ids2018",
+ "study_role": "tool test",
+ "info": {
+  "short": "CSE-CIC-IDS2018",
+  "maker": "Communications Security Establishment and the Canadian Institute for Cybersecurity (Sharafaldin, Habibi Lashkari and Ghorbani, 2018)",
+  "year": 2018,
+  "what": "An AWS testbed of 420 machines and 30 servers attacked over ten days; this sample uses seven day files of CICFlowMeter flows.",
+  "records": "up to 120,000 flows sampled by label",
+  "attacks": "brute force (FTP, SSH), DoS (GoldenEye, Slowloris, Hulk, SlowHTTPTest), DDoS (LOIC-UDP, HOIC), web attacks, botnet",
+  "host": "none in the day files",
+  "role": "Tool test",
+  "source": "https://www.unb.ca/cic/datasets/ids-2018.html",
+  "licence": "Cite the makers; analysis use."
+ },
+ "computed": "computed by this tool on 08 November 2026 with the protocol (shuffle test on 5,000 records per side, 50-tree forests) budget on the working sample described above; the split is the tool's own"
+}

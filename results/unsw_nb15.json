@@ -1,0 +1,554 @@
+{
+ "name": "UNSW-NB15 (Kaggle)",
+ "about": "Enterprise network testbed (not industrial), flow records, 9 attack categories. Destination host is the company asset. Working sample of 103,617 records.",
+ "made": "08 Nov 2026, 21:10",
+ "minutes": 0.0,
+ "budget": {
+  "name": "protocol",
+  "passes": 61,
+  "local_epochs": 4,
+  "resamples": 2000,
+  "trace_seeds": 5,
+  "trace_trees": 300,
+  "trace_permutations": 200,
+  "seeds": [
+   0,
+   1,
+   2
+  ],
+  "max_rows": 0,
+  "nothing_withheld_check": true,
+  "do_trace": true
+ },
+ "seeds": [
+  0,
+  1,
+  2
+ ],
+ "software": {
+  "torch": "2.6.0+cpu",
+  "numpy": "2.2.6",
+  "pandas": "2.2.3"
+ },
+ "rules": {
+  "false_alarm_target": 0.05,
+  "min_gain": 0.05,
+  "fp_limit": 0.01,
+  "batch": 128,
+  "passes": 61,
+  "local_epochs": 4,
+  "resamples": 2000,
+  "network": "34-128-64-10",
+  "split": "by event inside each organization (records of one attack on one host under 15 s apart stay together; 50/20/30 train/validation/test by record count)",
+  "companies": "organizations = groups of hosts (each host belongs to one organization)"
+ },
+ "step1": {
+  "A": {
+   "name": "Organization A",
+   "never_seen": "Exploits",
+   "sources": 15,
+   "train": 19090,
+   "withheld": 2224,
+   "train_after": 16866,
+   "train_normal": 7871,
+   "train_attack": 8995,
+   "val": 7660,
+   "test": 12197,
+   "test_never_seen": 1335,
+   "events_never_seen": 511
+  },
+  "B": {
+   "name": "Organization B",
+   "never_seen": "Fuzzers",
+   "sources": 14,
+   "train": 16905,
+   "withheld": 1610,
+   "train_after": 15295,
+   "train_normal": 7566,
+   "train_attack": 7729,
+   "val": 7200,
+   "test": 10635,
+   "test_never_seen": 971,
+   "events_never_seen": 116
+  },
+  "C": {
+   "name": "Organization C",
+   "never_seen": "Reconnaissance",
+   "sources": 14,
+   "train": 14856,
+   "withheld": 1994,
+   "train_after": 12862,
+   "train_normal": 4558,
+   "train_attack": 8304,
+   "val": 5771,
+   "test": 9303,
+   "test_never_seen": 1327,
+   "events_never_seen": 793
+  }
+ },
+ "step2": {
+  "raw_columns": 49,
+  "kept_numbers": 34,
+  "removed": 14,
+  "kept": [
+   "dur",
+   "sbytes",
+   "dbytes",
+   "sttl",
+   "dttl",
+   "sloss",
+   "dloss",
+   "Sload",
+   "Dload",
+   "Spkts",
+   "Dpkts",
+   "swin",
+   "dwin",
+   "stcpb",
+   "dtcpb",
+   "smeansz",
+   "dmeansz",
+   "trans_depth",
+   "res_bdy_len",
+   "Sjit",
+   "Djit",
+   "Sintpkt",
+   "Dintpkt",
+   "tcprtt",
+   "synack",
+   "ackdat",
+   "ct_state_ttl",
+   "ct_srv_src",
+   "ct_srv_dst",
+   "ct_dst_ltm",
+   "ct_src_ ltm",
+   "ct_src_dport_ltm",
+   "ct_dst_sport_ltm",
+   "ct_dst_src_ltm"
+  ],
+  "removed_columns": [
+   "Label",
+   "Ltime",
+   "Stime",
+   "attack_cat",
+   "ct_flw_http_mthd",
+   "ct_ftp_cmd",
+   "dsport",
+   "dstip",
+   "is_ftp_login",
+   "is_sm_ips_ports",
+   "proto",
+   "service",
+   "sport",
+   "srcip",
+   "state"
+  ]
+ },
+ "classes": [
+  "Analysis",
+  "Backdoor",
+  "DoS",
+  "Exploits",
+  "Fuzzers",
+  "Generic",
+  "Reconnaissance",
+  "Shellcode",
+  "Worms"
+ ],
+ "benign": "Normal",
+ "companies": {
+  "A": {
+   "name": "Organization A",
+   "never_seen": "Exploits",
+   "test_rows": 1335,
+   "named": {
+    "1_isolated": 0.0,
+    "2_sharing": 0.3752808988764045,
+    "3_federated": 0.02546816479400749,
+    "4_centralized": 0.3877652933832709
+   },
+   "flagged": {
+    "1_isolated": 1.0,
+    "2_sharing": 1.0,
+    "3_federated": 1.0,
+    "4_centralized": 1.0
+   },
+   "false_alarm": {
+    "1_isolated": 0.047488004515946945,
+    "2_sharing": 0.04036127575500988,
+    "3_federated": 0.049957662997459774,
+    "4_centralized": 0.037186000564493366
+   },
+   "bytes": {
+    "1_isolated": 0,
+    "2_sharing": 2196521,
+    "3_federated": 642528,
+    "4_centralized": 2310642
+   },
+   "steps": {
+    "1_isolated": 8052,
+    "2_sharing": 8052,
+    "3_federated": 8472,
+    "4_centralized": 8052
+   },
+   "named_check": {
+    "1_isolated": 0.4117353308364544,
+    "2_sharing": 0.4601747815230961,
+    "3_federated": 0.44818976279650435,
+    "4_centralized": 0.49463171036204745
+   },
+   "gain": {
+    "2_sharing": {
+     "gain": 0.3752808988764045,
+     "lo": 0.2454561926387164,
+     "hi": 0.6357301899728335,
+     "events": 511
+    },
+    "3_federated": {
+     "gain": 0.025468164794007486,
+     "lo": 0.014357178874970955,
+     "hi": 0.04481596313573782,
+     "events": 511
+    },
+    "4_centralized": {
+     "gain": 0.38776529338327087,
+     "lo": 0.2548579848827109,
+     "hi": 0.6570782702223606,
+     "events": 511
+    }
+   },
+   "gain_flagged": {
+    "2_sharing": {
+     "gain": 0.0,
+     "lo": 0.0,
+     "hi": 0.0
+    },
+    "3_federated": {
+     "gain": 0.0,
+     "lo": 0.0,
+     "hi": 0.0
+    },
+    "4_centralized": {
+     "gain": 0.0,
+     "lo": 0.0,
+     "hi": 0.0
+    }
+   },
+   "records_received": 16033,
+   "trace": {
+    "records": 8995,
+    "sources": 3,
+    "traced": 0.33823235130628126,
+    "guessing": 0.38810450250138967,
+    "balanced": 0.3439585221810315,
+    "advantage": -0.049872151195108405,
+    "lo": -0.1081907365569117,
+    "hi": 0.05052415563596035,
+    "p_value": 0.004975124378109453
+   }
+  },
+  "B": {
+   "name": "Organization B",
+   "never_seen": "Fuzzers",
+   "test_rows": 971,
+   "named": {
+    "1_isolated": 0.0,
+    "2_sharing": 0.8746996223824236,
+    "3_federated": 0.44833504977686234,
+    "4_centralized": 0.8510127016821146
+   },
+   "flagged": {
+    "1_isolated": 0.9917610710607621,
+    "2_sharing": 1.0,
+    "3_federated": 0.9927909371781668,
+    "4_centralized": 1.0
+   },
+   "false_alarm": {
+    "1_isolated": 0.0512481644640235,
+    "2_sharing": 0.04574155653450807,
+    "3_federated": 0.04530102790014684,
+    "4_centralized": 0.04302496328928047
+   },
+   "bytes": {
+    "1_isolated": 0,
+    "2_sharing": 2369963,
+    "3_federated": 642528,
+    "4_centralized": 2095415
+   },
+   "steps": {
+    "1_isolated": 8052,
+    "2_sharing": 8052,
+    "3_federated": 8472,
+    "4_centralized": 8052
+   },
+   "named_check": {
+    "1_isolated": 0.8534157226227257,
+    "2_sharing": 0.8904909028492961,
+    "3_federated": 0.8619979402677652,
+    "4_centralized": 0.8619979402677652
+   },
+   "gain": {
+    "2_sharing": {
+     "gain": 0.8746996223824236,
+     "lo": 0.8288048935158273,
+     "hi": 0.9112245301591212,
+     "events": 116
+    },
+    "3_federated": {
+     "gain": 0.44833504977686234,
+     "lo": 0.36119708994708993,
+     "hi": 0.5447490889019947,
+     "events": 116
+    },
+    "4_centralized": {
+     "gain": 0.8510127016821148,
+     "lo": 0.8084554810336503,
+     "hi": 0.8898640297876937,
+     "events": 116
+    }
+   },
+   "gain_flagged": {
+    "2_sharing": {
+     "gain": 0.008238928939237944,
+     "lo": 0.002790127543748369,
+     "hi": 0.01546027040592262
+    },
+    "3_federated": {
+     "gain": 0.001029866117404743,
+     "lo": -0.0032088575438958796,
+     "hi": 0.005360384584988538
+    },
+    "4_centralized": {
+     "gain": 0.008238928939237944,
+     "lo": 0.0026819442037774644,
+     "hi": 0.015284888487342912
+    }
+   },
+   "records_received": 17299,
+   "trace": {
+    "records": 7729,
+    "sources": 3,
+    "traced": 0.2657523612369,
+    "guessing": 0.5179195238711347,
+    "balanced": 0.3515289555172093,
+    "advantage": -0.2521671626342347,
+    "lo": -0.42943936974551716,
+    "hi": -0.06768399701875089,
+    "p_value": 0.004975124378109453
+   }
+  },
+  "C": {
+   "name": "Organization C",
+   "never_seen": "Reconnaissance",
+   "test_rows": 1327,
+   "named": {
+    "1_isolated": 0.0,
+    "2_sharing": 0.742778196433057,
+    "3_federated": 0.4747550866616428,
+    "4_centralized": 0.7503139914594322
+   },
+   "flagged": {
+    "1_isolated": 0.9992464204973625,
+    "2_sharing": 0.9992464204973625,
+    "3_federated": 1.0,
+    "4_centralized": 0.9994976136649084
+   },
+   "false_alarm": {
+    "1_isolated": 0.05892378865351838,
+    "2_sharing": 0.05308010713416119,
+    "3_federated": 0.05514974433893353,
+    "4_centralized": 0.06087168249330412
+   },
+   "bytes": {
+    "1_isolated": 0,
+    "2_sharing": 2291188,
+    "3_federated": 642528,
+    "4_centralized": 1762094
+   },
+   "steps": {
+    "1_isolated": 8052,
+    "2_sharing": 8052,
+    "3_federated": 8472,
+    "4_centralized": 8052
+   },
+   "named_check": {
+    "1_isolated": 0.7415222305953278,
+    "2_sharing": 0.7530771163024367,
+    "3_federated": 0.7575985933182617,
+    "4_centralized": 0.7362471740768651
+   },
+   "gain": {
+    "2_sharing": {
+     "gain": 0.742778196433057,
+     "lo": 0.5560691122205143,
+     "hi": 0.9034854296046516,
+     "events": 793
+    },
+    "3_federated": {
+     "gain": 0.4747550866616428,
+     "lo": 0.38600451857052864,
+     "hi": 0.5615615615615615,
+     "events": 793
+    },
+    "4_centralized": {
+     "gain": 0.7503139914594322,
+     "lo": 0.5661759599601973,
+     "hi": 0.9125897034582661,
+     "events": 793
+    }
+   },
+   "gain_flagged": {
+    "2_sharing": {
+     "gain": 0.0,
+     "lo": 0.0,
+     "hi": 0.0
+    },
+    "3_federated": {
+     "gain": 0.0007535795026375469,
+     "lo": 0.0,
+     "hi": 0.0026857654431512445
+    },
+    "4_centralized": {
+     "gain": 0.00025119316754584897,
+     "lo": 0.0,
+     "hi": 0.0008826907095845044
+    }
+   },
+   "records_received": 16724,
+   "trace": {
+    "records": 8304,
+    "sources": 4,
+    "traced": 0.15081888246628133,
+    "guessing": 0.45303468208092484,
+    "balanced": 0.21058538465506996,
+    "advantage": -0.3022157996146435,
+    "lo": -0.4083582469674102,
+    "hi": -0.1826529572566629,
+    "p_value": 0.004975124378109453
+   }
+  }
+ },
+ "sharing_minus_federated": {
+  "A": {
+   "diff": 0.349812734082397,
+   "lo": 0.22414804052131607,
+   "hi": 0.6002766710934041,
+   "events": 511
+  },
+  "B": {
+   "diff": 0.42636457260556127,
+   "lo": 0.3471103496072695,
+   "hi": 0.5024189894411648,
+   "events": 116
+  },
+  "C": {
+   "diff": 0.2680231097714142,
+   "lo": 0.16129000651103395,
+   "hi": 0.36371770999213837,
+   "events": 793
+  },
+  "mean": {
+   "diff": 0.34806680548645746,
+   "lo": 0.2837765477098031,
+   "hi": 0.43774529721176453
+  }
+ },
+ "hypotheses": {
+  "H1": {
+   "gain": 0.6642529058972949,
+   "lo": 0.5898209213672122,
+   "hi": 0.7694506286158149,
+   "clears": true
+  },
+  "H2": {
+   "gain": 0.31618610041083756,
+   "lo": 0.274076641447879,
+   "hi": 0.3625972814140781,
+   "clears": true
+  },
+  "H3": {
+   "yes": false,
+   "companies": 3,
+   "low": -0.3022157996146435,
+   "high": -0.049872151195108405
+  },
+  "H3_note": null
+ },
+ "checks": {
+  "pooled": {
+   "gain": 0.6630306621749393,
+   "lo": 0.5830952889675003,
+   "hi": 0.770478710995124,
+   "clears": true
+  },
+  "flagged": {
+   "H1": {
+    "gain": 0.002746309646412648,
+    "lo": 0.0009300425145827896,
+    "hi": 0.005153423468640873,
+    "clears": false
+   },
+   "H2": {
+    "gain": 0.00059448187334743,
+    "lo": -0.0008908038178057566,
+    "hi": 0.002139032509964284,
+    "clears": false
+   }
+  },
+  "nothing_withheld": {
+   "H1": {
+    "gain": 0.03235650554010696,
+    "lo": 0.01938476644586137,
+    "hi": 0.04583487419635693,
+    "clears": false
+   },
+   "H2": {
+    "gain": 0.0203710041093411,
+    "lo": 0.0022350488215849115,
+    "hi": 0.03810678397925225,
+    "clears": false
+   }
+  },
+  "benign_val_rows": {
+   "A": 3150,
+   "B": 3027,
+   "C": 1826
+  },
+  "rounds": 6
+ },
+ "verdicts": {
+  "A": {
+   "1_isolated": "baseline",
+   "4_centralized": "reference",
+   "2_sharing": "gain met",
+   "3_federated": "not worth it (gain not met)"
+  },
+  "B": {
+   "1_isolated": "baseline",
+   "4_centralized": "reference",
+   "2_sharing": "gain met",
+   "3_federated": "gain met"
+  },
+  "C": {
+   "1_isolated": "baseline",
+   "4_centralized": "reference",
+   "2_sharing": "gain met",
+   "3_federated": "gain met"
+  }
+ },
+ "id": "unsw_nb15",
+ "study_role": "tool test",
+ "info": {
+  "short": "UNSW-NB15",
+  "maker": "Moustafa and Slay (2015), UNSW Canberra Cyber Range",
+  "year": 2015,
+  "what": "An enterprise (office) network testbed, not industrial, recorded as network flows with 49 fields. Included to see whether the method holds outside IoT.",
+  "records": "103,617 records used, a class-stratified sample of 2,540,044",
+  "attacks": "9 attack categories: exploits, fuzzers, generic, reconnaissance, DoS, analysis, backdoor, shellcode, worms",
+  "host": "destination IP",
+  "role": "Tool check",
+  "role_text": "Same system, new data, and the only non-industrial set. Not study evidence.",
+  "source": "https://www.kaggle.com/datasets/mrwellsdavid/unsw-nb15"
+ },
+ "computed": "training results cached from the 5 and 6 October 2026 runs of system.py; scorecard recomputed by this tool"
+}

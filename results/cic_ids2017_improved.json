@@ -1,0 +1,618 @@
+{
+ "name": "CIC-IDS2017 improved (Engelen, Troia and Vanhoef, 2021)",
+ "about": "The same five days re-extracted with a corrected CICFlowMeter and relabelled; 'Attempted' labels mark attacks that did not complete. Working sample of 120,069 flows.",
+ "made": "08 Nov 2026, 23:05",
+ "minutes": 2.9,
+ "budget": {
+  "name": "protocol (shuffle test on 5,000 records per side, 50-tree forests)",
+  "passes": 61,
+  "local_epochs": 4,
+  "resamples": 2000,
+  "trace_seeds": 5,
+  "trace_trees": 300,
+  "trace_permutations": 200,
+  "trace_perm_trees": 50,
+  "trace_perm_rows": 5000,
+  "seeds": [
+   0,
+   1,
+   2
+  ],
+  "max_rows": 0,
+  "nothing_withheld_check": true,
+  "do_trace": true
+ },
+ "seeds": [
+  0,
+  1,
+  2
+ ],
+ "software": {
+  "torch": "2.15.0",
+  "numpy": "2.5.4",
+  "pandas": "2.3.3"
+ },
+ "rules": {
+  "false_alarm_target": 0.05,
+  "min_gain": 0.05,
+  "fp_limit": 0.01,
+  "batch": 128,
+  "passes": 61,
+  "local_epochs": 4,
+  "resamples": 2000,
+  "network": "80-128-64-27",
+  "split": "by event inside each organization (records of one attack on one host under 15 s apart stay together; 50/20/30 train/validation/test by record count)",
+  "companies": "organizations = three random thirds of the records (the hosts in this data are too few or too one-sided to form three organizations)"
+ },
+ "step1": {
+  "A": {
+   "name": "Organization A",
+   "never_seen": "Infiltration - Portscan",
+   "sources": 1433,
+   "train": 19605,
+   "withheld": 3117,
+   "train_after": 16488,
+   "train_normal": 3165,
+   "train_attack": 13323,
+   "val": 8072,
+   "test": 12346,
+   "test_never_seen": 1928,
+   "events_never_seen": 41
+  },
+  "B": {
+   "name": "Organization B",
+   "never_seen": "DDoS",
+   "sources": 1445,
+   "train": 19638,
+   "withheld": 3111,
+   "train_after": 16527,
+   "train_normal": 3165,
+   "train_attack": 13362,
+   "val": 7910,
+   "test": 12475,
+   "test_never_seen": 1954,
+   "events_never_seen": 29
+  },
+  "C": {
+   "name": "Organization C",
+   "never_seen": "DoS Hulk",
+   "sources": 1470,
+   "train": 19683,
+   "withheld": 3132,
+   "train_after": 16551,
+   "train_normal": 3163,
+   "train_attack": 13388,
+   "val": 7996,
+   "test": 12344,
+   "test_never_seen": 1936,
+   "events_never_seen": 32
+  }
+ },
+ "step2": {
+  "raw_columns": 91,
+  "kept_numbers": 80,
+  "removed": 10,
+  "kept": [
+   "Flow Duration",
+   "Total Fwd Packet",
+   "Total Bwd packets",
+   "Total Length of Fwd Packet",
+   "Total Length of Bwd Packet",
+   "Fwd Packet Length Max",
+   "Fwd Packet Length Min",
+   "Fwd Packet Length Mean",
+   "Fwd Packet Length Std",
+   "Bwd Packet Length Max",
+   "Bwd Packet Length Min",
+   "Bwd Packet Length Mean",
+   "Bwd Packet Length Std",
+   "Flow Bytes/s",
+   "Flow Packets/s",
+   "Flow IAT Mean",
+   "Flow IAT Std",
+   "Flow IAT Max",
+   "Flow IAT Min",
+   "Fwd IAT Total",
+   "Fwd IAT Mean",
+   "Fwd IAT Std",
+   "Fwd IAT Max",
+   "Fwd IAT Min",
+   "Bwd IAT Total",
+   "Bwd IAT Mean",
+   "Bwd IAT Std",
+   "Bwd IAT Max",
+   "Bwd IAT Min",
+   "Fwd PSH Flags",
+   "Bwd PSH Flags",
+   "Fwd URG Flags",
+   "Fwd RST Flags",
+   "Bwd RST Flags",
+   "Fwd Header Length",
+   "Bwd Header Length",
+   "Fwd Packets/s",
+   "Bwd Packets/s",
+   "Packet Length Min",
+   "Packet Length Max",
+   "Packet Length Mean",
+   "Packet Length Std",
+   "Packet Length Variance",
+   "FIN Flag Count",
+   "SYN Flag Count",
+   "RST Flag Count",
+   "PSH Flag Count",
+   "ACK Flag Count",
+   "URG Flag Count",
+   "CWR Flag Count",
+   "ECE Flag Count",
+   "Down/Up Ratio",
+   "Average Packet Size",
+   "Fwd Segment Size Avg",
+   "Bwd Segment Size Avg",
+   "Fwd Bytes/Bulk Avg",
+   "Fwd Packet/Bulk Avg",
+   "Fwd Bulk Rate Avg",
+   "Bwd Bytes/Bulk Avg",
+   "Bwd Packet/Bulk Avg",
+   "Bwd Bulk Rate Avg",
+   "Subflow Fwd Packets",
+   "Subflow Fwd Bytes",
+   "Subflow Bwd Packets",
+   "Subflow Bwd Bytes",
+   "FWD Init Win Bytes",
+   "Bwd Init Win Bytes",
+   "Fwd Act Data Pkts",
+   "Fwd Seg Size Min",
+   "Active Mean",
+   "Active Std",
+   "Active Max",
+   "Active Min",
+   "Idle Mean",
+   "Idle Std",
+   "Idle Max",
+   "Idle Min",
+   "ICMP Code",
+   "ICMP Type",
+   "Total TCP Flow Time"
+  ],
+  "removed_columns": [
+   "Attempted Category",
+   "Bwd URG Flags",
+   "Dst IP",
+   "Dst Port",
+   "Flow ID",
+   "Label",
+   "Protocol",
+   "Src IP",
+   "Src Port",
+   "Timestamp",
+   "id"
+  ]
+ },
+ "classes": [
+  "Botnet",
+  "Botnet - Attempted",
+  "DDoS",
+  "DoS GoldenEye",
+  "DoS GoldenEye - Attempted",
+  "DoS Hulk",
+  "DoS Hulk - Attempted",
+  "DoS Slowhttptest",
+  "DoS Slowhttptest - Attempted",
+  "DoS Slowloris",
+  "DoS Slowloris - Attempted",
+  "FTP-Patator",
+  "FTP-Patator - Attempted",
+  "Heartbleed",
+  "Infiltration",
+  "Infiltration - Attempted",
+  "Infiltration - Portscan",
+  "Portscan",
+  "SSH-Patator",
+  "SSH-Patator - Attempted",
+  "Web Attack - Brute Force",
+  "Web Attack - Brute Force - Attempted",
+  "Web Attack - SQL Injection",
+  "Web Attack - SQL Injection - Attempted",
+  "Web Attack - XSS",
+  "Web Attack - XSS - Attempted"
+ ],
+ "benign": "BENIGN",
+ "companies": {
+  "A": {
+   "name": "Organization A",
+   "never_seen": "Infiltration - Portscan",
+   "test_rows": 1928,
+   "named": {
+    "1_isolated": 0.0,
+    "2_sharing": 0.9154564315352697,
+    "3_federated": 0.7050484094052559,
+    "4_centralized": 0.8971300138312586
+   },
+   "flagged": {
+    "1_isolated": 0.9349930843706776,
+    "2_sharing": 0.9996542185338866,
+    "3_federated": 0.9963692946058091,
+    "4_centralized": 0.9993084370677732
+   },
+   "false_alarm": {
+    "1_isolated": 0.057894736842105256,
+    "2_sharing": 0.06315789473684211,
+    "3_federated": 0.05526315789473685,
+    "4_centralized": 0.06263157894736843
+   },
+   "bytes": {
+    "1_isolated": 0,
+    "2_sharing": 8586750,
+    "3_federated": 815160,
+    "4_centralized": 5292648
+   },
+   "steps": {
+    "1_isolated": 7930,
+    "2_sharing": 7930,
+    "3_federated": 7780,
+    "4_centralized": 7930
+   },
+   "named_check": {
+    "1_isolated": 0.918222683264177,
+    "2_sharing": 0.9346473029045642,
+    "3_federated": 0.9230636237897648,
+    "4_centralized": 0.9263485477178423
+   },
+   "gain": {
+    "2_sharing": {
+     "gain": 0.9154564315352697,
+     "lo": 0.8873803668048625,
+     "hi": 0.9407500634239065,
+     "events": 41
+    },
+    "3_federated": {
+     "gain": 0.7050484094052559,
+     "lo": 0.631503922762441,
+     "hi": 0.7807295678646965,
+     "events": 41
+    },
+    "4_centralized": {
+     "gain": 0.8971300138312587,
+     "lo": 0.8675372040043421,
+     "hi": 0.9271920808785394,
+     "events": 41
+    }
+   },
+   "gain_flagged": {
+    "2_sharing": {
+     "gain": 0.06466113416320884,
+     "lo": 0.04235782585259699,
+     "hi": 0.09005577890908324
+    },
+    "3_federated": {
+     "gain": 0.06137621023513129,
+     "lo": 0.03874143990162231,
+     "hi": 0.08610027504503118
+    },
+    "4_centralized": {
+     "gain": 0.06431535269709532,
+     "lo": 0.04358906599294397,
+     "hi": 0.08923484971926217
+    }
+   },
+   "records_received": 26750,
+   "trace": {
+    "records": 13321,
+    "sources": 2,
+    "traced": 0.04161849710982659,
+    "guessing": 0.9550334059004579,
+    "balanced": 0.021789026882565635,
+    "advantage": -0.9134149087906314,
+    "lo": -0.9392555250605024,
+    "hi": -0.8834360017084659,
+    "p_value": 0.004975124378109453,
+    "note": "the sender has 852 hosts; the test covers its 50 busiest hosts only"
+   }
+  },
+  "B": {
+   "name": "Organization B",
+   "never_seen": "DDoS",
+   "test_rows": 1954,
+   "named": {
+    "1_isolated": 0.0,
+    "2_sharing": 1.0,
+    "3_federated": 1.0,
+    "4_centralized": 1.0
+   },
+   "flagged": {
+    "1_isolated": 0.9993176390310475,
+    "2_sharing": 1.0,
+    "3_federated": 1.0,
+    "4_centralized": 1.0
+   },
+   "false_alarm": {
+    "1_isolated": 0.05169996494917631,
+    "2_sharing": 0.046617595513494564,
+    "3_federated": 0.0506484402383456,
+    "4_centralized": 0.05257623554153523
+   },
+   "bytes": {
+    "1_isolated": 0,
+    "2_sharing": 8574231,
+    "3_federated": 815160,
+    "4_centralized": 5305167
+   },
+   "steps": {
+    "1_isolated": 7930,
+    "2_sharing": 7930,
+    "3_federated": 7780,
+    "4_centralized": 7930
+   },
+   "named_check": {
+    "1_isolated": 1.0,
+    "2_sharing": 1.0,
+    "3_federated": 1.0,
+    "4_centralized": 1.0
+   },
+   "gain": {
+    "2_sharing": {
+     "gain": 1.0,
+     "lo": 1.0,
+     "hi": 1.0,
+     "events": 29
+    },
+    "3_federated": {
+     "gain": 1.0,
+     "lo": 1.0,
+     "hi": 1.0,
+     "events": 29
+    },
+    "4_centralized": {
+     "gain": 1.0,
+     "lo": 1.0,
+     "hi": 1.0,
+     "events": 29
+    }
+   },
+   "gain_flagged": {
+    "2_sharing": {
+     "gain": 0.0006823609689526888,
+     "lo": 0.0,
+     "hi": 0.0015488067835154188
+    },
+    "3_federated": {
+     "gain": 0.0006823609689526888,
+     "lo": 0.0,
+     "hi": 0.001600149892933663
+    },
+    "4_centralized": {
+     "gain": 0.0006823609689526888,
+     "lo": 0.0,
+     "hi": 0.0015691405041545726
+    }
+   },
+   "records_received": 26711,
+   "trace": {
+    "records": 13362,
+    "sources": 12,
+    "traced": 0.04187995809010627,
+    "guessing": 0.7394851070199072,
+    "balanced": 0.05075538688571335,
+    "advantage": -0.697605148929801,
+    "lo": -0.7538671642770947,
+    "hi": -0.6332498930728514,
+    "p_value": 0.004975124378109453,
+    "note": "the sender has 839 hosts; the test covers its 50 busiest hosts only"
+   }
+  },
+  "C": {
+   "name": "Organization C",
+   "never_seen": "DoS Hulk",
+   "test_rows": 1936,
+   "named": {
+    "1_isolated": 0.0,
+    "2_sharing": 0.9994834710743802,
+    "3_federated": 0.9986225895316805,
+    "4_centralized": 0.9994834710743802
+   },
+   "flagged": {
+    "1_isolated": 0.7992424242424242,
+    "2_sharing": 1.0,
+    "3_federated": 0.9998278236914601,
+    "4_centralized": 1.0
+   },
+   "false_alarm": {
+    "1_isolated": 0.048771929824561404,
+    "2_sharing": 0.04491228070175438,
+    "3_federated": 0.047543859649122805,
+    "4_centralized": 0.04245614035087719
+   },
+   "bytes": {
+    "1_isolated": 0,
+    "2_sharing": 8565885,
+    "3_federated": 815160,
+    "4_centralized": 5312871
+   },
+   "steps": {
+    "1_isolated": 7930,
+    "2_sharing": 7930,
+    "3_federated": 7780,
+    "4_centralized": 7930
+   },
+   "named_check": {
+    "1_isolated": 0.9870867768595041,
+    "2_sharing": 0.9994834710743802,
+    "3_federated": 0.9994834710743802,
+    "4_centralized": 0.9994834710743802
+   },
+   "gain": {
+    "2_sharing": {
+     "gain": 0.9994834710743802,
+     "lo": 0.9984016408822407,
+     "hi": 1.0,
+     "events": 32
+    },
+    "3_federated": {
+     "gain": 0.9986225895316805,
+     "lo": 0.9969372128637061,
+     "hi": 0.9998350712609825,
+     "events": 32
+    },
+    "4_centralized": {
+     "gain": 0.9994834710743802,
+     "lo": 0.9984024493005532,
+     "hi": 1.0,
+     "events": 32
+    }
+   },
+   "gain_flagged": {
+    "2_sharing": {
+     "gain": 0.2007575757575757,
+     "lo": 0.1775977161970758,
+     "hi": 0.22920776365556036
+    },
+    "3_federated": {
+     "gain": 0.20058539944903575,
+     "lo": 0.17722871932515333,
+     "hi": 0.23005591888712631
+    },
+    "4_centralized": {
+     "gain": 0.2007575757575757,
+     "lo": 0.17705833445348465,
+     "hi": 0.22958530683228762
+    }
+   },
+   "records_received": 26685,
+   "trace": {
+    "records": 13388,
+    "sources": 12,
+    "traced": 0.034224678816850915,
+    "guessing": 0.7346877801015835,
+    "balanced": 0.02098877243273132,
+    "advantage": -0.7004631012847327,
+    "lo": -0.7578364891798578,
+    "hi": -0.6393995347276829,
+    "p_value": 0.014925373134328358,
+    "note": "the sender has 905 hosts; the test covers its 50 busiest hosts only"
+   }
+  }
+ },
+ "sharing_minus_federated": {
+  "A": {
+   "diff": 0.21040802213001375,
+   "lo": 0.14445069454177648,
+   "hi": 0.27364687081208366,
+   "events": 41
+  },
+  "B": {
+   "diff": 0.0,
+   "lo": 0.0,
+   "hi": 0.0,
+   "events": 29
+  },
+  "C": {
+   "diff": 0.0008608815426996985,
+   "lo": 0.00016212120209955493,
+   "hi": 0.001853917482823178,
+   "events": 32
+  },
+  "mean": {
+   "diff": 0.07042296789090448,
+   "lo": 0.0485124156842364,
+   "hi": 0.09157397498357268
+  }
+ },
+ "hypotheses": {
+  "H1": {
+   "gain": 0.9716466342032165,
+   "lo": 0.9623059365347814,
+   "hi": 0.9799831056291681,
+   "clears": true
+  },
+  "H2": {
+   "gain": 0.9012236663123122,
+   "lo": 0.8768204379556799,
+   "hi": 0.9264952684844456,
+   "clears": true
+  },
+  "H3": {
+   "yes": false,
+   "companies": 3,
+   "low": -0.9134149087906314,
+   "high": -0.697605148929801
+  },
+  "H3_note": null
+ },
+ "checks": {
+  "pooled": {
+   "gain": 0.9655378283018795,
+   "lo": 0.9557969387264268,
+   "hi": 0.9755671991339716,
+   "clears": true
+  },
+  "flagged": {
+   "H1": {
+    "gain": 0.08870035696324574,
+    "lo": 0.07758845852282992,
+    "hi": 0.10060338545439526,
+    "clears": true
+   },
+   "H2": {
+    "gain": 0.08754799021770658,
+    "lo": 0.07593610714544222,
+    "hi": 0.09988280118234137,
+    "clears": true
+   }
+  },
+  "nothing_withheld": {
+   "H1": {
+    "gain": 0.009607104618421106,
+    "lo": 0.005187101321105912,
+    "hi": 0.015169342654444445,
+    "clears": false
+   },
+   "H2": {
+    "gain": 0.005745878246821268,
+    "lo": 0.0019749720821396117,
+    "hi": 0.010899293652223474,
+    "clears": false
+   }
+  },
+  "benign_val_rows": {
+   "A": 1265,
+   "B": 1263,
+   "C": 1268
+  },
+  "rounds": 5
+ },
+ "verdicts": {
+  "A": {
+   "1_isolated": "baseline",
+   "4_centralized": "reference",
+   "2_sharing": "gain met",
+   "3_federated": "gain met"
+  },
+  "B": {
+   "1_isolated": "baseline",
+   "4_centralized": "reference",
+   "2_sharing": "gain met",
+   "3_federated": "gain met"
+  },
+  "C": {
+   "1_isolated": "baseline",
+   "4_centralized": "reference",
+   "2_sharing": "gain met",
+   "3_federated": "gain met"
+  }
+ },
+ "id": "cic_ids2017_improved",
+ "study_role": "tool test",
+ "info": {
+  "short": "CIC-IDS2017 improved",
+  "maker": "DistriNet, KU Leuven (Engelen, Troia and Vanhoef, 2021; Liu, Engelen, Lynar, Essam and Joosen, 2022)",
+  "year": 2021,
+  "what": "CIC-IDS2017 traffic re-extracted after fixing CICFlowMeter errors (flow termination, TCP flags, duplicates) and relabelled flow by flow.",
+  "records": "120,069 flows sampled by label",
+  "attacks": "13 attack types, each also as an 'Attempted' variant",
+  "host": "destination IP",
+  "role": "Tool test",
+  "source": "https://intrusion-detection.distrinet-research.be/CNS2022/",
+  "licence": "Cite the makers; analysis use."
+ },
+ "computed": "computed by this tool on 08 November 2026 with the protocol (shuffle test on 5,000 records per side, 50-tree forests) budget on the working sample described above; the split is the tool's own"
+}

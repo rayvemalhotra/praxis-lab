@@ -1,0 +1,505 @@
+{
+ "name": "CTU-13 botnet families (NetTiSA flows)",
+ "about": "Botnet traffic of the CTU-13 captures as NetTiSA extended flows, labelled by botnet family; few attack families with enough records. Source host as the organization asset. 41,070 flows.",
+ "made": "08 Nov 2026, 23:12",
+ "minutes": 0.7,
+ "budget": {
+  "name": "protocol (shuffle test on 5,000 records per side, 50-tree forests)",
+  "passes": 61,
+  "local_epochs": 4,
+  "resamples": 2000,
+  "trace_seeds": 5,
+  "trace_trees": 300,
+  "trace_permutations": 200,
+  "trace_perm_trees": 50,
+  "trace_perm_rows": 5000,
+  "seeds": [
+   0,
+   1,
+   2
+  ],
+  "max_rows": 0,
+  "nothing_withheld_check": true,
+  "do_trace": true
+ },
+ "seeds": [
+  0,
+  1,
+  2
+ ],
+ "software": {
+  "torch": "2.15.0",
+  "numpy": "2.5.4",
+  "pandas": "2.3.3"
+ },
+ "rules": {
+  "false_alarm_target": 0.05,
+  "min_gain": 0.05,
+  "fp_limit": 0.01,
+  "batch": 128,
+  "passes": 61,
+  "local_epochs": 4,
+  "resamples": 2000,
+  "network": "24-128-64-5",
+  "split": "by event inside each organization (records of one attack on one host under 15 s apart stay together; 50/20/30 train/validation/test by record count)",
+  "companies": "organizations = three random thirds of the records (the hosts in this data are too few or too one-sided to form three organizations)"
+ },
+ "step1": {
+  "A": {
+   "name": "Organization A",
+   "never_seen": "neris",
+   "sources": 473,
+   "train": 6819,
+   "withheld": 1053,
+   "train_after": 5766,
+   "train_normal": 5000,
+   "train_attack": 766,
+   "val": 2754,
+   "test": 4107,
+   "test_never_seen": 635,
+   "events_never_seen": 53
+  },
+  "B": {
+   "name": "Organization B",
+   "never_seen": "fast_flux",
+   "sources": 450,
+   "train": 6835,
+   "withheld": 727,
+   "train_after": 6108,
+   "train_normal": 4999,
+   "train_attack": 1109,
+   "val": 2713,
+   "test": 4132,
+   "test_never_seen": 437,
+   "events_never_seen": 68
+  },
+  "C": {
+   "name": "Organization C",
+   "never_seen": "qvod",
+   "sources": 458,
+   "train": 6798,
+   "withheld": 43,
+   "train_after": 6755,
+   "train_normal": 5000,
+   "train_attack": 1755,
+   "val": 2748,
+   "test": 4134,
+   "test_never_seen": 29,
+   "events_never_seen": 14
+  }
+ },
+ "step2": {
+  "raw_columns": 32,
+  "kept_numbers": 24,
+  "removed": 7,
+  "kept": [
+   "PACKETS",
+   "PACKETS_REV",
+   "BYTES",
+   "BYTES_REV",
+   "MEAN",
+   "STDEV",
+   "VAR",
+   "BURSTINESS",
+   "MIN",
+   "MAX",
+   "MIN_MINUS_MAX",
+   "COEFFICIENT_OF_VARIATION",
+   "AVERAGE_DISPERSION",
+   "PERCENT_DEVIATION",
+   "ROOT_MEAN_SQUARE",
+   "KURTOSIS",
+   "TIME_DISTRIBUTION",
+   "MEAN_RELATIVE_TIME",
+   "DURATION",
+   "MEAN_DIFFTIMES",
+   "MIN_DIFFTIMES",
+   "MAX_DIFFTIMES",
+   "SWITCHING_METRIC",
+   "DIRECTIONS"
+  ],
+  "removed_columns": [
+   "DST_IP",
+   "DST_PORT",
+   "LABEL",
+   "SRC_IP",
+   "SRC_PORT",
+   "TIME_FIRST",
+   "TIME_LAST",
+   "Unnamed: 0"
+  ]
+ },
+ "classes": [
+  "fast_flux",
+  "neris",
+  "qvod",
+  "rbot"
+ ],
+ "benign": "clear",
+ "companies": {
+  "A": {
+   "name": "Organization A",
+   "never_seen": "neris",
+   "test_rows": 635,
+   "named": {
+    "1_isolated": 0.0,
+    "2_sharing": 0.8992125984251969,
+    "3_federated": 0.8456692913385827,
+    "4_centralized": 0.8708661417322835
+   },
+   "flagged": {
+    "1_isolated": 0.9606299212598425,
+    "2_sharing": 1.0,
+    "3_federated": 0.999475065616798,
+    "4_centralized": 1.0
+   },
+   "false_alarm": {
+    "1_isolated": 0.04377777777777778,
+    "2_sharing": 0.04544444444444445,
+    "3_federated": 0.03888888888888889,
+    "4_centralized": 0.04088888888888889
+   },
+   "bytes": {
+    "1_isolated": 0,
+    "2_sharing": 277808,
+    "3_federated": 471240,
+    "4_centralized": 559302
+   },
+   "steps": {
+    "1_isolated": 3233,
+    "2_sharing": 3233,
+    "3_federated": 2940,
+    "4_centralized": 3233
+   },
+   "named_check": {
+    "1_isolated": 0.8829396325459317,
+    "2_sharing": 0.9097112860892388,
+    "3_federated": 0.8341207349081365,
+    "4_centralized": 0.8761154855643044
+   },
+   "gain": {
+    "2_sharing": {
+     "gain": 0.8992125984251969,
+     "lo": 0.8676465545065764,
+     "hi": 0.9284307761369617,
+     "events": 53
+    },
+    "3_federated": {
+     "gain": 0.8456692913385827,
+     "lo": 0.7917820771719539,
+     "hi": 0.8909150094696969,
+     "events": 53
+    },
+    "4_centralized": {
+     "gain": 0.8708661417322835,
+     "lo": 0.8322484973047208,
+     "hi": 0.9048758637950821,
+     "events": 53
+    }
+   },
+   "gain_flagged": {
+    "2_sharing": {
+     "gain": 0.03937007874015752,
+     "lo": 0.02657353782353778,
+     "hi": 0.05919962188900099
+    },
+    "3_federated": {
+     "gain": 0.03884514435695552,
+     "lo": 0.025400261398891153,
+     "hi": 0.05970177457384276
+    },
+    "4_centralized": {
+     "gain": 0.03937007874015752,
+     "lo": 0.0254601537216828,
+     "hi": 0.059118480725623625
+    }
+   },
+   "records_received": 2864,
+   "trace": {
+    "skipped": "not enough source hosts or records to test tracing"
+   }
+  },
+  "B": {
+   "name": "Organization B",
+   "never_seen": "fast_flux",
+   "test_rows": 437,
+   "named": {
+    "1_isolated": 0.0,
+    "2_sharing": 0.9084668192219679,
+    "3_federated": 0.9107551487414187,
+    "4_centralized": 0.9038901601830664
+   },
+   "flagged": {
+    "1_isolated": 1.0,
+    "2_sharing": 1.0,
+    "3_federated": 1.0,
+    "4_centralized": 1.0
+   },
+   "false_alarm": {
+    "1_isolated": 0.04052853653120142,
+    "2_sharing": 0.04019542527204086,
+    "3_federated": 0.039751276926493447,
+    "4_centralized": 0.04086164779036198
+   },
+   "bytes": {
+    "1_isolated": 0,
+    "2_sharing": 244537,
+    "3_federated": 471240,
+    "4_centralized": 592476
+   },
+   "steps": {
+    "1_isolated": 3233,
+    "2_sharing": 3233,
+    "3_federated": 2940,
+    "4_centralized": 3233
+   },
+   "named_check": {
+    "1_isolated": 0.8962623951182304,
+    "2_sharing": 0.9176201372997711,
+    "3_federated": 0.889397406559878,
+    "4_centralized": 0.9023646071700991
+   },
+   "gain": {
+    "2_sharing": {
+     "gain": 0.9084668192219681,
+     "lo": 0.8635288534146326,
+     "hi": 0.9354615648593,
+     "events": 68
+    },
+    "3_federated": {
+     "gain": 0.9107551487414187,
+     "lo": 0.8333193041526374,
+     "hi": 0.9462711766497568,
+     "events": 68
+    },
+    "4_centralized": {
+     "gain": 0.9038901601830663,
+     "lo": 0.8508393455469088,
+     "hi": 0.9345577480592742,
+     "events": 68
+    }
+   },
+   "gain_flagged": {
+    "2_sharing": {
+     "gain": 0.0,
+     "lo": 0.0,
+     "hi": 0.0
+    },
+    "3_federated": {
+     "gain": 0.0,
+     "lo": 0.0,
+     "hi": 0.0
+    },
+    "4_centralized": {
+     "gain": 0.0,
+     "lo": 0.0,
+     "hi": 0.0
+    }
+   },
+   "records_received": 2521,
+   "trace": {
+    "skipped": "not enough source hosts or records to test tracing"
+   }
+  },
+  "C": {
+   "name": "Organization C",
+   "never_seen": "qvod",
+   "test_rows": 29,
+   "named": {
+    "1_isolated": 0.0,
+    "2_sharing": 0.9655172413793104,
+    "3_federated": 0.9425287356321839,
+    "4_centralized": 0.9655172413793104
+   },
+   "flagged": {
+    "1_isolated": 1.0,
+    "2_sharing": 0.9885057471264368,
+    "3_federated": 1.0,
+    "4_centralized": 1.0
+   },
+   "false_alarm": {
+    "1_isolated": 0.058222222222222224,
+    "2_sharing": 0.05455555555555556,
+    "3_federated": 0.057888888888888886,
+    "4_centralized": 0.05711111111111111
+   },
+   "bytes": {
+    "1_isolated": 0,
+    "2_sharing": 181875,
+    "3_federated": 471240,
+    "4_centralized": 655235
+   },
+   "steps": {
+    "1_isolated": 3233,
+    "2_sharing": 3233,
+    "3_federated": 2940,
+    "4_centralized": 3233
+   },
+   "named_check": {
+    "1_isolated": 0.9655172413793104,
+    "2_sharing": 0.9655172413793104,
+    "3_federated": 0.9655172413793104,
+    "4_centralized": 0.9655172413793104
+   },
+   "gain": {
+    "2_sharing": {
+     "gain": 0.9655172413793104,
+     "lo": 0.875,
+     "hi": 1.0,
+     "events": 14
+    },
+    "3_federated": {
+     "gain": 0.9425287356321839,
+     "lo": 0.8518518518518519,
+     "hi": 1.0,
+     "events": 14
+    },
+    "4_centralized": {
+     "gain": 0.9655172413793104,
+     "lo": 0.8695652173913043,
+     "hi": 1.0,
+     "events": 14
+    }
+   },
+   "gain_flagged": {
+    "2_sharing": {
+     "gain": -0.011494252873563204,
+     "lo": -0.04347826086956519,
+     "hi": 0.0
+    },
+    "3_federated": {
+     "gain": 0.0,
+     "lo": 0.0,
+     "hi": 0.0
+    },
+    "4_centralized": {
+     "gain": 0.0,
+     "lo": 0.0,
+     "hi": 0.0
+    }
+   },
+   "records_received": 1875,
+   "trace": {
+    "skipped": "not enough source hosts or records to test tracing"
+   }
+  }
+ },
+ "sharing_minus_federated": {
+  "A": {
+   "diff": 0.053543307086614145,
+   "lo": 0.028479882014823855,
+   "hi": 0.07949829931972767,
+   "events": 53
+  },
+  "B": {
+   "diff": -0.0022883295194505715,
+   "lo": -0.030306080943664916,
+   "hi": 0.05263654419066515,
+   "events": 68
+  },
+  "C": {
+   "diff": 0.02298850574712652,
+   "lo": 0.0,
+   "hi": 0.04939814814814806,
+   "events": 14
+  },
+  "mean": {
+   "diff": 0.02474782777143003,
+   "lo": 0.009020330428006481,
+   "hi": 0.047343913240901946
+  }
+ },
+ "hypotheses": {
+  "H1": {
+   "gain": 0.9243988863421585,
+   "lo": 0.8879331340075031,
+   "hi": 0.9456001236241843,
+   "clears": true
+  },
+  "H2": {
+   "gain": 0.8996510585707284,
+   "lo": 0.8583631402841473,
+   "hi": 0.9278242058834625,
+   "clears": true
+  },
+  "H3": null,
+  "H3_note": null
+ },
+ "checks": {
+  "pooled": {
+   "gain": 0.9134245144315534,
+   "lo": 0.8738176165465903,
+   "hi": 0.9367183465422433,
+   "clears": true
+  },
+  "flagged": {
+   "H1": {
+    "gain": 0.009291941955531438,
+    "lo": -0.002400322813091715,
+    "hi": 0.017716600053728486,
+    "clears": false
+   },
+   "H2": {
+    "gain": 0.012948381452318506,
+    "lo": 0.008466753799630385,
+    "hi": 0.01990059152461425,
+    "clears": false
+   }
+  },
+  "nothing_withheld": {
+   "H1": {
+    "gain": 0.01604313190828262,
+    "lo": 0.008880877790601377,
+    "hi": 0.025594946558650175,
+    "clears": false
+   },
+   "H2": {
+    "gain": -0.018561295398715982,
+    "lo": -0.03628460639902049,
+    "hi": -0.008108313925214824,
+    "clears": false
+   }
+  },
+  "benign_val_rows": {
+   "A": 2000,
+   "B": 1999,
+   "C": 2000
+  },
+  "rounds": 5
+ },
+ "verdicts": {
+  "A": {
+   "1_isolated": "baseline",
+   "4_centralized": "reference",
+   "2_sharing": "gain met",
+   "3_federated": "gain met"
+  },
+  "B": {
+   "1_isolated": "baseline",
+   "4_centralized": "reference",
+   "2_sharing": "gain met",
+   "3_federated": "gain met"
+  },
+  "C": {
+   "1_isolated": "baseline",
+   "4_centralized": "reference",
+   "2_sharing": "gain met",
+   "3_federated": "gain met"
+  }
+ },
+ "id": "ctu13_nettisa",
+ "study_role": "tool test",
+ "info": {
+  "short": "CTU-13 (NetTiSA)",
+  "maker": "CESNET and CTU Prague (Koumar, Hynek, Cejka and Siska, 2023), Zenodo 8301043; original captures by Garcia et al. (2014)",
+  "year": 2023,
+  "what": "Botnet captures (Neris, Rbot, Donbot, fast flux and others) re-extracted as NetTiSA flows with time-series statistics.",
+  "records": "41,070 flows (the whole botnet_multiclass file, normal capped)",
+  "attacks": "botnet families: neris, fast_flux, qvod, rbot, donbot",
+  "host": "source IP",
+  "role": "Tool test (few attack families)",
+  "source": "https://zenodo.org/records/8301043",
+  "licence": "CC BY 4.0."
+ },
+ "computed": "computed by this tool on 08 November 2026 with the protocol (shuffle test on 5,000 records per side, 50-tree forests) budget on the working sample described above; the split is the tool's own"
+}

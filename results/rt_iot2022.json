@@ -1,0 +1,557 @@
+{
+ "name": "RT-IoT2022",
+ "about": "Real-time IoT testbed (ThingSpeak, Wipro bulb, MQTT) with attacks; the three normal device patterns are mapped to one normal label. No host column. Working sample of 68,458 records.",
+ "made": "08 Nov 2026, 23:29",
+ "minutes": 1.1,
+ "budget": {
+  "name": "protocol (shuffle test on 5,000 records per side, 50-tree forests)",
+  "passes": 61,
+  "local_epochs": 4,
+  "resamples": 2000,
+  "trace_seeds": 5,
+  "trace_trees": 300,
+  "trace_permutations": 200,
+  "trace_perm_trees": 50,
+  "trace_perm_rows": 5000,
+  "seeds": [
+   0,
+   1,
+   2
+  ],
+  "max_rows": 0,
+  "nothing_withheld_check": true,
+  "do_trace": true
+ },
+ "seeds": [
+  0,
+  1,
+  2
+ ],
+ "software": {
+  "torch": "2.15.0",
+  "numpy": "2.5.4",
+  "pandas": "2.3.3"
+ },
+ "rules": {
+  "false_alarm_target": 0.05,
+  "min_gain": 0.05,
+  "fp_limit": 0.01,
+  "batch": 128,
+  "passes": 61,
+  "local_epochs": 4,
+  "resamples": 2000,
+  "network": "78-128-64-10",
+  "split": "class-stratified random 50/20/30 inside each organization; no clock, so each record is its own event (ranges are optimistic)",
+  "companies": "organizations = three random thirds of the records (no host column in this data)"
+ },
+ "step1": {
+  "A": {
+   "name": "Organization A",
+   "never_seen": "DOS_SYN_Hping",
+   "sources": null,
+   "train": 11409,
+   "withheld": 6666,
+   "train_after": 4743,
+   "train_normal": 2084,
+   "train_attack": 2659,
+   "val": 4564,
+   "test": 6846,
+   "test_never_seen": 4000,
+   "events_never_seen": 4000
+  },
+  "B": {
+   "name": "Organization B",
+   "never_seen": "ARP_poisioning",
+   "sources": null,
+   "train": 11409,
+   "withheld": 1291,
+   "train_after": 10118,
+   "train_normal": 2084,
+   "train_attack": 8034,
+   "val": 4564,
+   "test": 6846,
+   "test_never_seen": 775,
+   "events_never_seen": 775
+  },
+  "C": {
+   "name": "Organization C",
+   "never_seen": "NMAP_UDP_SCAN",
+   "sources": null,
+   "train": 11410,
+   "withheld": 432,
+   "train_after": 10978,
+   "train_normal": 2085,
+   "train_attack": 8893,
+   "val": 4564,
+   "test": 6846,
+   "test_never_seen": 259,
+   "events_never_seen": 259
+  }
+ },
+ "step2": {
+  "raw_columns": 85,
+  "kept_numbers": 78,
+  "removed": 6,
+  "kept": [
+   "flow_duration",
+   "fwd_pkts_tot",
+   "bwd_pkts_tot",
+   "fwd_data_pkts_tot",
+   "bwd_data_pkts_tot",
+   "fwd_pkts_per_sec",
+   "bwd_pkts_per_sec",
+   "flow_pkts_per_sec",
+   "down_up_ratio",
+   "fwd_header_size_tot",
+   "fwd_header_size_min",
+   "fwd_header_size_max",
+   "bwd_header_size_tot",
+   "bwd_header_size_min",
+   "bwd_header_size_max",
+   "flow_FIN_flag_count",
+   "flow_SYN_flag_count",
+   "flow_RST_flag_count",
+   "fwd_PSH_flag_count",
+   "bwd_PSH_flag_count",
+   "flow_ACK_flag_count",
+   "fwd_URG_flag_count",
+   "flow_CWR_flag_count",
+   "flow_ECE_flag_count",
+   "fwd_pkts_payload.min",
+   "fwd_pkts_payload.max",
+   "fwd_pkts_payload.tot",
+   "fwd_pkts_payload.avg",
+   "fwd_pkts_payload.std",
+   "bwd_pkts_payload.min",
+   "bwd_pkts_payload.max",
+   "bwd_pkts_payload.tot",
+   "bwd_pkts_payload.avg",
+   "bwd_pkts_payload.std",
+   "flow_pkts_payload.min",
+   "flow_pkts_payload.max",
+   "flow_pkts_payload.tot",
+   "flow_pkts_payload.avg",
+   "flow_pkts_payload.std",
+   "fwd_iat.min",
+   "fwd_iat.max",
+   "fwd_iat.tot",
+   "fwd_iat.avg",
+   "fwd_iat.std",
+   "bwd_iat.min",
+   "bwd_iat.max",
+   "bwd_iat.tot",
+   "bwd_iat.avg",
+   "bwd_iat.std",
+   "flow_iat.min",
+   "flow_iat.max",
+   "flow_iat.tot",
+   "flow_iat.avg",
+   "flow_iat.std",
+   "payload_bytes_per_second",
+   "fwd_subflow_pkts",
+   "bwd_subflow_pkts",
+   "fwd_subflow_bytes",
+   "bwd_subflow_bytes",
+   "fwd_bulk_bytes",
+   "bwd_bulk_bytes",
+   "fwd_bulk_packets",
+   "bwd_bulk_packets",
+   "fwd_bulk_rate",
+   "bwd_bulk_rate",
+   "active.min",
+   "active.max",
+   "active.tot",
+   "active.avg",
+   "active.std",
+   "idle.min",
+   "idle.max",
+   "idle.tot",
+   "idle.avg",
+   "idle.std",
+   "fwd_init_window_size",
+   "bwd_init_window_size",
+   "fwd_last_window_size"
+  ],
+  "removed_columns": [
+   "Attack_type",
+   "Unnamed: 0",
+   "bwd_URG_flag_count",
+   "id.orig_p",
+   "id.resp_p",
+   "proto",
+   "service"
+  ]
+ },
+ "classes": [
+  "ARP_poisioning",
+  "DDOS_Slowloris",
+  "DOS_SYN_Hping",
+  "Metasploit_Brute_Force_SSH",
+  "NMAP_FIN_SCAN",
+  "NMAP_OS_DETECTION",
+  "NMAP_TCP_scan",
+  "NMAP_UDP_SCAN",
+  "NMAP_XMAS_TREE_SCAN"
+ ],
+ "benign": "Normal",
+ "companies": {
+  "A": {
+   "name": "Organization A",
+   "never_seen": "DOS_SYN_Hping",
+   "test_rows": 4000,
+   "named": {
+    "1_isolated": 0.0,
+    "2_sharing": 1.0,
+    "3_federated": 0.7093333333333334,
+    "4_centralized": 1.0
+   },
+   "flagged": {
+    "1_isolated": 0.9913333333333334,
+    "2_sharing": 1.0,
+    "3_federated": 1.0,
+    "4_centralized": 1.0
+   },
+   "false_alarm": {
+    "1_isolated": 0.06048494537703172,
+    "2_sharing": 0.0583533173461231,
+    "3_federated": 0.06155075939248602,
+    "4_centralized": 0.05861977084998667
+   },
+   "bytes": {
+    "1_isolated": 0,
+    "2_sharing": 5298151,
+    "3_federated": 912864,
+    "4_centralized": 1484559
+   },
+   "steps": {
+    "1_isolated": 5246,
+    "2_sharing": 5246,
+    "3_federated": 4896,
+    "4_centralized": 5246
+   },
+   "named_check": {
+    "1_isolated": 1.0,
+    "2_sharing": 1.0,
+    "3_federated": 1.0,
+    "4_centralized": 1.0
+   },
+   "gain": {
+    "2_sharing": {
+     "gain": 1.0,
+     "lo": 1.0,
+     "hi": 1.0,
+     "events": 4000
+    },
+    "3_federated": {
+     "gain": 0.7093333333333333,
+     "lo": 0.7059166666666665,
+     "hi": 0.7128333333333332,
+     "events": 4000
+    },
+    "4_centralized": {
+     "gain": 1.0,
+     "lo": 1.0,
+     "hi": 1.0,
+     "events": 4000
+    }
+   },
+   "gain_flagged": {
+    "2_sharing": {
+     "gain": 0.0086666666666666,
+     "lo": 0.00649999999999995,
+     "hi": 0.011166666666666769
+    },
+    "3_federated": {
+     "gain": 0.0086666666666666,
+     "lo": 0.006495833333333284,
+     "hi": 0.011166666666666769
+    },
+    "4_centralized": {
+     "gain": 0.0086666666666666,
+     "lo": 0.006333333333333302,
+     "hi": 0.01100000000000001
+    }
+   },
+   "records_received": 16927,
+   "trace": null
+  },
+  "B": {
+   "name": "Organization B",
+   "never_seen": "ARP_poisioning",
+   "test_rows": 775,
+   "named": {
+    "1_isolated": 0.0,
+    "2_sharing": 0.9591397849462365,
+    "3_federated": 0.7823655913978494,
+    "4_centralized": 0.9479569892473118
+   },
+   "flagged": {
+    "1_isolated": 0.7208602150537634,
+    "2_sharing": 0.992258064516129,
+    "3_federated": 0.9070967741935484,
+    "4_centralized": 0.9944086021505377
+   },
+   "false_alarm": {
+    "1_isolated": 0.049826805222488675,
+    "2_sharing": 0.0484945377031708,
+    "3_federated": 0.04876099120703437,
+    "4_centralized": 0.05275779376498801
+   },
+   "bytes": {
+    "1_isolated": 0,
+    "2_sharing": 3615776,
+    "3_federated": 912864,
+    "4_centralized": 3166934
+   },
+   "steps": {
+    "1_isolated": 5246,
+    "2_sharing": 5246,
+    "3_federated": 4896,
+    "4_centralized": 5246
+   },
+   "named_check": {
+    "1_isolated": 0.9264516129032258,
+    "2_sharing": 0.9578494623655914,
+    "3_federated": 0.9638709677419355,
+    "4_centralized": 0.956989247311828
+   },
+   "gain": {
+    "2_sharing": {
+     "gain": 0.9591397849462366,
+     "lo": 0.9466666666666668,
+     "hi": 0.9698924731182796,
+     "events": 775
+    },
+    "3_federated": {
+     "gain": 0.7823655913978493,
+     "lo": 0.7647311827956991,
+     "hi": 0.800010752688172,
+     "events": 775
+    },
+    "4_centralized": {
+     "gain": 0.9479569892473118,
+     "lo": 0.9384946236559139,
+     "hi": 0.9569892473118279,
+     "events": 775
+    }
+   },
+   "gain_flagged": {
+    "2_sharing": {
+     "gain": 0.27139784946236556,
+     "lo": 0.24172043010752697,
+     "hi": 0.30150537634408603
+    },
+    "3_federated": {
+     "gain": 0.18623655913978487,
+     "lo": 0.15956989247311826,
+     "hi": 0.21247311827956994
+    },
+    "4_centralized": {
+     "gain": 0.2735483870967742,
+     "lo": 0.2438709677419355,
+     "hi": 0.3045161290322581
+    }
+   },
+   "records_received": 11552,
+   "trace": null
+  },
+  "C": {
+   "name": "Organization C",
+   "never_seen": "NMAP_UDP_SCAN",
+   "test_rows": 259,
+   "named": {
+    "1_isolated": 0.0,
+    "2_sharing": 0.8751608751608752,
+    "3_federated": 0.7117117117117117,
+    "4_centralized": 0.7747747747747749
+   },
+   "flagged": {
+    "1_isolated": 0.39382239382239376,
+    "2_sharing": 1.0,
+    "3_federated": 1.0,
+    "4_centralized": 1.0
+   },
+   "false_alarm": {
+    "1_isolated": 0.04853333333333334,
+    "2_sharing": 0.05226666666666666,
+    "3_federated": 0.04986666666666667,
+    "4_centralized": 0.050133333333333335
+   },
+   "bytes": {
+    "1_isolated": 0,
+    "2_sharing": 3346909,
+    "3_federated": 912864,
+    "4_centralized": 3436114
+   },
+   "steps": {
+    "1_isolated": 5246,
+    "2_sharing": 5246,
+    "3_federated": 4896,
+    "4_centralized": 5246
+   },
+   "named_check": {
+    "1_isolated": 0.8983268983268983,
+    "2_sharing": 0.794079794079794,
+    "3_federated": 0.7155727155727156,
+    "4_centralized": 0.8764478764478764
+   },
+   "gain": {
+    "2_sharing": {
+     "gain": 0.8751608751608752,
+     "lo": 0.8494208494208494,
+     "hi": 0.9009009009009008,
+     "events": 259
+    },
+    "3_federated": {
+     "gain": 0.7117117117117118,
+     "lo": 0.667953667953668,
+     "hi": 0.7554697554697555,
+     "events": 259
+    },
+    "4_centralized": {
+     "gain": 0.7747747747747747,
+     "lo": 0.7323037323037324,
+     "hi": 0.8133848133848134,
+     "events": 259
+    }
+   },
+   "gain_flagged": {
+    "2_sharing": {
+     "gain": 0.6061776061776062,
+     "lo": 0.5482625482625483,
+     "hi": 0.6640926640926641
+    },
+    "3_federated": {
+     "gain": 0.6061776061776062,
+     "lo": 0.5444015444015444,
+     "hi": 0.667953667953668
+    },
+    "4_centralized": {
+     "gain": 0.6061776061776062,
+     "lo": 0.5444015444015444,
+     "hi": 0.6640926640926641
+    }
+   },
+   "records_received": 10693,
+   "trace": null
+  }
+ },
+ "sharing_minus_federated": {
+  "A": {
+   "diff": 0.29066666666666674,
+   "lo": 0.2872500000000001,
+   "hi": 0.2942500000000001,
+   "events": 4000
+  },
+  "B": {
+   "diff": 0.1767741935483873,
+   "lo": 0.1578494623655914,
+   "hi": 0.19526881720430123,
+   "events": 775
+  },
+  "C": {
+   "diff": 0.16344916344916338,
+   "lo": 0.13384813384813377,
+   "hi": 0.19433719433719432,
+   "events": 259
+  },
+  "mean": {
+   "diff": 0.21029667455473913,
+   "lo": 0.19880347628734724,
+   "hi": 0.2222610699409087
+  }
+ },
+ "hypotheses": {
+  "H1": {
+   "gain": 0.9447668867023706,
+   "lo": 0.9351680021034859,
+   "hi": 0.9537782482943773,
+   "clears": true
+  },
+  "H2": {
+   "gain": 0.7344702121476315,
+   "lo": 0.718341160515354,
+   "hi": 0.7497748896361799,
+   "clears": true
+  },
+  "H3": null,
+  "H3_note": "this data has no device or host column, so tracing cannot be tested"
+ },
+ "checks": {
+  "pooled": {
+   "gain": 0.9075772546740288,
+   "lo": 0.8934190780642393,
+   "hi": 0.9204506718700267,
+   "clears": true
+  },
+  "flagged": {
+   "H1": {
+    "gain": 0.29541404076887945,
+    "lo": 0.2730360260029615,
+    "hi": 0.31751014205449685,
+    "clears": true
+   },
+   "H2": {
+    "gain": 0.2670269439946859,
+    "lo": 0.2448255149734988,
+    "hi": 0.2888525907820263,
+    "clears": true
+   }
+  },
+  "nothing_withheld": {
+   "H1": {
+    "gain": -0.024283084928246195,
+    "lo": -0.03173159795740445,
+    "hi": -0.01698454214583241,
+    "clears": false
+   },
+   "H2": {
+    "gain": -0.04844494263849097,
+    "lo": -0.060902270934529004,
+    "hi": -0.035993938639099804,
+    "clears": false
+   }
+  },
+  "benign_val_rows": {
+   "A": 834,
+   "B": 834,
+   "C": 834
+  },
+  "rounds": 6
+ },
+ "verdicts": {
+  "A": {
+   "1_isolated": "baseline",
+   "4_centralized": "reference",
+   "2_sharing": "gain met",
+   "3_federated": "gain met"
+  },
+  "B": {
+   "1_isolated": "baseline",
+   "4_centralized": "reference",
+   "2_sharing": "gain met",
+   "3_federated": "gain met"
+  },
+  "C": {
+   "1_isolated": "baseline",
+   "4_centralized": "reference",
+   "2_sharing": "gain met",
+   "3_federated": "gain met"
+  }
+ },
+ "id": "rt_iot2022",
+ "study_role": "tool test",
+ "info": {
+  "short": "RT-IoT2022",
+  "maker": "Sharmila and Nagapadma (2023), UCI Machine Learning Repository 942",
+  "year": 2022,
+  "what": "IoT devices recorded in real time under normal use and under DoS, DDoS, ARP poisoning, scans and brute force; Zeek-style flow features.",
+  "records": "68,458 records sampled by attack type",
+  "attacks": "DoS SYN, DDoS Slowloris, ARP poisoning, five NMAP scans, SSH brute force",
+  "host": "none",
+  "role": "Tool test",
+  "source": "https://doi.org/10.24432/C5P338",
+  "licence": "CC BY 4.0."
+ },
+ "computed": "computed by this tool on 08 November 2026 with the protocol (shuffle test on 5,000 records per side, 50-tree forests) budget on the working sample described above; the split is the tool's own"
+}

@@ -1,0 +1,515 @@
+{
+ "name": "Edge-IIoTset (ranking check)",
+ "about": "IoT and IIoT testbed, packet records, 38 cleaned features. No device column, so companies are random thirds and tracing (H3) cannot be tested.",
+ "made": "08 Nov 2026, 21:10",
+ "minutes": 0.0,
+ "budget": {
+  "name": "protocol",
+  "passes": 61,
+  "local_epochs": 4,
+  "resamples": 2000,
+  "trace_seeds": 5,
+  "trace_trees": 300,
+  "trace_permutations": 200,
+  "seeds": [
+   0,
+   1,
+   2
+  ],
+  "max_rows": 0,
+  "nothing_withheld_check": true,
+  "do_trace": true
+ },
+ "seeds": [
+  0,
+  1,
+  2
+ ],
+ "software": {
+  "torch": "2.6.0+cpu",
+  "numpy": "2.2.6",
+  "pandas": "2.2.3"
+ },
+ "rules": {
+  "false_alarm_target": 0.05,
+  "min_gain": 0.05,
+  "fp_limit": 0.01,
+  "batch": 128,
+  "passes": 61,
+  "local_epochs": 4,
+  "resamples": 2000,
+  "network": "38-128-64-15",
+  "split": "class-stratified random 50/20/30 inside each organization; no clock, so each record is its own event (ranges are optimistic)",
+  "companies": "organizations = three random thirds of the records (the hosts in this data are too few or too one-sided to form three organizations)"
+ },
+ "step1": {
+  "A": {
+   "name": "Organization A",
+   "never_seen": "DDoS_TCP",
+   "sources": null,
+   "train": 22496,
+   "withheld": 2271,
+   "train_after": 20225,
+   "train_normal": 298,
+   "train_attack": 19927,
+   "val": 8998,
+   "test": 13499,
+   "test_never_seen": 1363,
+   "events_never_seen": 1363
+  },
+  "B": {
+   "name": "Organization B",
+   "never_seen": "Password",
+   "sources": null,
+   "train": 22497,
+   "withheld": 2077,
+   "train_after": 20420,
+   "train_normal": 298,
+   "train_attack": 20122,
+   "val": 8998,
+   "test": 13499,
+   "test_never_seen": 1246,
+   "events_never_seen": 1246
+  },
+  "C": {
+   "name": "Organization C",
+   "never_seen": "Port_Scanning",
+   "sources": null,
+   "train": 22497,
+   "withheld": 1666,
+   "train_after": 20831,
+   "train_normal": 299,
+   "train_attack": 20532,
+   "val": 8998,
+   "test": 13499,
+   "test_never_seen": 999,
+   "events_never_seen": 999
+  }
+ },
+ "step2": {
+  "raw_columns": 40,
+  "kept_numbers": 38,
+  "removed": 1,
+  "kept": [
+   "arp.opcode",
+   "arp.hw.size",
+   "icmp.seq_le",
+   "http.content_length",
+   "http.response",
+   "tcp.connection.fin",
+   "tcp.connection.rst",
+   "tcp.connection.syn",
+   "tcp.connection.synack",
+   "tcp.dstport",
+   "tcp.flags",
+   "tcp.flags.ack",
+   "tcp.len",
+   "udp.port",
+   "udp.time_delta",
+   "dns.qry.name.len",
+   "dns.qry.qu",
+   "dns.retransmit_request",
+   "mqtt.conflag.cleansess",
+   "mqtt.conflags",
+   "mqtt.hdrflags",
+   "mqtt.len",
+   "mqtt.msgtype",
+   "mqtt.proto_len",
+   "mqtt.topic_len",
+   "mqtt.ver",
+   "mbtcp.len",
+   "mbtcp.unit_id",
+   "http.request.method=GET",
+   "http.request.method=POST",
+   "http.request.method=TRACE",
+   "http.request.method=OPTIONS",
+   "http.request.method=other",
+   "http.request.version=HTTP/1.1",
+   "http.request.version=HTTP/1.0",
+   "http.request.version=other",
+   "mqtt.protoname_present",
+   "mqtt.topic_present"
+  ],
+  "removed_columns": [
+   "Attack_label",
+   "Attack_type"
+  ]
+ },
+ "classes": [
+  "Backdoor",
+  "DDoS_HTTP",
+  "DDoS_ICMP",
+  "DDoS_TCP",
+  "DDoS_UDP",
+  "Fingerprinting",
+  "MITM",
+  "Password",
+  "Port_Scanning",
+  "Ransomware",
+  "SQL_injection",
+  "Uploading",
+  "Vulnerability_scanner",
+  "XSS"
+ ],
+ "benign": "Normal",
+ "companies": {
+  "A": {
+   "name": "Organization A",
+   "never_seen": "DDoS_TCP",
+   "test_rows": 1363,
+   "named": {
+    "1_isolated": 0.0,
+    "2_sharing": 0.6960136952800196,
+    "3_federated": 0.6911225238444607,
+    "4_centralized": 0.694546343849352
+   },
+   "flagged": {
+    "1_isolated": 1.0,
+    "2_sharing": 1.0,
+    "3_federated": 1.0,
+    "4_centralized": 1.0
+   },
+   "false_alarm": {
+    "1_isolated": 0.027932960893854747,
+    "2_sharing": 0.027932960893854747,
+    "3_federated": 0.03910614525139665,
+    "4_centralized": 0.027932960893854747
+   },
+   "bytes": {
+    "1_isolated": 0,
+    "2_sharing": 6220062,
+    "3_federated": 568920,
+    "4_centralized": 3094425
+   },
+   "steps": {
+    "1_isolated": 9943,
+    "2_sharing": 9943,
+    "3_federated": 9640,
+    "4_centralized": 9943
+   },
+   "named_check": {
+    "1_isolated": 0.7119100024455857,
+    "2_sharing": 0.7177794081682562,
+    "3_federated": 0.6994375152849107,
+    "4_centralized": 0.7190022010271461
+   },
+   "gain": {
+    "2_sharing": {
+     "gain": 0.6960136952800196,
+     "lo": 0.6722853998532649,
+     "hi": 0.719002201027146,
+     "events": 1363
+    },
+    "3_federated": {
+     "gain": 0.6911225238444607,
+     "lo": 0.6683785766691123,
+     "hi": 0.7141110295915871,
+     "events": 1363
+    },
+    "4_centralized": {
+     "gain": 0.694546343849352,
+     "lo": 0.6713132795304475,
+     "hi": 0.7180239667400342,
+     "events": 1363
+    }
+   },
+   "gain_flagged": {
+    "2_sharing": {
+     "gain": 0.0,
+     "lo": 0.0,
+     "hi": 0.0
+    },
+    "3_federated": {
+     "gain": 0.0,
+     "lo": 0.0,
+     "hi": 0.0
+    },
+    "4_centralized": {
+     "gain": 0.0,
+     "lo": 0.0,
+     "hi": 0.0
+    }
+   },
+   "records_received": 40654,
+   "trace": null
+  },
+  "B": {
+   "name": "Organization B",
+   "never_seen": "Password",
+   "test_rows": 1246,
+   "named": {
+    "1_isolated": 0.0,
+    "2_sharing": 0.4481005885500267,
+    "3_federated": 0.16238630283574104,
+    "4_centralized": 0.4159978598180845
+   },
+   "flagged": {
+    "1_isolated": 1.0,
+    "2_sharing": 1.0,
+    "3_federated": 1.0,
+    "4_centralized": 1.0
+   },
+   "false_alarm": {
+    "1_isolated": 0.054003724394785846,
+    "2_sharing": 0.054003724394785846,
+    "3_federated": 0.0484171322160149,
+    "4_centralized": 0.055865921787709494
+   },
+   "bytes": {
+    "1_isolated": 0,
+    "2_sharing": 6190227,
+    "3_federated": 568920,
+    "4_centralized": 3124260
+   },
+   "steps": {
+    "1_isolated": 9943,
+    "2_sharing": 9943,
+    "3_federated": 9640,
+    "4_centralized": 9943
+   },
+   "named_check": {
+    "1_isolated": 0.4657570893525949,
+    "2_sharing": 0.5048154093097913,
+    "3_federated": 0.5192616372391653,
+    "4_centralized": 0.48528624933119313
+   },
+   "gain": {
+    "2_sharing": {
+     "gain": 0.4481005885500267,
+     "lo": 0.42215088282504015,
+     "hi": 0.47378945960406627,
+     "events": 1246
+    },
+    "3_federated": {
+     "gain": 0.16238630283574101,
+     "lo": 0.1415195291599786,
+     "hi": 0.18405564472980201,
+     "events": 1246
+    },
+    "4_centralized": {
+     "gain": 0.41599785981808457,
+     "lo": 0.39030898876404496,
+     "hi": 0.44034242910647403,
+     "events": 1246
+    }
+   },
+   "gain_flagged": {
+    "2_sharing": {
+     "gain": 0.0,
+     "lo": 0.0,
+     "hi": 0.0
+    },
+    "3_federated": {
+     "gain": 0.0,
+     "lo": 0.0,
+     "hi": 0.0
+    },
+    "4_centralized": {
+     "gain": 0.0,
+     "lo": 0.0,
+     "hi": 0.0
+    }
+   },
+   "records_received": 40459,
+   "trace": null
+  },
+  "C": {
+   "name": "Organization C",
+   "never_seen": "Port_Scanning",
+   "test_rows": 999,
+   "named": {
+    "1_isolated": 0.0,
+    "2_sharing": 0.9879879879879879,
+    "3_federated": 1.0,
+    "4_centralized": 0.9996663329996663
+   },
+   "flagged": {
+    "1_isolated": 1.0,
+    "2_sharing": 1.0,
+    "3_federated": 1.0,
+    "4_centralized": 1.0
+   },
+   "false_alarm": {
+    "1_isolated": 0.046554934823091254,
+    "2_sharing": 0.046554934823091254,
+    "3_federated": 0.05027932960893855,
+    "4_centralized": 0.0446927374301676
+   },
+   "bytes": {
+    "1_isolated": 0,
+    "2_sharing": 6127497,
+    "3_federated": 568920,
+    "4_centralized": 3187143
+   },
+   "steps": {
+    "1_isolated": 9943,
+    "2_sharing": 9943,
+    "3_federated": 9640,
+    "4_centralized": 9943
+   },
+   "named_check": {
+    "1_isolated": 0.9683016349683017,
+    "2_sharing": 0.9416082749416083,
+    "3_federated": 1.0,
+    "4_centralized": 0.934934934934935
+   },
+   "gain": {
+    "2_sharing": {
+     "gain": 0.987987987987988,
+     "lo": 0.9833166499833166,
+     "hi": 0.991991991991992,
+     "events": 999
+    },
+    "3_federated": {
+     "gain": 1.0,
+     "lo": 1.0,
+     "hi": 1.0,
+     "events": 999
+    },
+    "4_centralized": {
+     "gain": 0.9996663329996665,
+     "lo": 0.998998998998999,
+     "hi": 1.0,
+     "events": 999
+    }
+   },
+   "gain_flagged": {
+    "2_sharing": {
+     "gain": 0.0,
+     "lo": 0.0,
+     "hi": 0.0
+    },
+    "3_federated": {
+     "gain": 0.0,
+     "lo": 0.0,
+     "hi": 0.0
+    },
+    "4_centralized": {
+     "gain": 0.0,
+     "lo": 0.0,
+     "hi": 0.0
+    }
+   },
+   "records_received": 40049,
+   "trace": null
+  }
+ },
+ "sharing_minus_federated": {
+  "A": {
+   "diff": 0.004891171435558839,
+   "lo": -0.002201027146001455,
+   "hi": 0.011983370017119133,
+   "events": 1363
+  },
+  "B": {
+   "diff": 0.2857142857142857,
+   "lo": 0.26457330123060463,
+   "hi": 0.30872792937399685,
+   "events": 1246
+  },
+  "C": {
+   "diff": -0.012012012012011963,
+   "lo": -0.01668335001668331,
+   "hi": -0.00767434100767439,
+   "events": 999
+  },
+  "mean": {
+   "diff": 0.09286448171261086,
+   "lo": 0.0850202386439074,
+   "hi": 0.10131835853149684
+  }
+ },
+ "hypotheses": {
+  "H1": {
+   "gain": 0.7107007572726781,
+   "lo": 0.6984617132188766,
+   "hi": 0.7227853569891631,
+   "clears": true
+  },
+  "H2": {
+   "gain": 0.6178362755600673,
+   "lo": 0.6072555549405607,
+   "hi": 0.6286193065711148,
+   "clears": true
+  },
+  "H3": null,
+  "H3_note": "this data has no device or host column, so tracing cannot be tested"
+ },
+ "checks": {
+  "pooled": {
+   "gain": 0.7034035122223677,
+   "lo": 0.6913320525087799,
+   "hi": 0.7147273934158427,
+   "clears": true
+  },
+  "flagged": {
+   "H1": {
+    "gain": 0.0,
+    "lo": 0.0,
+    "hi": 0.0,
+    "clears": false
+   },
+   "H2": {
+    "gain": 0.0,
+    "lo": 0.0,
+    "hi": 0.0,
+    "clears": false
+   }
+  },
+  "nothing_withheld": {
+   "H1": {
+    "gain": 0.0060781218843911815,
+    "lo": 0.0020130926001751385,
+    "hi": 0.010051241583325434,
+    "clears": false
+   },
+   "H2": {
+    "gain": 0.02424347525253125,
+    "lo": 0.019038946740700672,
+    "hi": 0.02937501146304254,
+    "clears": false
+   }
+  },
+  "benign_val_rows": {
+   "A": 120,
+   "B": 119,
+   "C": 119
+  },
+  "rounds": 5
+ },
+ "verdicts": {
+  "A": {
+   "1_isolated": "baseline",
+   "4_centralized": "reference",
+   "2_sharing": "gain met",
+   "3_federated": "gain met, false-positive limit breached"
+  },
+  "B": {
+   "1_isolated": "baseline",
+   "4_centralized": "reference",
+   "2_sharing": "gain met",
+   "3_federated": "gain met"
+  },
+  "C": {
+   "1_isolated": "baseline",
+   "4_centralized": "reference",
+   "2_sharing": "gain met",
+   "3_federated": "gain met"
+  }
+ },
+ "id": "edge_iiotset",
+ "study_role": "ranking check",
+ "info": {
+  "short": "Edge-IIoTset",
+  "maker": "Ferrag, Friha, Hamouda, Maglaras and Janicke (2022), IEEE Access",
+  "year": 2022,
+  "what": "An IoT and IIoT testbed with sensors, edge devices and cloud, recorded packet by packet. The praxis uses a cleaned copy (identifier and placeholder columns removed, 38 features) locked on 25 September.",
+  "records": "134,981 records used (the full cleaned file)",
+  "attacks": "14 attack types, e.g. DDoS (TCP, UDP, HTTP, ICMP), password, port scanning, SQL injection, XSS, MITM, ransomware, backdoor",
+  "host": "none in the cleaned file",
+  "role": "Second dataset: ranking check",
+  "role_text": "Used to check that the ranking of the two roads seen on DataSense holds on different data. No device column, so companies are random thirds and tracing (H3) cannot be tested.",
+  "source": "https://doi.org/10.1109/ACCESS.2022.3165809"
+ },
+ "computed": "training results cached from the 5 and 6 October 2026 runs of system.py; scorecard recomputed by this tool"
+}

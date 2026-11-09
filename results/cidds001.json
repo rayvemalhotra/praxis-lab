@@ -1,0 +1,521 @@
+{
+ "name": "CIDDS-001 (OpenStack and external server flows)",
+ "about": "Flow records from an emulated small business network (OpenStack) and an external server, four attack types; destination host as the organization asset. Working sample of 95,753 flows from two internal and two external weeks.; the makers' date column is named Timestamp in the sample",
+ "made": "08 Nov 2026, 23:09",
+ "minutes": 2.5,
+ "budget": {
+  "name": "protocol (shuffle test on 5,000 records per side, 50-tree forests)",
+  "passes": 61,
+  "local_epochs": 4,
+  "resamples": 2000,
+  "trace_seeds": 5,
+  "trace_trees": 300,
+  "trace_permutations": 200,
+  "trace_perm_trees": 50,
+  "trace_perm_rows": 5000,
+  "seeds": [
+   0,
+   1,
+   2
+  ],
+  "max_rows": 0,
+  "nothing_withheld_check": true,
+  "do_trace": true
+ },
+ "seeds": [
+  0,
+  1,
+  2
+ ],
+ "software": {
+  "torch": "2.15.0",
+  "numpy": "2.5.4",
+  "pandas": "2.3.3"
+ },
+ "rules": {
+  "false_alarm_target": 0.05,
+  "min_gain": 0.05,
+  "fp_limit": 0.01,
+  "batch": 128,
+  "passes": 61,
+  "local_epochs": 4,
+  "resamples": 2000,
+  "network": "4-128-64-5",
+  "split": "by event inside each organization (records of one attack on one host under 15 s apart stay together; 50/20/30 train/validation/test by record count)",
+  "companies": "organizations = groups of hosts (each host belongs to one organization)"
+ },
+ "step1": {
+  "A": {
+   "name": "Organization A",
+   "never_seen": "portScan",
+   "sources": 1158,
+   "train": 22803,
+   "withheld": 8616,
+   "train_after": 14187,
+   "train_normal": 5503,
+   "train_attack": 8684,
+   "val": 9097,
+   "test": 13845,
+   "test_never_seen": 5170,
+   "events_never_seen": 2157
+  },
+  "B": {
+   "name": "Organization B",
+   "never_seen": "pingScan",
+   "sources": 1157,
+   "train": 15285,
+   "withheld": 401,
+   "train_after": 14884,
+   "train_normal": 5611,
+   "train_attack": 9273,
+   "val": 6267,
+   "test": 9379,
+   "test_never_seen": 241,
+   "events_never_seen": 238
+  },
+  "C": {
+   "name": "Organization C",
+   "never_seen": "bruteForce",
+   "sources": 1157,
+   "train": 9522,
+   "withheld": 435,
+   "train_after": 9087,
+   "train_normal": 3883,
+   "train_attack": 5204,
+   "val": 3831,
+   "test": 5724,
+   "test_never_seen": 267,
+   "events_never_seen": 68
+  }
+ },
+ "step2": {
+  "raw_columns": 16,
+  "kept_numbers": 4,
+  "removed": 11,
+  "kept": [
+   "Duration",
+   "Dst Pt",
+   "Packets",
+   "Bytes"
+  ],
+  "removed_columns": [
+   "Timestamp",
+   "Dst IP Addr",
+   "Flags",
+   "Flows",
+   "Proto",
+   "Src IP Addr",
+   "Src Pt",
+   "Tos",
+   "attackDescription",
+   "attackID",
+   "attackType",
+   "class"
+  ]
+ },
+ "classes": [
+  "bruteForce",
+  "dos",
+  "pingScan",
+  "portScan"
+ ],
+ "benign": "normal",
+ "companies": {
+  "A": {
+   "name": "Organization A",
+   "never_seen": "portScan",
+   "test_rows": 5170,
+   "named": {
+    "1_isolated": 0.0,
+    "2_sharing": 0.2934880722114765,
+    "3_federated": 0.023984526112185683,
+    "4_centralized": 0.29148936170212764
+   },
+   "flagged": {
+    "1_isolated": 0.05377176015473887,
+    "2_sharing": 0.2936170212765958,
+    "3_federated": 0.023984526112185683,
+    "4_centralized": 0.29148936170212764
+   },
+   "false_alarm": {
+    "1_isolated": 0.033202139469169445,
+    "2_sharing": 0.03259662932687456,
+    "3_federated": 0.05086285195277021,
+    "4_centralized": 0.03491775153900495
+   },
+   "bytes": {
+    "1_isolated": 0,
+    "2_sharing": 246109,
+    "3_federated": 442608,
+    "4_centralized": 241179
+   },
+   "steps": {
+    "1_isolated": 7137,
+    "2_sharing": 7137,
+    "3_federated": 7176,
+    "4_centralized": 7137
+   },
+   "named_check": {
+    "1_isolated": 0.42295293359123143,
+    "2_sharing": 0.35041908446163766,
+    "3_federated": 0.14648613797549967,
+    "4_centralized": 0.4283687943262411
+   },
+   "gain": {
+    "2_sharing": {
+     "gain": 0.29348807221147644,
+     "lo": 0.20564579881007464,
+     "hi": 0.3898028010343645,
+     "events": 2157
+    },
+    "3_federated": {
+     "gain": 0.023984526112185687,
+     "lo": 0.008256973409634851,
+     "hi": 0.051767019463522634,
+     "events": 2157
+    },
+    "4_centralized": {
+     "gain": 0.29148936170212764,
+     "lo": 0.20353425981562615,
+     "hi": 0.3878156324923097,
+     "events": 2157
+    }
+   },
+   "gain_flagged": {
+    "2_sharing": {
+     "gain": 0.23984526112185683,
+     "lo": 0.1478834770576404,
+     "hi": 0.33580828115335576
+    },
+    "3_federated": {
+     "gain": -0.02978723404255319,
+     "lo": -0.06421936533564224,
+     "hi": 0.004295401808674351
+    },
+    "4_centralized": {
+     "gain": 0.23771760154738875,
+     "lo": 0.14776313946491845,
+     "hi": 0.33607407132681255
+    }
+   },
+   "records_received": 14477,
+   "trace": {
+    "records": 8390,
+    "sources": 5,
+    "traced": 0.1296305125148987,
+    "guessing": 0.9769964243146603,
+    "balanced": 0.02653653775771624,
+    "advantage": -0.8473659117997616,
+    "lo": -0.8837237707046947,
+    "hi": -0.772703946459015,
+    "p_value": 0.8905472636815921,
+    "note": "the sender has 800 hosts; the test covers its 50 busiest hosts only"
+   }
+  },
+  "B": {
+   "name": "Organization B",
+   "never_seen": "pingScan",
+   "test_rows": 241,
+   "named": {
+    "1_isolated": 0.0,
+    "2_sharing": 0.09681881051175656,
+    "3_federated": 0.0,
+    "4_centralized": 0.09405255878284924
+   },
+   "flagged": {
+    "1_isolated": 0.004149377593360996,
+    "2_sharing": 0.10096818810511758,
+    "3_federated": 0.004149377593360996,
+    "4_centralized": 0.09820193637621026
+   },
+   "false_alarm": {
+    "1_isolated": 0.03859857482185273,
+    "2_sharing": 0.04720902612826603,
+    "3_federated": 0.05532462391132225,
+    "4_centralized": 0.05760095011876484
+   },
+   "bytes": {
+    "1_isolated": 0,
+    "2_sharing": 236096,
+    "3_federated": 442608,
+    "4_centralized": 253028
+   },
+   "steps": {
+    "1_isolated": 7137,
+    "2_sharing": 7137,
+    "3_federated": 7176,
+    "4_centralized": 7137
+   },
+   "named_check": {
+    "1_isolated": 0.3153526970954357,
+    "2_sharing": 0.14107883817427386,
+    "3_federated": 0.0,
+    "4_centralized": 0.10096818810511755
+   },
+   "gain": {
+    "2_sharing": {
+     "gain": 0.09681881051175656,
+     "lo": 0.0677731673582296,
+     "hi": 0.12692595936272036,
+     "events": 238
+    },
+    "3_federated": {
+     "gain": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "events": 238
+    },
+    "4_centralized": {
+     "gain": 0.09405255878284922,
+     "lo": 0.06554507048721128,
+     "hi": 0.12396694214876032,
+     "events": 238
+    }
+   },
+   "gain_flagged": {
+    "2_sharing": {
+     "gain": 0.09681881051175655,
+     "lo": 0.06967213114754099,
+     "hi": 0.13001978799818675
+    },
+    "3_federated": {
+     "gain": 0.0,
+     "lo": 0.0,
+     "hi": 0.0
+    },
+    "4_centralized": {
+     "gain": 0.09405255878284922,
+     "lo": 0.06583687512649262,
+     "hi": 0.12448132780082986
+    }
+   },
+   "records_received": 13888,
+   "trace": {
+    "records": 9160,
+    "sources": 8,
+    "traced": 0.8777947598253274,
+    "guessing": 0.8274017467248909,
+    "balanced": 0.36396183311886526,
+    "advantage": 0.050393013100436534,
+    "lo": 0.0007656495078480026,
+    "hi": 0.11061985278686919,
+    "p_value": 0.004975124378109453,
+    "note": "the sender has 720 hosts; the test covers its 50 busiest hosts only"
+   }
+  },
+  "C": {
+   "name": "Organization C",
+   "never_seen": "bruteForce",
+   "test_rows": 267,
+   "named": {
+    "1_isolated": 0.0,
+    "2_sharing": 0.0,
+    "3_federated": 0.0,
+    "4_centralized": 0.0
+   },
+   "flagged": {
+    "1_isolated": 0.0,
+    "2_sharing": 0.0,
+    "3_federated": 0.0,
+    "4_centralized": 0.0
+   },
+   "false_alarm": {
+    "1_isolated": 0.05405405405405406,
+    "2_sharing": 0.04561704561704561,
+    "3_federated": 0.04704704704704704,
+    "4_centralized": 0.04204204204204204
+   },
+   "bytes": {
+    "1_isolated": 0,
+    "2_sharing": 305269,
+    "3_federated": 442608,
+    "4_centralized": 154479
+   },
+   "steps": {
+    "1_isolated": 7137,
+    "2_sharing": 7137,
+    "3_federated": 7176,
+    "4_centralized": 7137
+   },
+   "named_check": {
+    "1_isolated": 0.2209737827715356,
+    "2_sharing": 0.0,
+    "3_federated": 0.0,
+    "4_centralized": 0.0
+   },
+   "gain": {
+    "2_sharing": {
+     "gain": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "events": 68
+    },
+    "3_federated": {
+     "gain": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "events": 68
+    },
+    "4_centralized": {
+     "gain": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "events": 68
+    }
+   },
+   "gain_flagged": {
+    "2_sharing": {
+     "gain": 0.0,
+     "lo": 0.0,
+     "hi": 0.0
+    },
+    "3_federated": {
+     "gain": 0.0,
+     "lo": 0.0,
+     "hi": 0.0
+    },
+    "4_centralized": {
+     "gain": 0.0,
+     "lo": 0.0,
+     "hi": 0.0
+    }
+   },
+   "records_received": 17957,
+   "trace": {
+    "records": 4696,
+    "sources": 12,
+    "traced": 0.03321976149914821,
+    "guessing": 0.26192504258943783,
+    "balanced": 0.06095410804407444,
+    "advantage": -0.22870528109028962,
+    "lo": -0.2882263197323786,
+    "hi": -0.17386113080439558,
+    "p_value": 0.7313432835820896,
+    "note": "the sender has 843 hosts; the test covers its 50 busiest hosts only"
+   }
+  }
+ },
+ "sharing_minus_federated": {
+  "A": {
+   "diff": 0.2695035460992907,
+   "lo": 0.1706166905428879,
+   "hi": 0.3661058501683501,
+   "events": 2157
+  },
+  "B": {
+   "diff": 0.09681881051175656,
+   "lo": 0.06829974954462659,
+   "hi": 0.12672176308539945,
+   "events": 238
+  },
+  "C": {
+   "diff": 0.0,
+   "lo": 0.0,
+   "hi": 0.0,
+   "events": 68
+  },
+  "mean": {
+   "diff": 0.12210745220368242,
+   "lo": 0.08683631392440196,
+   "hi": 0.15590450590663452
+  }
+ },
+ "hypotheses": {
+  "H1": {
+   "gain": 0.13010229424107767,
+   "lo": 0.09945087281926132,
+   "hi": 0.16345233259597738,
+   "clears": true
+  },
+  "H2": {
+   "gain": 0.00799484203739523,
+   "lo": 0.002752324469878284,
+   "hi": 0.017255673154507545,
+   "clears": false
+  },
+  "H3": {
+   "yes": false,
+   "companies": 3,
+   "low": -0.8473659117997616,
+   "high": 0.050393013100436534
+  },
+  "H3_note": null
+ },
+ "checks": {
+  "pooled": {
+   "gain": 0.1285139734949923,
+   "lo": 0.09759320489336769,
+   "hi": 0.16074279982958936,
+   "clears": true
+  },
+  "flagged": {
+   "H1": {
+    "gain": 0.11222135721120446,
+    "lo": 0.08038680790293999,
+    "hi": 0.1475134823511316,
+    "clears": true
+   },
+   "H2": {
+    "gain": -0.009929078014184396,
+    "lo": -0.02140645511188075,
+    "hi": 0.0014318006028914503,
+    "clears": false
+   }
+  },
+  "nothing_withheld": {
+   "H1": {
+    "gain": -0.1559271636074304,
+    "lo": -0.1968724486644091,
+    "hi": -0.12323735047712343,
+    "clears": false
+   },
+   "H2": {
+    "gain": -0.27093109182756764,
+    "lo": -0.30494369826925183,
+    "hi": -0.23682474963996802,
+    "clears": false
+   }
+  },
+  "benign_val_rows": {
+   "A": 2201,
+   "B": 2245,
+   "C": 1555
+  },
+  "rounds": 6
+ },
+ "verdicts": {
+  "A": {
+   "1_isolated": "baseline",
+   "4_centralized": "reference",
+   "2_sharing": "gain met",
+   "3_federated": "not worth it (gain not met)"
+  },
+  "B": {
+   "1_isolated": "baseline",
+   "4_centralized": "reference",
+   "2_sharing": "gain met, privacy trade-off",
+   "3_federated": "not worth it (gain not met)"
+  },
+  "C": {
+   "1_isolated": "baseline",
+   "4_centralized": "reference",
+   "2_sharing": "not worth it (gain not met)",
+   "3_federated": "not worth it (gain not met)"
+  }
+ },
+ "id": "cidds001",
+ "study_role": "tool test",
+ "info": {
+  "short": "CIDDS-001",
+  "maker": "Coburg University of Applied Sciences (Ring, Wunderlich, Grudl, Landes and Hotho, 2017)",
+  "year": 2017,
+  "what": "NetFlow records of an emulated company network with clients, servers and an external server exposed to the Internet; attacks are DoS, port scans, ping scans and brute force.",
+  "records": "95,753 flows sampled by attack type",
+  "attacks": "dos, portScan, pingScan, bruteForce",
+  "host": "destination IP",
+  "role": "Tool test (few features)",
+  "source": "https://www.hs-coburg.de/forschen/cidds-coburg-intrusion-detection-data-sets/",
+  "licence": "Cite the makers; analysis use."
+ },
+ "computed": "computed by this tool on 08 November 2026 with the protocol (shuffle test on 5,000 records per side, 50-tree forests) budget on the working sample described above; the split is the tool's own"
+}

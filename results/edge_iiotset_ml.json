@@ -1,0 +1,578 @@
+{
+ "name": "Edge-IIoTset, ML subset (raw packet fields)",
+ "about": "The makers' machine-learning subset with the raw packet fields, including the destination host and a clock. Working sample of 119,994 records.",
+ "made": "08 Nov 2026, 23:16",
+ "minutes": 2.6,
+ "budget": {
+  "name": "protocol (shuffle test on 5,000 records per side, 50-tree forests)",
+  "passes": 61,
+  "local_epochs": 4,
+  "resamples": 2000,
+  "trace_seeds": 5,
+  "trace_trees": 300,
+  "trace_permutations": 200,
+  "trace_perm_trees": 50,
+  "trace_perm_rows": 5000,
+  "seeds": [
+   0,
+   1,
+   2
+  ],
+  "max_rows": 0,
+  "nothing_withheld_check": true,
+  "do_trace": true
+ },
+ "seeds": [
+  0,
+  1,
+  2
+ ],
+ "software": {
+  "torch": "2.15.0",
+  "numpy": "2.5.4",
+  "pandas": "2.3.3"
+ },
+ "rules": {
+  "false_alarm_target": 0.05,
+  "min_gain": 0.05,
+  "fp_limit": 0.01,
+  "batch": 128,
+  "passes": 61,
+  "local_epochs": 4,
+  "resamples": 2000,
+  "network": "32-128-64-15",
+  "split": "by event inside each organization (records of one attack on one host under 15 s apart stay together; 50/20/30 train/validation/test by record count)",
+  "companies": "organizations = three random thirds of the records (the hosts in this data are too few or too one-sided to form three organizations)"
+ },
+ "step1": {
+  "A": {
+   "name": "Organization A",
+   "never_seen": "DDoS_UDP",
+   "sources": 2123,
+   "train": 19624,
+   "withheld": 1799,
+   "train_after": 17825,
+   "train_normal": 3061,
+   "train_attack": 14764,
+   "val": 7974,
+   "test": 12400,
+   "test_never_seen": 1154,
+   "events_never_seen": 109
+  },
+  "B": {
+   "name": "Organization B",
+   "never_seen": "DDoS_ICMP",
+   "sources": 2103,
+   "train": 19688,
+   "withheld": 1733,
+   "train_after": 17955,
+   "train_normal": 3071,
+   "train_attack": 14884,
+   "val": 7971,
+   "test": 12339,
+   "test_never_seen": 1125,
+   "events_never_seen": 204
+  },
+  "C": {
+   "name": "Organization C",
+   "never_seen": "DDoS_HTTP",
+   "sources": 2027,
+   "train": 19633,
+   "withheld": 1272,
+   "train_after": 18361,
+   "train_normal": 3071,
+   "train_attack": 15290,
+   "val": 7939,
+   "test": 12426,
+   "test_never_seen": 858,
+   "events_never_seen": 14
+  }
+ },
+ "step2": {
+  "raw_columns": 63,
+  "kept_numbers": 32,
+  "removed": 30,
+  "kept": [
+   "arp.opcode",
+   "arp.hw.size",
+   "icmp.checksum",
+   "icmp.seq_le",
+   "http.content_length",
+   "http.response",
+   "tcp.ack",
+   "tcp.ack_raw",
+   "tcp.checksum",
+   "tcp.connection.fin",
+   "tcp.connection.rst",
+   "tcp.connection.syn",
+   "tcp.connection.synack",
+   "tcp.dstport",
+   "tcp.flags.ack",
+   "tcp.len",
+   "tcp.seq",
+   "udp.port",
+   "udp.stream",
+   "udp.time_delta",
+   "dns.qry.name.len",
+   "dns.qry.qu",
+   "dns.retransmission",
+   "dns.retransmit_request",
+   "mqtt.conflag.cleansess",
+   "mqtt.conflags",
+   "mqtt.hdrflags",
+   "mqtt.len",
+   "mqtt.msgtype",
+   "mqtt.proto_len",
+   "mqtt.topic_len",
+   "mqtt.ver"
+  ],
+  "removed_columns": [
+   "Attack_label",
+   "Attack_type",
+   "arp.dst.proto_ipv4",
+   "arp.src.proto_ipv4",
+   "dns.qry.name",
+   "dns.qry.type",
+   "dns.retransmit_request_in",
+   "frame.time",
+   "http.file_data",
+   "http.referer",
+   "http.request.full_uri",
+   "http.request.method",
+   "http.request.uri.query",
+   "http.request.version",
+   "http.tls_port",
+   "icmp.transmit_timestamp",
+   "icmp.unused",
+   "ip.dst_host",
+   "ip.src_host",
+   "mbtcp.len",
+   "mbtcp.trans_id",
+   "mbtcp.unit_id",
+   "mqtt.conack.flags",
+   "mqtt.msg",
+   "mqtt.msg_decoded_as",
+   "mqtt.protoname",
+   "mqtt.topic",
+   "tcp.flags",
+   "tcp.options",
+   "tcp.payload",
+   "tcp.srcport"
+  ]
+ },
+ "classes": [
+  "Backdoor",
+  "DDoS_HTTP",
+  "DDoS_ICMP",
+  "DDoS_TCP",
+  "DDoS_UDP",
+  "Fingerprinting",
+  "MITM",
+  "Password",
+  "Port_Scanning",
+  "Ransomware",
+  "SQL_injection",
+  "Uploading",
+  "Vulnerability_scanner",
+  "XSS"
+ ],
+ "benign": "Normal",
+ "companies": {
+  "A": {
+   "name": "Organization A",
+   "never_seen": "DDoS_UDP",
+   "test_rows": 1154,
+   "named": {
+    "1_isolated": 0.0,
+    "2_sharing": 0.9930675909878683,
+    "3_federated": 1.0,
+    "4_centralized": 0.9962449451184288
+   },
+   "flagged": {
+    "1_isolated": 0.3726169844020797,
+    "2_sharing": 1.0,
+    "3_federated": 1.0,
+    "4_centralized": 1.0
+   },
+   "false_alarm": {
+    "1_isolated": 0.03661616161616161,
+    "2_sharing": 0.0367965367965368,
+    "3_federated": 0.03571428571428572,
+    "4_centralized": 0.034812409812409816
+   },
+   "bytes": {
+    "1_isolated": 0,
+    "2_sharing": 3892446,
+    "3_federated": 538200,
+    "4_centralized": 2299425
+   },
+   "steps": {
+    "1_isolated": 8784,
+    "2_sharing": 8784,
+    "3_federated": 8500,
+    "4_centralized": 8784
+   },
+   "named_check": {
+    "1_isolated": 0.9979780473714616,
+    "2_sharing": 0.9950895436164067,
+    "3_federated": 0.9962449451184288,
+    "4_centralized": 0.9968226458694396
+   },
+   "gain": {
+    "2_sharing": {
+     "gain": 0.9930675909878682,
+     "lo": 0.9885985020349839,
+     "hi": 0.9963844632533952,
+     "events": 109
+    },
+    "3_federated": {
+     "gain": 1.0,
+     "lo": 1.0,
+     "hi": 1.0,
+     "events": 109
+    },
+    "4_centralized": {
+     "gain": 0.9962449451184285,
+     "lo": 0.9935294838826034,
+     "hi": 0.9988587377137991,
+     "events": 109
+    }
+   },
+   "gain_flagged": {
+    "2_sharing": {
+     "gain": 0.6273830155979204,
+     "lo": 0.6043622203995498,
+     "hi": 0.6386897683180606
+    },
+    "3_federated": {
+     "gain": 0.6273830155979204,
+     "lo": 0.6036859100060135,
+     "hi": 0.638691771893454
+    },
+    "4_centralized": {
+     "gain": 0.6273830155979204,
+     "lo": 0.604222623966942,
+     "hi": 0.6390482660498492
+    }
+   },
+   "records_received": 30174,
+   "trace": {
+    "records": 13853,
+    "sources": 50,
+    "traced": 0.30565220529849124,
+    "guessing": 0.5818956182776294,
+    "balanced": 0.0495675474506885,
+    "advantage": -0.2762434129791381,
+    "lo": -0.3315509732502976,
+    "hi": -0.22072715378489932,
+    "p_value": 0.6567164179104478,
+    "note": "the sender has 962 hosts; the test covers its 50 busiest hosts only"
+   }
+  },
+  "B": {
+   "name": "Organization B",
+   "never_seen": "DDoS_ICMP",
+   "test_rows": 1125,
+   "named": {
+    "1_isolated": 0.0,
+    "2_sharing": 0.9774814814814815,
+    "3_federated": 0.8850370370370371,
+    "4_centralized": 0.9828148148148147
+   },
+   "flagged": {
+    "1_isolated": 1.0,
+    "2_sharing": 1.0,
+    "3_federated": 1.0,
+    "4_centralized": 1.0
+   },
+   "false_alarm": {
+    "1_isolated": 0.049035514692626646,
+    "2_sharing": 0.054263565891472874,
+    "3_federated": 0.04957634757526591,
+    "4_centralized": 0.05318190012619434
+   },
+   "bytes": {
+    "1_isolated": 0,
+    "2_sharing": 3876966,
+    "3_federated": 538200,
+    "4_centralized": 2316195
+   },
+   "steps": {
+    "1_isolated": 8784,
+    "2_sharing": 8784,
+    "3_federated": 8500,
+    "4_centralized": 8784
+   },
+   "named_check": {
+    "1_isolated": 0.9786666666666667,
+    "2_sharing": 0.9745185185185186,
+    "3_federated": 0.9795555555555556,
+    "4_centralized": 0.9777777777777779
+   },
+   "gain": {
+    "2_sharing": {
+     "gain": 0.9774814814814814,
+     "lo": 0.9711059635270598,
+     "hi": 0.9840677436606146,
+     "events": 204
+    },
+    "3_federated": {
+     "gain": 0.885037037037037,
+     "lo": 0.8667171325051759,
+     "hi": 0.9023434681300387,
+     "events": 204
+    },
+    "4_centralized": {
+     "gain": 0.9828148148148147,
+     "lo": 0.9767853269561393,
+     "hi": 0.9893182618989347,
+     "events": 204
+    }
+   },
+   "gain_flagged": {
+    "2_sharing": {
+     "gain": 0.0,
+     "lo": 0.0,
+     "hi": 0.0
+    },
+    "3_federated": {
+     "gain": 0.0,
+     "lo": 0.0,
+     "hi": 0.0
+    },
+    "4_centralized": {
+     "gain": 0.0,
+     "lo": 0.0,
+     "hi": 0.0
+    }
+   },
+   "records_received": 30054,
+   "trace": {
+    "records": 14233,
+    "sources": 49,
+    "traced": 0.40462305908803486,
+    "guessing": 0.4727745380453875,
+    "balanced": 0.05189235747798897,
+    "advantage": -0.06815147895735263,
+    "lo": -0.11585422131853435,
+    "hi": 0.016956501909025687,
+    "p_value": 0.10945273631840796,
+    "note": "the sender has 701 hosts; the test covers its 50 busiest hosts only"
+   }
+  },
+  "C": {
+   "name": "Organization C",
+   "never_seen": "DDoS_HTTP",
+   "test_rows": 858,
+   "named": {
+    "1_isolated": 0.0,
+    "2_sharing": 0.2637917637917638,
+    "3_federated": 0.0,
+    "4_centralized": 0.34071484071484076
+   },
+   "flagged": {
+    "1_isolated": 0.8177933177933179,
+    "2_sharing": 0.8170163170163169,
+    "3_federated": 0.578088578088578,
+    "4_centralized": 0.8294483294483296
+   },
+   "false_alarm": {
+    "1_isolated": 0.07165605095541401,
+    "2_sharing": 0.07484076433121019,
+    "3_federated": 0.051663128096249115,
+    "4_centralized": 0.06794055201698514
+   },
+   "bytes": {
+    "1_isolated": 0,
+    "2_sharing": 3824592,
+    "3_federated": 538200,
+    "4_centralized": 2368569
+   },
+   "steps": {
+    "1_isolated": 8784,
+    "2_sharing": 8784,
+    "3_federated": 8500,
+    "4_centralized": 8784
+   },
+   "named_check": {
+    "1_isolated": 0.3733488733488734,
+    "2_sharing": 0.3896658896658896,
+    "3_federated": 0.2999222999222999,
+    "4_centralized": 0.48290598290598297
+   },
+   "gain": {
+    "2_sharing": {
+     "gain": 0.26379176379176383,
+     "lo": 0.14685183134163335,
+     "hi": 0.38834652345958165,
+     "events": 14
+    },
+    "3_federated": {
+     "gain": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "events": 14
+    },
+    "4_centralized": {
+     "gain": 0.3407148407148407,
+     "lo": 0.21830344438447574,
+     "hi": 0.45446709126147944,
+     "events": 14
+    }
+   },
+   "gain_flagged": {
+    "2_sharing": {
+     "gain": -0.0007770007770007137,
+     "lo": -0.0027324812339066446,
+     "hi": 0.0008312811396393697
+    },
+    "3_federated": {
+     "gain": -0.2397047397047397,
+     "lo": -0.3571864923354973,
+     "hi": -0.1250425012909595
+    },
+    "4_centralized": {
+     "gain": 0.011655011655011593,
+     "lo": 0.0022521257212269356,
+     "hi": 0.024015947129239757
+    }
+   },
+   "records_received": 29648,
+   "trace": {
+    "records": 14325,
+    "sources": 48,
+    "traced": 0.3723280977312391,
+    "guessing": 0.5125305410122164,
+    "balanced": 0.03028693362389903,
+    "advantage": -0.1402024432809773,
+    "lo": -0.2135670474367733,
+    "hi": -0.05827158829321994,
+    "p_value": 0.01990049751243781,
+    "note": "the sender has 1,016 hosts; the test covers its 50 busiest hosts only"
+   }
+  }
+ },
+ "sharing_minus_federated": {
+  "A": {
+   "diff": -0.006932409012131768,
+   "lo": -0.01146159198365149,
+   "hi": -0.0037304018339112824,
+   "events": 109
+  },
+  "B": {
+   "diff": 0.09244444444444444,
+   "lo": 0.07439144544240192,
+   "hi": 0.11017647808932293,
+   "events": 204
+  },
+  "C": {
+   "diff": 0.26379176379176383,
+   "lo": 0.14331703567035672,
+   "hi": 0.37761780945842177,
+   "events": 14
+  },
+  "mean": {
+   "diff": 0.11643459974135884,
+   "lo": 0.07576687896021041,
+   "hi": 0.15538861560785083
+  }
+ },
+ "hypotheses": {
+  "H1": {
+   "gain": 0.7447802787537046,
+   "lo": 0.7061172598889083,
+   "hi": 0.7856030095388808,
+   "clears": true
+  },
+  "H2": {
+   "gain": 0.6283456790123457,
+   "lo": 0.6222390441683919,
+   "hi": 0.6341144893766797,
+   "clears": true
+  },
+  "H3": {
+   "yes": false,
+   "companies": 3,
+   "low": -0.2762434129791381,
+   "high": -0.06815147895735263
+  },
+  "H3_note": null
+ },
+ "checks": {
+  "pooled": {
+   "gain": 0.773258200216028,
+   "lo": 0.7319942628111334,
+   "hi": 0.8112287496100987,
+   "clears": true
+  },
+  "flagged": {
+   "H1": {
+    "gain": 0.20886867160697323,
+    "lo": 0.201028955474288,
+    "hi": 0.21275511960087953,
+    "clears": true
+   },
+   "H2": {
+    "gain": 0.12922609196439358,
+    "lo": 0.08978914395161258,
+    "hi": 0.16693399520497104,
+    "clears": true
+   }
+  },
+  "nothing_withheld": {
+   "H1": {
+    "gain": 0.0030934548046042862,
+    "lo": -0.0038314197327269876,
+    "hi": 0.010558123524791591,
+    "clears": false
+   },
+   "H2": {
+    "gain": -0.02475692893023927,
+    "lo": -0.03446571225853255,
+    "hi": -0.015997469588507115,
+    "clears": false
+   }
+  },
+  "benign_val_rows": {
+   "A": 1251,
+   "B": 1239,
+   "C": 1205
+  },
+  "rounds": 5
+ },
+ "verdicts": {
+  "A": {
+   "1_isolated": "baseline",
+   "4_centralized": "reference",
+   "2_sharing": "gain met",
+   "3_federated": "gain met"
+  },
+  "B": {
+   "1_isolated": "baseline",
+   "4_centralized": "reference",
+   "2_sharing": "gain met",
+   "3_federated": "gain met"
+  },
+  "C": {
+   "1_isolated": "baseline",
+   "4_centralized": "reference",
+   "2_sharing": "gain met",
+   "3_federated": "not worth it (gain not met)"
+  }
+ },
+ "id": "edge_iiotset_ml",
+ "study_role": "tool test",
+ "info": {
+  "short": "Edge-IIoTset (ML subset)",
+  "maker": "Ferrag, Friha, Hamouda, Maglaras and Janicke (2022), IEEE Access",
+  "year": 2022,
+  "what": "The same IoT and IIoT testbed as the praxis ranking check, in the makers' ML-ready CSV with packet fields, host columns and a clock.",
+  "records": "119,994 records sampled by attack type",
+  "attacks": "14 attack types",
+  "host": "ip.dst_host",
+  "role": "Tool test",
+  "source": "https://doi.org/10.1109/ACCESS.2022.3165809",
+  "licence": "Cite the makers; analysis use."
+ },
+ "computed": "computed by this tool on 08 November 2026 with the protocol (shuffle test on 5,000 records per side, 50-tree forests) budget on the working sample described above; the split is the tool's own"
+}

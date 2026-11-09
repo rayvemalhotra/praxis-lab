@@ -1,0 +1,553 @@
+{
+ "name": "BoT-IoT, 5% release (four files)",
+ "about": "IoT botnet testbed flows. The 5% release holds only 477 normal records, so the alarm threshold rests on a small normal sample. Working sample of 95,944 flows; attack type = category and subcategory.",
+ "made": "08 Nov 2026, 22:47",
+ "minutes": 2.9,
+ "budget": {
+  "name": "protocol",
+  "passes": 61,
+  "local_epochs": 4,
+  "resamples": 2000,
+  "trace_seeds": 5,
+  "trace_trees": 300,
+  "trace_permutations": 200,
+  "seeds": [
+   0,
+   1,
+   2
+  ],
+  "max_rows": 0,
+  "nothing_withheld_check": true,
+  "do_trace": true
+ },
+ "seeds": [
+  0,
+  1,
+  2
+ ],
+ "software": {
+  "torch": "2.15.0",
+  "numpy": "2.5.4",
+  "pandas": "2.3.3"
+ },
+ "rules": {
+  "false_alarm_target": 0.05,
+  "min_gain": 0.05,
+  "fp_limit": 0.01,
+  "batch": 128,
+  "passes": 61,
+  "local_epochs": 4,
+  "resamples": 2000,
+  "network": "32-128-64-11",
+  "split": "by event inside each organization (records of one attack on one host under 15 s apart stay together; 50/20/30 train/validation/test by record count)",
+  "companies": "organizations = three random thirds of the records (the hosts in this data are too few or too one-sided to form three organizations)"
+ },
+ "step1": {
+  "A": {
+   "name": "Organization A",
+   "never_seen": "Reconnaissance_Service_Scan",
+   "sources": 56,
+   "train": 15844,
+   "withheld": 4157,
+   "train_after": 11687,
+   "train_normal": 75,
+   "train_attack": 11612,
+   "val": 6400,
+   "test": 9737,
+   "test_never_seen": 2510,
+   "events_never_seen": 70
+  },
+  "B": {
+   "name": "Organization B",
+   "never_seen": "DoS_UDP",
+   "sources": 56,
+   "train": 15735,
+   "withheld": 3956,
+   "train_after": 11779,
+   "train_normal": 79,
+   "train_attack": 11700,
+   "val": 6433,
+   "test": 9813,
+   "test_never_seen": 2413,
+   "events_never_seen": 39
+  },
+  "C": {
+   "name": "Organization C",
+   "never_seen": "DoS_TCP",
+   "sources": 60,
+   "train": 15811,
+   "withheld": 3366,
+   "train_after": 12445,
+   "train_normal": 79,
+   "train_attack": 12366,
+   "val": 6384,
+   "test": 9787,
+   "test_never_seen": 2096,
+   "events_never_seen": 35
+  }
+ },
+ "step2": {
+  "raw_columns": 47,
+  "kept_numbers": 32,
+  "removed": 14,
+  "kept": [
+   "flgs_number",
+   "proto_number",
+   "pkts",
+   "bytes",
+   "state_number",
+   "dur",
+   "mean",
+   "stddev",
+   "sum",
+   "min",
+   "max",
+   "spkts",
+   "dpkts",
+   "sbytes",
+   "dbytes",
+   "rate",
+   "srate",
+   "drate",
+   "TnBPSrcIP",
+   "TnBPDstIP",
+   "TnP_PSrcIP",
+   "TnP_PDstIP",
+   "TnP_PerProto",
+   "TnP_Per_Dport",
+   "AR_P_Proto_P_SrcIP",
+   "AR_P_Proto_P_DstIP",
+   "N_IN_Conn_P_DstIP",
+   "N_IN_Conn_P_SrcIP",
+   "AR_P_Proto_P_Sport",
+   "AR_P_Proto_P_Dport",
+   "Pkts_P_State_P_Protocol_P_DestIP",
+   "Pkts_P_State_P_Protocol_P_SrcIP"
+  ],
+  "removed_columns": [
+   "attack",
+   "attack_type",
+   "category",
+   "daddr",
+   "dport",
+   "flgs",
+   "ltime",
+   "pkSeqID",
+   "proto",
+   "saddr",
+   "seq",
+   "sport",
+   "state",
+   "stime",
+   "subcategory"
+  ]
+ },
+ "classes": [
+  "DDoS_HTTP",
+  "DDoS_TCP",
+  "DDoS_UDP",
+  "DoS_HTTP",
+  "DoS_TCP",
+  "DoS_UDP",
+  "Reconnaissance_OS_Fingerprint",
+  "Reconnaissance_Service_Scan",
+  "Theft_Data_Exfiltration",
+  "Theft_Keylogging"
+ ],
+ "benign": "Normal",
+ "companies": {
+  "A": {
+   "name": "Organization A",
+   "never_seen": "Reconnaissance_Service_Scan",
+   "test_rows": 2510,
+   "named": {
+    "1_isolated": 0.0,
+    "2_sharing": 0.6532536520584329,
+    "3_federated": 0.34143426294820717,
+    "4_centralized": 0.7341301460823373
+   },
+   "flagged": {
+    "1_isolated": 0.994289508632138,
+    "2_sharing": 0.9998671978751661,
+    "3_federated": 0.9977423638778221,
+    "4_centralized": 1.0
+   },
+   "false_alarm": {
+    "1_isolated": 0.0625,
+    "2_sharing": 0.05555555555555555,
+    "3_federated": 0.03472222222222222,
+    "4_centralized": 0.03472222222222222
+   },
+   "bytes": {
+    "1_isolated": 0,
+    "2_sharing": 3104514,
+    "3_federated": 527800,
+    "4_centralized": 1507623
+   },
+   "steps": {
+    "1_isolated": 5978,
+    "2_sharing": 5978,
+    "3_federated": 5660,
+    "4_centralized": 5978
+   },
+   "named_check": {
+    "1_isolated": 0.6871181938911022,
+    "2_sharing": 0.8402390438247012,
+    "3_federated": 0.600929614873838,
+    "4_centralized": 0.8339973439575034
+   },
+   "gain": {
+    "2_sharing": {
+     "gain": 0.653253652058433,
+     "lo": 0.5437708394690803,
+     "hi": 0.7658425948333386,
+     "events": 70
+    },
+    "3_federated": {
+     "gain": 0.3414342629482071,
+     "lo": 0.2297867238514303,
+     "hi": 0.4691313692377308,
+     "events": 70
+    },
+    "4_centralized": {
+     "gain": 0.7341301460823373,
+     "lo": 0.6488587598224541,
+     "hi": 0.8187281687140958,
+     "events": 70
+    }
+   },
+   "gain_flagged": {
+    "2_sharing": {
+     "gain": 0.005577689243028039,
+     "lo": 0.001095422801717666,
+     "hi": 0.012118742797806744
+    },
+    "3_federated": {
+     "gain": 0.003452855245684061,
+     "lo": 0.0006126443912114448,
+     "hi": 0.007670183798502528
+    },
+    "4_centralized": {
+     "gain": 0.005710491367861947,
+     "lo": 0.0011624295637016307,
+     "hi": 0.012457506549513494
+    }
+   },
+   "records_received": 24066,
+   "trace": {
+    "records": 11612,
+    "sources": 8,
+    "traced": 0.0,
+    "guessing": 0.3380985187736824,
+    "balanced": 0.0,
+    "advantage": -0.3380985187736824,
+    "lo": -0.41034875250970726,
+    "hi": -0.26699793450634873,
+    "p_value": 1.0
+   }
+  },
+  "B": {
+   "name": "Organization B",
+   "never_seen": "DoS_UDP",
+   "test_rows": 2413,
+   "named": {
+    "1_isolated": 0.0,
+    "2_sharing": 0.9997237187456832,
+    "3_federated": 0.5732836027075563,
+    "4_centralized": 1.0
+   },
+   "flagged": {
+    "1_isolated": 0.9729244370769443,
+    "2_sharing": 0.9997237187456832,
+    "3_federated": 1.0,
+    "4_centralized": 1.0
+   },
+   "false_alarm": {
+    "1_isolated": 0.048611111111111105,
+    "2_sharing": 0.013888888888888888,
+    "3_federated": 0.048611111111111105,
+    "4_centralized": 0.048611111111111105
+   },
+   "bytes": {
+    "1_isolated": 0,
+    "2_sharing": 3093162,
+    "3_federated": 527800,
+    "4_centralized": 1519491
+   },
+   "steps": {
+    "1_isolated": 5978,
+    "2_sharing": 5978,
+    "3_federated": 5660,
+    "4_centralized": 5978
+   },
+   "named_check": {
+    "1_isolated": 0.673297416770272,
+    "2_sharing": 1.0,
+    "3_federated": 0.996270203066722,
+    "4_centralized": 1.0
+   },
+   "gain": {
+    "2_sharing": {
+     "gain": 0.9997237187456832,
+     "lo": 0.9991355358479306,
+     "hi": 1.0,
+     "events": 39
+    },
+    "3_federated": {
+     "gain": 0.5732836027075564,
+     "lo": 0.4787367585042003,
+     "hi": 0.6648347731684323,
+     "events": 39
+    },
+    "4_centralized": {
+     "gain": 1.0,
+     "lo": 1.0,
+     "hi": 1.0,
+     "events": 39
+    }
+   },
+   "gain_flagged": {
+    "2_sharing": {
+     "gain": 0.026799281668738795,
+     "lo": 0.018559638751794318,
+     "hi": 0.034633720105031615
+    },
+    "3_federated": {
+     "gain": 0.027075562923055574,
+     "lo": 0.019695661294241634,
+     "hi": 0.03449831805812928
+    },
+    "4_centralized": {
+     "gain": 0.027075562923055574,
+     "lo": 0.01954951126221849,
+     "hi": 0.034783025667601886
+    }
+   },
+   "records_received": 23978,
+   "trace": {
+    "records": 11700,
+    "sources": 8,
+    "traced": 0.038615384615384614,
+    "guessing": 0.4088034188034188,
+    "balanced": 0.011807443027388669,
+    "advantage": -0.3701880341880342,
+    "lo": -0.43745830673627584,
+    "hi": -0.30253563107778375,
+    "p_value": 0.5323383084577115
+   }
+  },
+  "C": {
+   "name": "Organization C",
+   "never_seen": "DoS_TCP",
+   "test_rows": 2096,
+   "named": {
+    "1_isolated": 0.0,
+    "2_sharing": 0.9928435114503817,
+    "3_federated": 0.809796437659033,
+    "4_centralized": 0.9963422391857506
+   },
+   "flagged": {
+    "1_isolated": 0.9812340966921119,
+    "2_sharing": 1.0,
+    "3_federated": 1.0,
+    "4_centralized": 1.0
+   },
+   "false_alarm": {
+    "1_isolated": 0.05555555555555555,
+    "2_sharing": 0.048611111111111105,
+    "3_federated": 0.05555555555555555,
+    "4_centralized": 0.041666666666666664
+   },
+   "bytes": {
+    "1_isolated": 0,
+    "2_sharing": 3007248,
+    "3_federated": 527800,
+    "4_centralized": 1605405
+   },
+   "steps": {
+    "1_isolated": 5978,
+    "2_sharing": 5978,
+    "3_federated": 5660,
+    "4_centralized": 5978
+   },
+   "named_check": {
+    "1_isolated": 0.9664440203562341,
+    "2_sharing": 0.9952290076335878,
+    "3_federated": 0.9904580152671757,
+    "4_centralized": 0.9982506361323155
+   },
+   "gain": {
+    "2_sharing": {
+     "gain": 0.9928435114503816,
+     "lo": 0.9874056381294803,
+     "hi": 0.9972141041989335,
+     "events": 35
+    },
+    "3_federated": {
+     "gain": 0.8097964376590332,
+     "lo": 0.7429933867403723,
+     "hi": 0.8729662658463734,
+     "events": 35
+    },
+    "4_centralized": {
+     "gain": 0.9963422391857505,
+     "lo": 0.9934544948553568,
+     "hi": 0.998702998902233,
+     "events": 35
+    }
+   },
+   "gain_flagged": {
+    "2_sharing": {
+     "gain": 0.018765903307887855,
+     "lo": 0.012357438136024291,
+     "hi": 0.02588395054607001
+    },
+    "3_federated": {
+     "gain": 0.018765903307887855,
+     "lo": 0.012227754095484641,
+     "hi": 0.02615229100130522
+    },
+    "4_centralized": {
+     "gain": 0.018765903307887855,
+     "lo": 0.01235742685669589,
+     "hi": 0.025592397543376773
+    }
+   },
+   "records_received": 23312,
+   "trace": {
+    "records": 12366,
+    "sources": 8,
+    "traced": 0.0,
+    "guessing": 0.43700469027979943,
+    "balanced": 0.0,
+    "advantage": -0.43700469027979943,
+    "lo": -0.5089048878932354,
+    "hi": -0.36725607760268836,
+    "p_value": 1.0
+   }
+  }
+ },
+ "sharing_minus_federated": {
+  "A": {
+   "diff": 0.3118193891102259,
+   "lo": 0.2263434126649548,
+   "hi": 0.4018085801615842,
+   "events": 70
+  },
+  "B": {
+   "diff": 0.4264401160381268,
+   "lo": 0.33291886004719534,
+   "hi": 0.5188511850579389,
+   "events": 39
+  },
+  "C": {
+   "diff": 0.18304707379134844,
+   "lo": 0.12170896165976719,
+   "hi": 0.25001903960237293,
+   "events": 35
+  },
+  "mean": {
+   "diff": 0.3071021929799004,
+   "lo": 0.2591462474449111,
+   "hi": 0.3567393213250436
+  }
+ },
+ "hypotheses": {
+  "H1": {
+   "gain": 0.8819402940848327,
+   "lo": 0.8459310282582095,
+   "hi": 0.9196066296116062,
+   "clears": true
+  },
+  "H2": {
+   "gain": 0.5748381011049323,
+   "lo": 0.5232601250523088,
+   "hi": 0.6311002282531313,
+   "clears": true
+  },
+  "H3": {
+   "yes": false,
+   "companies": 3,
+   "low": -0.43700469027979943,
+   "high": -0.3380985187736824
+  },
+  "H3_note": null
+ },
+ "checks": {
+  "pooled": {
+   "gain": 0.9101574617560293,
+   "lo": 0.8816574915715077,
+   "hi": 0.9383362369044748,
+   "clears": true
+  },
+  "flagged": {
+   "H1": {
+    "gain": 0.017047624739884897,
+    "lo": 0.013169083796855064,
+    "hi": 0.02127980729585087,
+    "clears": false
+   },
+   "H2": {
+    "gain": 0.016431440492209164,
+    "lo": 0.012804248681388079,
+    "hi": 0.02004699028933092,
+    "clears": false
+   }
+  },
+  "nothing_withheld": {
+   "H1": {
+    "gain": 0.16953614014689347,
+    "lo": 0.1481545348142972,
+    "hi": 0.19127120977661047,
+    "clears": true
+   },
+   "H2": {
+    "gain": 0.08693273406337565,
+    "lo": 0.06737013818197081,
+    "hi": 0.10718424063098932,
+    "clears": true
+   }
+  },
+  "benign_val_rows": {
+   "A": 36,
+   "B": 32,
+   "C": 32
+  },
+  "rounds": 5
+ },
+ "verdicts": {
+  "A": {
+   "1_isolated": "baseline",
+   "4_centralized": "reference",
+   "2_sharing": "gain met",
+   "3_federated": "gain met"
+  },
+  "B": {
+   "1_isolated": "baseline",
+   "4_centralized": "reference",
+   "2_sharing": "gain met",
+   "3_federated": "gain met"
+  },
+  "C": {
+   "1_isolated": "baseline",
+   "4_centralized": "reference",
+   "2_sharing": "gain met",
+   "3_federated": "gain met"
+  }
+ },
+ "id": "bot_iot_5pct",
+ "study_role": "tool test",
+ "info": {
+  "short": "BoT-IoT 5%",
+  "maker": "UNSW Canberra Cyber Range (Koroniotis, Moustafa, Sitnikova and Turnbull, 2019)",
+  "year": 2018,
+  "what": "IoT testbed under DDoS, DoS, reconnaissance and theft attacks; Argus flow records with engineered rate features.",
+  "records": "95,944 flows sampled by attack type from the four 5% files",
+  "attacks": "DDoS and DoS (TCP, UDP, HTTP), service scan, OS fingerprint, keylogging, data exfiltration",
+  "host": "destination IP",
+  "role": "Tool test",
+  "source": "https://research.unsw.edu.au/projects/bot-iot-dataset",
+  "licence": "Cite the makers; analysis use."
+ },
+ "computed": "computed by this tool on 08 November 2026 with the protocol budget on the working sample described above; the split is the tool's own"
+}

@@ -1,0 +1,519 @@
+{
+ "name": "Electra Modbus (electric traction substation)",
+ "about": "Modbus TCP traffic of an electric traction substation with seven attack types; only five numbers per record (function code, error, address, data, request), so the detector has little to work with. Working sample of 119,994 records.",
+ "made": "08 Nov 2026, 23:18",
+ "minutes": 2.1,
+ "budget": {
+  "name": "protocol (shuffle test on 5,000 records per side, 50-tree forests)",
+  "passes": 61,
+  "local_epochs": 4,
+  "resamples": 2000,
+  "trace_seeds": 5,
+  "trace_trees": 300,
+  "trace_permutations": 200,
+  "trace_perm_trees": 50,
+  "trace_perm_rows": 5000,
+  "seeds": [
+   0,
+   1,
+   2
+  ],
+  "max_rows": 0,
+  "nothing_withheld_check": true,
+  "do_trace": true
+ },
+ "seeds": [
+  0,
+  1,
+  2
+ ],
+ "software": {
+  "torch": "2.15.0",
+  "numpy": "2.5.4",
+  "pandas": "2.3.3"
+ },
+ "rules": {
+  "false_alarm_target": 0.05,
+  "min_gain": 0.05,
+  "fp_limit": 0.01,
+  "batch": 128,
+  "passes": 61,
+  "local_epochs": 4,
+  "resamples": 2000,
+  "network": "5-128-64-8",
+  "split": "by event inside each organization (records of one attack on one host under 15 s apart stay together; 50/20/30 train/validation/test by record count)",
+  "companies": "organizations = three random thirds of the records (the hosts in this data are too few or too one-sided to form three organizations)"
+ },
+ "step1": {
+  "A": {
+   "name": "Organization A",
+   "never_seen": "READ_ATTACK",
+   "sources": 4,
+   "train": 19987,
+   "withheld": 4058,
+   "train_after": 15929,
+   "train_normal": 4059,
+   "train_attack": 11870,
+   "val": 7991,
+   "test": 12020,
+   "test_never_seen": 2438,
+   "events_never_seen": 1075
+  },
+  "B": {
+   "name": "Organization B",
+   "never_seen": "MITM_UNALTERED",
+   "sources": 4,
+   "train": 19973,
+   "withheld": 4057,
+   "train_after": 15916,
+   "train_normal": 4059,
+   "train_attack": 11857,
+   "val": 8013,
+   "test": 12012,
+   "test_never_seen": 2436,
+   "events_never_seen": 1474
+  },
+  "C": {
+   "name": "Organization C",
+   "never_seen": "RECOGNITION_ATTACK",
+   "sources": 4,
+   "train": 19989,
+   "withheld": 4059,
+   "train_after": 15930,
+   "train_normal": 4059,
+   "train_attack": 11871,
+   "val": 7989,
+   "test": 12020,
+   "test_never_seen": 2436,
+   "events_never_seen": 2436
+  }
+ },
+ "step2": {
+  "raw_columns": 11,
+  "kept_numbers": 5,
+  "removed": 5,
+  "kept": [
+   "request",
+   "fc",
+   "error",
+   "address",
+   "data"
+  ],
+  "removed_columns": [
+   "Time",
+   "dip",
+   "dmac",
+   "label",
+   "sip",
+   "smac"
+  ]
+ },
+ "classes": [
+  "FORCE_ERROR_ATTACK",
+  "MITM_UNALTERED",
+  "READ_ATTACK",
+  "RECOGNITION_ATTACK",
+  "REPLAY_ATTACK",
+  "RESPONSE_ATTACK",
+  "WRITE_ATTACK"
+ ],
+ "benign": "NORMAL",
+ "companies": {
+  "A": {
+   "name": "Organization A",
+   "never_seen": "READ_ATTACK",
+   "test_rows": 2438,
+   "named": {
+    "1_isolated": 0.0,
+    "2_sharing": 0.4290401968826907,
+    "3_federated": 0.24063439978124146,
+    "4_centralized": 0.45980311730926987
+   },
+   "flagged": {
+    "1_isolated": 0.5500410172272354,
+    "2_sharing": 0.5576975663111841,
+    "3_federated": 0.49726551818430403,
+    "4_centralized": 0.553048947224501
+   },
+   "false_alarm": {
+    "1_isolated": 0.04757998359310911,
+    "2_sharing": 0.04593929450369155,
+    "3_federated": 0.054552912223133715,
+    "4_centralized": 0.047716707683893904
+   },
+   "bytes": {
+    "1_isolated": 0,
+    "2_sharing": 498288,
+    "3_federated": 381760,
+    "4_centralized": 334509
+   },
+   "steps": {
+    "1_isolated": 7625,
+    "2_sharing": 7625,
+    "3_federated": 7500,
+    "4_centralized": 7625
+   },
+   "named_check": {
+    "1_isolated": 0.414820891441072,
+    "2_sharing": 0.4200164068908942,
+    "3_federated": 0.4665025977577249,
+    "4_centralized": 0.41864916598304625
+   },
+   "gain": {
+    "2_sharing": {
+     "gain": 0.42904019688269074,
+     "lo": 0.39956289623931907,
+     "hi": 0.4565370336623283,
+     "events": 1075
+    },
+    "3_federated": {
+     "gain": 0.24063439978124143,
+     "lo": 0.21338020178745984,
+     "hi": 0.2663941347957323,
+     "events": 1075
+    },
+    "4_centralized": {
+     "gain": 0.45980311730926987,
+     "lo": 0.42917614821557254,
+     "hi": 0.48735582051778087,
+     "events": 1075
+    }
+   },
+   "gain_flagged": {
+    "2_sharing": {
+     "gain": 0.007656549083948638,
+     "lo": 0.0010547137748944365,
+     "hi": 0.014617961659580634
+    },
+    "3_federated": {
+     "gain": -0.05277549904293127,
+     "lo": -0.06430335379005904,
+     "hi": -0.04278518312814328
+    },
+    "4_centralized": {
+     "gain": 0.0030079299972655127,
+     "lo": -0.004230917725843847,
+     "hi": 0.010490721413297984
+    }
+   },
+   "records_received": 23728,
+   "trace": {
+    "records": 11870,
+    "sources": 3,
+    "traced": 0.5363942712721146,
+    "guessing": 0.5363942712721146,
+    "balanced": 0.3333333333333333,
+    "advantage": 0.0,
+    "lo": 0.0,
+    "hi": 0.0,
+    "p_value": 1.0,
+    "note": null
+   }
+  },
+  "B": {
+   "name": "Organization B",
+   "never_seen": "MITM_UNALTERED",
+   "test_rows": 2436,
+   "named": {
+    "1_isolated": 0.0,
+    "2_sharing": 0.09619594964422551,
+    "3_federated": 0.0,
+    "4_centralized": 0.0603448275862069
+   },
+   "flagged": {
+    "1_isolated": 0.16365626710454298,
+    "2_sharing": 0.16776135741652984,
+    "3_federated": 0.1539408866995074,
+    "4_centralized": 0.16516146688560482
+   },
+   "false_alarm": {
+    "1_isolated": 0.044745484400656815,
+    "2_sharing": 0.044745484400656815,
+    "3_federated": 0.04885057471264368,
+    "4_centralized": 0.045019157088122604
+   },
+   "bytes": {
+    "1_isolated": 0,
+    "2_sharing": 498561,
+    "3_federated": 381760,
+    "4_centralized": 334236
+   },
+   "steps": {
+    "1_isolated": 7625,
+    "2_sharing": 7625,
+    "3_federated": 7500,
+    "4_centralized": 7625
+   },
+   "named_check": {
+    "1_isolated": 0.1052271483305966,
+    "2_sharing": 0.13779419813902571,
+    "3_federated": 0.06280788177339901,
+    "4_centralized": 0.14573070607553365
+   },
+   "gain": {
+    "2_sharing": {
+     "gain": 0.0961959496442255,
+     "lo": 0.08287556442794138,
+     "hi": 0.11106986679862171,
+     "events": 1474
+    },
+    "3_federated": {
+     "gain": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "events": 1474
+    },
+    "4_centralized": {
+     "gain": 0.0603448275862069,
+     "lo": 0.050267978765808914,
+     "hi": 0.07013571432405058,
+     "events": 1474
+    }
+   },
+   "gain_flagged": {
+    "2_sharing": {
+     "gain": 0.0041050903119868865,
+     "lo": 0.0014558026695069234,
+     "hi": 0.00698856080854224
+    },
+    "3_federated": {
+     "gain": -0.009715380405035556,
+     "lo": -0.02348245098627433,
+     "hi": 0.0029844703737567833
+    },
+    "4_centralized": {
+     "gain": 0.0015051997810618667,
+     "lo": -0.0008503089105983526,
+     "hi": 0.004055988273021227
+    }
+   },
+   "records_received": 23741,
+   "trace": {
+    "records": 11857,
+    "sources": 3,
+    "traced": 0.19954457282617863,
+    "guessing": 0.5623682213038711,
+    "balanced": 0.3333333333333333,
+    "advantage": -0.36282364847769244,
+    "lo": -0.3949437183219832,
+    "hi": -0.3320498375547882,
+    "p_value": 0.004975124378109453,
+    "note": null
+   }
+  },
+  "C": {
+   "name": "Organization C",
+   "never_seen": "RECOGNITION_ATTACK",
+   "test_rows": 2436,
+   "named": {
+    "1_isolated": 0.0,
+    "2_sharing": 0.9987684729064039,
+    "3_federated": 1.0,
+    "4_centralized": 0.9987684729064039
+   },
+   "flagged": {
+    "1_isolated": 0.26108374384236455,
+    "2_sharing": 0.9995894909688013,
+    "3_federated": 1.0,
+    "4_centralized": 0.9995894909688013
+   },
+   "false_alarm": {
+    "1_isolated": 0.03845101258894362,
+    "2_sharing": 0.039272030651340994,
+    "3_federated": 0.03858784893267652,
+    "4_centralized": 0.03954570333880678
+   },
+   "bytes": {
+    "1_isolated": 0,
+    "2_sharing": 498267,
+    "3_federated": 381760,
+    "4_centralized": 334530
+   },
+   "steps": {
+    "1_isolated": 7625,
+    "2_sharing": 7625,
+    "3_federated": 7500,
+    "4_centralized": 7625
+   },
+   "named_check": {
+    "1_isolated": 0.9987684729064039,
+    "2_sharing": 0.9987684729064039,
+    "3_federated": 1.0,
+    "4_centralized": 0.9987684729064039
+   },
+   "gain": {
+    "2_sharing": {
+     "gain": 0.9987684729064039,
+     "lo": 0.9971264367816092,
+     "hi": 1.0,
+     "events": 2436
+    },
+    "3_federated": {
+     "gain": 1.0,
+     "lo": 1.0,
+     "hi": 1.0,
+     "events": 2436
+    },
+    "4_centralized": {
+     "gain": 0.9987684729064039,
+     "lo": 0.9971264367816092,
+     "hi": 1.0,
+     "events": 2436
+    }
+   },
+   "gain_flagged": {
+    "2_sharing": {
+     "gain": 0.7385057471264368,
+     "lo": 0.7259168035030104,
+     "hi": 0.7515051997810619
+    },
+    "3_federated": {
+     "gain": 0.7389162561576355,
+     "lo": 0.7253694581280787,
+     "hi": 0.7521962233169129
+    },
+    "4_centralized": {
+     "gain": 0.7385057471264368,
+     "lo": 0.7253694581280788,
+     "hi": 0.751368363437329
+    }
+   },
+   "records_received": 23727,
+   "trace": {
+    "records": 11871,
+    "sources": 3,
+    "traced": 0.534074635666751,
+    "guessing": 0.534074635666751,
+    "balanced": 0.3333333333333333,
+    "advantage": 0.0,
+    "lo": 0.0,
+    "hi": 0.0,
+    "p_value": 1.0,
+    "note": null
+   }
+  }
+ },
+ "sharing_minus_federated": {
+  "A": {
+   "diff": 0.1884057971014493,
+   "lo": 0.17077631445747862,
+   "hi": 0.2083886985025519,
+   "events": 1075
+  },
+  "B": {
+   "diff": 0.0961959496442255,
+   "lo": 0.08204628845611063,
+   "hi": 0.11017108311699703,
+   "events": 1474
+  },
+  "C": {
+   "diff": -0.0012315270935960854,
+   "lo": -0.002873563218390829,
+   "hi": 0.0,
+   "events": 2436
+  },
+  "mean": {
+   "diff": 0.09445673988402624,
+   "lo": 0.08673043129255922,
+   "hi": 0.10271426257259061
+  }
+ },
+ "hypotheses": {
+  "H1": {
+   "gain": 0.5080015398111067,
+   "lo": 0.4973627971271229,
+   "hi": 0.518797670151806,
+   "clears": true
+  },
+  "H2": {
+   "gain": 0.4135447999270805,
+   "lo": 0.4044600672624866,
+   "hi": 0.4221313782652441,
+   "clears": true
+  },
+  "H3": {
+   "yes": false,
+   "companies": 3,
+   "low": -0.36282364847769244,
+   "high": 0.0
+  },
+  "H3_note": null
+ },
+ "checks": {
+  "pooled": {
+   "gain": 0.5063054726006269,
+   "lo": 0.4957808864516745,
+   "hi": 0.5160703468504748,
+   "clears": true
+  },
+  "flagged": {
+   "H1": {
+    "gain": 0.25008912884079076,
+    "lo": 0.24530180236001617,
+    "hi": 0.25510193257542507,
+    "clears": true
+   },
+   "H2": {
+    "gain": 0.22547512556988955,
+    "lo": 0.21801489271210892,
+    "hi": 0.232290154875746,
+    "clears": true
+   }
+  },
+  "nothing_withheld": {
+   "H1": {
+    "gain": 0.012587521752750483,
+    "lo": 0.009530057904254038,
+    "hi": 0.01599147447026618,
+    "clears": false
+   },
+   "H2": {
+    "gain": 0.00349798895101718,
+    "lo": -0.001613380115658163,
+    "hi": 0.00853134892453316,
+    "clears": false
+   }
+  },
+  "benign_val_rows": {
+   "A": 1622,
+   "B": 1624,
+   "C": 1624
+  },
+  "rounds": 5
+ },
+ "verdicts": {
+  "A": {
+   "1_isolated": "baseline",
+   "4_centralized": "reference",
+   "2_sharing": "gain met",
+   "3_federated": "gain met"
+  },
+  "B": {
+   "1_isolated": "baseline",
+   "4_centralized": "reference",
+   "2_sharing": "gain met",
+   "3_federated": "not worth it (gain not met)"
+  },
+  "C": {
+   "1_isolated": "baseline",
+   "4_centralized": "reference",
+   "2_sharing": "gain met",
+   "3_federated": "gain met"
+  }
+ },
+ "id": "electra_modbus",
+ "study_role": "tool test",
+ "info": {
+  "short": "Electra Modbus",
+  "maker": "University of Murcia (Gomez, Maimo, Celdran, Clemente, Sarmiento, Masa and Nistal, 2019)",
+  "year": 2019,
+  "what": "Modbus packets in a railway traction substation under reconnaissance, read, write, replay, response, force-error and MITM attacks.",
+  "records": "119,994 packets sampled by label from 16 million",
+  "attacks": "7 attack types",
+  "host": "destination IP",
+  "role": "Tool test (few features)",
+  "source": "http://perception.inf.um.es/ICS-datasets/",
+  "licence": "Cite the makers; analysis use."
+ },
+ "computed": "computed by this tool on 08 November 2026 with the protocol (shuffle test on 5,000 records per side, 50-tree forests) budget on the working sample described above; the split is the tool's own"
+}
