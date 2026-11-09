@@ -148,6 +148,18 @@ RUN_OF_RECORD = {
 }
 DATASENSE_NAMES = {"A": "A, network gear", "B": "B, cameras", "C": "C, sensors and plugs"}
 
+APPROVED = {  # verbatim, from the praxis record; the thesis is a proposal until the advisor approves it
+    "title": "Privacy-Aware Evaluation of Sanitized Attack-Record Sharing and Federated Learning for Intrusion Detection on Industrial Network Data",
+    "problem_statement": "Deploying collaborative intrusion detection across industrial networks creates conflicts between privacy and reliability, leaving organizations unable to determine whether the benefits of collaboration outweigh its costs (Hernandez-Ramos et al., 2025; Zibak & Simpson, 2018).",
+    "thesis": "Sanitized attack-record sharing and federated learning improve mean attack-class recall compared with isolated training across the withheld attack types evaluated in the study.",
+    "RQ1": "To what extent does receiving sanitized attack records from peers improve attack-class recall for withheld attack types compared with isolated training?",
+    "RQ2": "To what extent does federated learning improve attack-class recall for withheld attack types compared with isolated training?",
+    "RQ3": "To what extent can the source device of a sanitized attack record be inferred after direct identifiers are removed?",
+    "H1": "Sharing sanitized attack records improves mean attack-class recall for withheld attack types by at least 5 percentage points compared with isolated training.",
+    "H2": "Federated learning improves mean attack-class recall for withheld attack types by at least 5 percentage points compared with isolated training.",
+    "H3": "After direct identifiers are removed, a receiving peer with device-labelled reference traffic identifies the source device of shared attack records more accurately than the majority-device baseline.",
+}
+
 SHORT = {"1_isolated": "Isolated training", "2_sharing": "Sanitized attack-record sharing",
          "3_federated": "Federated learning", "4_centralized": "Centralized training"}
 
@@ -349,8 +361,68 @@ def show_card(card, heading=True):
         st.markdown(engine.verdicts.__doc__)
 
 
+def report_html(card):
+    """A self-contained HTML report of one scorecard (print it to PDF from the browser)."""
+    import html as _h
+    e = _h.escape
+    H = card["hypotheses"]
+    rows1 = "".join(f"<tr><td>{e(card['companies'][o]['name'])}</td><td>{e(str(card['step1'][o].get('sources') or 'no host column'))}</td>"
+                    f"<td>{card['step1'][o]['train']:,}</td><td>{e(card['step1'][o]['never_seen'])}</td><td>{card['step1'][o].get('withheld', 0):,}</td>"
+                    f"<td>{card['step1'][o].get('train_after', card['step1'][o]['train']):,}</td><td>{card['step1'][o]['test_never_seen']:,}</td></tr>" for o in ORG)
+    org_tables = ""
+    for o in ORG:
+        df = org_table(card, o)
+        head = "".join(f"<th>{e(str(c))}</th>" for c in df.columns)
+        body = "".join("<tr>" + "".join(f"<td>{e(str(v))}</td>" for v in r) + "</tr>" for r in df.itertuples(index=False))
+        tr = card["companies"][o].get("trace") or {}
+        trace = (f"<p class='small'>Tracing: traced {tr['traced'] * 100:.1f}% against guessing {tr['guessing'] * 100:.1f}%; gain {tr['advantage'] * 100:+.1f} points, "
+                 f"95% range between {tr['lo'] * 100:+.1f} and {tr['hi'] * 100:+.1f}; {tr['sources']} hosts; shuffle test p = {tr['p_value']:.3f}.</p>" if "traced" in tr else
+                 f"<p class='small'>Tracing: {e(tr.get('skipped', 'not measured'))}.</p>")
+        org_tables += (f"<h3>{e(card['companies'][o]['name'])}, withheld attack type {e(card['companies'][o]['never_seen'])}, {card['companies'][o]['test_rows']:,} test records</h3>"
+                       f"<table><thead><tr>{head}</tr></thead><tbody>{body}</tbody></table>{trace}")
+    def hyp(name, h, what):
+        if not h:
+            return f"<p><b>{name}</b> {what}: not measured.</p>"
+        return (f"<p><b>{name}</b> {what}: {h['gain'] * 100:+.1f} points, 95% range [{h['lo'] * 100:+.1f}, {h['hi'] * 100:+.1f}]. "
+                f"Rule: the whole range above 5 points. Result: <b>{'supported' if h['clears'] else 'not supported'}</b>.</p>")
+    h3 = H.get("H3")
+    h3txt = (f"<p><b>H3</b> tracing: sanitized attack records were traced above the majority-host guess in {'all' if h3['yes'] else 'not all'} {h3['companies']} organizations tested "
+             f"(gain over guessing from {h3['low'] * 100:+.1f} to {h3['high'] * 100:+.1f} points). Result: <b>{'supported' if h3['yes'] else 'not supported'}</b>.</p>" if h3
+             else f"<p><b>H3</b> tracing: {e(H.get('H3_note') or 'not measured')}.</p>")
+    ch = card["checks"]
+    b = card.get("budget") or {}
+    return f"""<!doctype html><html><head><meta charset='utf-8'><title>Praxis Lab report: {e(card['name'])}</title>
+<style>body{{font-family:-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;color:#13233a;max-width:1000px;margin:30px auto;padding:0 20px;line-height:1.45}}
+h1{{font-size:1.8rem;margin-bottom:4px}} h2{{font-size:1.2rem;color:#1f4e79;margin-top:28px;border-bottom:2px solid #dfe5ee;padding-bottom:4px}} h3{{font-size:1rem;margin-top:18px}}
+table{{border-collapse:collapse;width:100%;font-size:0.85rem;margin:8px 0}} th{{text-align:left;background:#f0f3f8;padding:6px 8px;border-bottom:1px solid #dfe5ee}} td{{padding:5px 8px;border-bottom:1px solid #edf0f5;white-space:nowrap}}
+.small{{font-size:0.85rem;color:#3b4a5e}} .box{{background:#e8f4f2;border-left:5px solid #0f8a8a;padding:10px 14px;border-radius:8px}} .muted{{color:#6b7a90;font-size:0.8rem}}
+@media print{{body{{margin:10px}} h2{{break-after:avoid}}}}</style></head><body>
+<h1>Praxis Lab report</h1><div class='muted'>{e(card['name'])}. Generated {e(time.strftime('%d %B %Y, %H:%M'))}. {e(card.get('computed', ''))}</div>
+<p>{e(card.get('about', ''))}</p>
+<h2>Step 1. Three organizations and their withheld attack types</h2>
+<table><thead><tr><th>Organization</th><th>Hosts</th><th>Training records</th><th>Withheld attack type</th><th>Taken out</th><th>Trains on</th><th>Test records of the withheld type</th></tr></thead><tbody>{rows1}</tbody></table>
+<p class='small'>Organizations: {e(card['rules']['companies'])}. Split: {e(card['rules']['split'])}.</p>
+<h2>Step 2. Sanitizing</h2><p>{card['step2']['raw_columns']} columns in the raw data. Kept: {card['step2']['kept_numbers']} behavior numbers and the attack type. Removed: {card['step2']['removed']} columns.</p>
+<p class='small'>Kept: {e(', '.join(card['step2'].get('kept', [])))}</p><p class='small'>Removed: {e(', '.join(card['step2'].get('removed_columns', [])))}</p>
+<h2>Steps 3 and 4. Four training conditions, tested on the withheld attack type</h2>
+<p class='small'>Network {e(card['rules']['network'])}; {card['rules']['passes']} passes of the largest organization at batch {card['rules']['batch']}; alarm rule: 95th percentile of the organization's own normal validation scores;
+federated learning {card['checks']['rounds']} rounds of {card['rules']['local_epochs']} local passes; seeds {len(card['seeds'])}; tracing {b.get('trace_seeds')} forests of {b.get('trace_trees')} trees, shuffle test {b.get('trace_permutations')} shuffles. Budget: {e(str(b.get('name')))}.</p>
+{org_tables}
+<h2>Step 5. Scorecard</h2>
+{hyp('H1', H.get('H1'), 'sanitized attack-record sharing, mean gain in attack-class recall over the three organizations')}
+{hyp('H2', H.get('H2'), 'federated learning, mean gain in attack-class recall over the three organizations')}
+{h3txt}
+<p class='small'>Separate checks: centralized training against isolated training {e(pts(ch.get('pooled')))} points; flagging only (attack or not, type ignored) sharing {e(pts(ch['flagged']['H1']))}, federated {e(pts(ch['flagged']['H2']))};
+{('nothing withheld: sharing ' + e(pts(ch['nothing_withheld']['H1'])) + ', federated ' + e(pts(ch['nothing_withheld']['H2'])) + '.') if ch.get('nothing_withheld') else 'nothing-withheld check: not measured.'}</p>
+<div class='box'><b>The decision rule.</b> Gain: the low end of the 95% range of the gain in attack-class recall must be above 5 points. False positives: the false-positive rate may rise by at most 1 point over isolated training.
+Privacy (sharing): if the gain is met but sanitized records are traced above the majority-host guess, the result is a trade-off. Data sent is reported, not judged.</div>
+<p class='muted'>Praxis Lab, built on the praxis procedure of Rayve Malhotra (George Washington University, SEAS 8499). Sanitized means direct identifiers removed, nothing more. The study claims rest on the DataSense dataset alone; every other dataset shows that the procedure runs on new data with the tool's own split.</p>
+</body></html>"""
+
+
 def download_buttons(card, key):
-    c1, c2 = st.columns(2)
+    c0, c1, c2 = st.columns(3)
+    c0.download_button("Download the report (HTML, print to PDF)", report_html(card), file_name=f"praxis_lab_report_{key}.html", mime="text/html", key=f"dl_html_{key}", type="primary")
     c1.download_button("Download the scorecard (JSON)", json.dumps(card, indent=1, default=float), file_name=f"praxis_lab_{key}.json", mime="application/json", key=f"dl_json_{key}")
     table = pd.concat([org_table(card, o).assign(Organization=card["companies"][o]["name"]) for o in ORG])
     c2.download_button("Download the four-condition tables (CSV)", table.to_csv(index=False), file_name=f"praxis_lab_{key}_tables.csv", mime="text/csv", key=f"dl_csv_{key}")
@@ -364,9 +436,11 @@ def page_start():
 four training conditions, one scorecard with 95% ranges, false-positive rates, data sent, and whether sanitized records can be traced back to their source.</p></div>""",
                 unsafe_allow_html=True)
     if not _test_page:
-        c1, c2, c3 = st.columns([1.3, 1.3, 2])
+        c1, c2, c3, c4 = st.columns([1.3, 1.3, 1.1, 1.2])
         c1.page_link(st.Page(page_results, title="Results on the datasets", url_path="results"), label="See the results on the datasets", icon=":material/table_chart:")
         c2.page_link(st.Page(page_evaluate, title="Evaluate your own data", url_path="evaluate"), label="Evaluate your own data", icon=":material/upload_file:")
+        c3.page_link(st.Page(page_research, title="The research", url_path="research"), label="The research", icon=":material/school:")
+        c4.page_link(st.Page(page_organizations, title="For organizations", url_path="organizations"), label="For organizations", icon=":material/domain:")
     st.markdown("""
 Three organizations each run an intrusion detector. Each one has an attack type it has never trained on: its **withheld attack type**.
 The other two organizations have seen that attack. The question is whether working together lets each organization catch and name
@@ -755,9 +829,93 @@ def gate():
     return False
 
 
+
+def page_research():
+    st.title("The research behind the tool")
+    st.markdown(f"<div class='plab-callout'><b>{APPROVED['title']}</b><br>Doctor of Engineering praxis, George Washington University, SEAS 8499. Author: Rayve Malhotra. Research advisor: Prof. Fossaceca.</div>", unsafe_allow_html=True)
+    st.markdown("#### Problem statement")
+    st.markdown(APPROVED["problem_statement"])
+    st.markdown("#### Thesis (proposed, awaiting advisor approval)")
+    st.markdown(APPROVED["thesis"])
+    st.markdown("#### Research questions and hypotheses")
+    c1, c2 = st.columns(2)
+    with c1:
+        card("RQ1", APPROVED["RQ1"])
+        st.markdown("")
+        card("RQ2", APPROVED["RQ2"])
+        st.markdown("")
+        card("RQ3", APPROVED["RQ3"])
+    with c2:
+        card("H1", APPROVED["H1"])
+        st.markdown("")
+        card("H2", APPROVED["H2"])
+        st.markdown("")
+        card("H3", APPROVED["H3"])
+    st.markdown("#### What the study found on DataSense (run of record)")
+    k1, k2, k3, k4 = st.columns(4)
+    with k1:
+        kpi("+41.1", "H1: mean gain, sanitized attack-record sharing [32.5, 49.6]", "teal")
+    with k2:
+        kpi("+45.8", "H2: mean gain, federated learning [37.0, 53.9]", "teal")
+    with k3:
+        kpi("41% to 55%", "H3: sanitized records traced to their device (7% to 35% by guessing)", "amber")
+    with k4:
+        kpi("0.499 to 0.513", "membership test on model weights: no clear signal", "")
+    st.markdown("""
+Three organizations were made from the DataSense CIC IIoT 2025 testbed by device role: A, network gear (7 devices, DoS withheld); B, cameras (10 devices, DDoS withheld);
+C, sensors and plugs (21 devices, MITM withheld). Each organization trained one detector under the four training conditions with the same network, the same training budget
+and the same alarm rule, and was tested on its withheld attack type. H1 and H2 were supported: the whole 95% range of the mean gain lies above 5 points.
+H3 was supported: a receiving peer holding device-labelled reference traffic traced the sanitized attack records to their source device well above the majority-device guess,
+so removing identifiers is not enough on its own. Organization C named none of its withheld MITM records under any condition, which the study reports as it is.
+""")
+    st.markdown("#### What this tool adds")
+    st.markdown("""
+The same procedure, as a service: any organization can run it on its own records without sending them anywhere, and read the answer in the terms of the study, with the
+decision rule applied. The results page shows the procedure on the praxis dataset, on the ranking check (Edge-IIoTset) and on public intrusion datasets, so that the method
+is judged on more than one source of data. The study claims rest on DataSense alone; every other run is a tool test with the tool's own split.
+""")
+    st.caption("The problem statement, research questions and hypotheses above are quoted as recorded in the praxis; the thesis is a proposal until the advisor approves it.")
+
+
+def page_organizations():
+    st.title("For organizations")
+    st.markdown("""<div class='plab-hero'><div class='tag'>Before you share, know what it buys and what it exposes</div>
+<h1>An evaluation, not a promise</h1>
+<p class='lead'>Information-sharing groups ask members to contribute attack data. Federated learning vendors ask them to contribute model updates. Praxis Lab measures, on your own
+records, what each would gain in detecting the attack types you have not seen, what it would cost in false alarms, how many bytes would leave, and whether a sanitized record
+could still be traced back to one of your devices.</p></div>""", unsafe_allow_html=True)
+    st.markdown("#### What you get")
+    c1, c2, c3 = st.columns(3)
+    with c1:
+        card("A scorecard in your own terms", "Four training conditions on your data, one withheld attack type per organization, gains with 95% ranges, false-positive rates, data sent, tracing. A report you can hand to a security committee.")
+    with c2:
+        card("Nothing leaves your network", "Run the tool on your own machine or inside your network (one container). Uploads to a hosted copy are kept in the browser session only and never stored.")
+    with c3:
+        card("A rule, not an opinion", "The decision rule says when a method is worth it: gain low end above 5 points, false positives up by at most 1 point, and a tracing check on what sharing exposes.")
+    st.markdown("#### Three ways to use it")
+    c1, c2, c3 = st.columns(3)
+    with c1:
+        card("Try it here", "Upload a labeled sample, run a quick look, read the scorecard. Free, for students, researchers and anyone taking a look.", num=1)
+    with c2:
+        card("Run it inside your network", "The same tool as a container or a local install (the repository and the Dockerfile are public). Protocol-budget runs on your full records, reports for your records only.", num=2)
+    with c3:
+        card("Guided evaluation", "The author runs the procedure with your team on your data, with settings reviewed by hand, a written report and a session on what the numbers mean for your sharing decision. Terms on request.", num=3)
+    st.markdown("<div class='plab-callout'><b>Who this is for.</b> Operators of industrial and IoT networks (utilities, manufacturing, building systems, healthcare devices) and the groups that ask them to share: ISACs, sector CERTs, consortia and vendors of federated detection. "
+                "It answers the question those groups rarely measure: for this member, with this data, is sharing worth it?</div>", unsafe_allow_html=True)
+    st.markdown("#### Honest limits")
+    st.markdown("""<div class='plab-muted'>
+<p>The procedure needs labeled records with at least three attack types, a normal label, and ideally a host or device column and a clock. It evaluates detectors of the study's design; it is not an intrusion detection product itself.</p>
+<p>Sanitized means direct identifiers removed, nothing more. The tracing test shows what that leaves exposed; it does not apply differential privacy or any other control.</p>
+<p style='margin-bottom:0'>Results on a quick look are a check; the protocol budget is the one to decide on. The study claims rest on DataSense; your data gets its own evidence.</p>
+</div>""", unsafe_allow_html=True)
+    st.markdown("#### Contact")
+    st.markdown("Open an issue or a discussion on the repository: https://github.com/rayvemalhotra/praxis-lab. The author replies there.")
+
+
 PAGES = {"start": (page_start, "Start here"), "results": (page_results, "Results on the datasets"),
          "evaluate": (page_evaluate, "Evaluate your own data"), "sanitize": (page_sanitize, "Sanitize a file"),
-         "definitions": (page_definitions, "Definitions"), "students": (page_students, "For students")}
+         "definitions": (page_definitions, "Definitions"), "students": (page_students, "For students"),
+         "research": (page_research, "The research"), "organizations": (page_organizations, "For organizations")}
 
 if not gate():
     st.stop()

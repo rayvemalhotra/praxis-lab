@@ -154,3 +154,21 @@ def test_password_gate_blocks_and_admits():
         assert len(at.dataframe) == 1                      # admitted: the definitions table is there
     finally:
         os.environ.pop("PRAXIS_LAB_PASSWORD", None)
+
+
+def test_research_and_organizations_pages():
+    at = run_page("research")
+    assert not at.exception
+    txt = all_text(at)
+    assert "Problem statement" in txt and "+41.1" in txt and "awaiting advisor approval" in txt
+    at = run_page("organizations")
+    assert not at.exception
+    assert "Three ways to use it" in all_text(at)
+
+
+def test_report_html_is_self_contained():
+    import glob as _g
+    import app as _app  # noqa
+    cards = [json.load(open(f)) for f in sorted(_g.glob(os.path.join(ROOT, "results", "*.json"))) if not os.path.basename(f).startswith("_")]
+    html = _app.report_html(cards[0]) if hasattr(_app, "report_html") else ""
+    assert "<html" in html and "Step 5. Scorecard" in html and "decision rule" in html.lower()
