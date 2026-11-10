@@ -289,6 +289,10 @@ def family_stats(cards):
                              iso=k["named"]["1_isolated"], sha=k["named"]["2_sharing"], fed=k["named"]["3_federated"], cen=k["named"]["4_centralized"],
                              fp=(exp["orgs"][o]["named"] if exp else float("nan"))))
     d = pd.DataFrame(rows)
+    default = {}
+    for fam, _, ids in agent.FAMILIES:                       # the family's general techniques, not one label's specific one
+        default.setdefault(fam, ", ".join(ids))
+    d["techniques"] = d["family"].map(lambda f: default.get(f, "no mapping"))
     g = d.groupby("family").agg(cases=("iso", "size"), techniques=("techniques", "first"), iso=("iso", "mean"), sha=("sha", "mean"), fed=("fed", "mean"),
                                  cen=("cen", "mean"), fp=("fp", "mean")).reset_index().sort_values("cases", ascending=False)
     return g
@@ -827,6 +831,8 @@ read it before you trust a number.
 def access_password():
     """The shared access password, from the PRAXIS_LAB_PASSWORD environment variable or .streamlit/secrets.toml
     ([access] password = "..."). No password set = open access (the local install)."""
+    if os.environ.get("PRAXIS_LAB_OPEN") == "1":          # a local-only copy for the owner's own machine (bind it to 127.0.0.1)
+        return ""
     pw = os.environ.get("PRAXIS_LAB_PASSWORD", "").strip()
     if pw:
         return pw
