@@ -119,7 +119,7 @@ SETTINGS = {
         name="DNP3 intrusion detection dataset (CICFlowMeter flows, 120 s timeout)", study_role="tool test",
         about="Power-grid SCADA traffic (DNP3) from nine attack captures, as CICFlowMeter flows; destination host as the organization asset. 41,596 flows.",
         paths=["dnp3.csv"], label_col="Label", benign_label="NORMAL", source_col="Dst IP", time_col="Timestamp", drop=CIC_FLOW_DROP + ["capture"],
-        info=dict(short="DNP3 IDS", maker="University of Western Macedonia (Radoglou-Grammatikis et al., 2022), Zenodo 7348493", year=2020,
+        info=dict(short="DNP3 IDS", maker="University of Western Macedonia (Kelli et al., 2022), Zenodo 7348493", year=2020,
                   what="Attacks against DNP3 SCADA communication: disable unsolicited messages, cold and warm restart, enumerate, info, initialize data, stop application, replay, MITM DoS, ARP poisoning.",
                   records="41,596 flows (all CIC flows at the 120 s timeout)", attacks="10 attack types", host="destination IP",
                   role="Tool test", source="https://zenodo.org/records/7348493", licence="CC BY 4.0.")),

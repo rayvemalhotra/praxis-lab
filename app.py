@@ -16,6 +16,7 @@ import pandas as pd
 import streamlit as st
 
 import engine
+import praxis_agent as agent
 from engine import ORG, ROADS, CONDITION
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -80,6 +81,8 @@ div[data-testid="stExpander"] { background: var(--card); border: 1px solid var(-
 div[data-testid="stForm"] { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px 22px; }
 .stButton > button[kind="primary"] { background: var(--navy); border: none; border-radius: 10px; padding: 0.55rem 1.2rem; font-weight: 700; }
 .stButton > button[kind="primary"]:hover { background: var(--navy2); }
+.stDownloadButton > button[kind="primary"] { background: var(--navy); border: none; font-weight: 700; }
+.stButton > button[kind="primary"] p, .stDownloadButton > button[kind="primary"] p { color: #ffffff !important; }
 .stDownloadButton > button, .stButton > button { border-radius: 10px; }
 div[data-testid="stStatusWidget"] { display: none; }
 [data-testid="stSidebar"] .stButton > button { border: 1px solid rgba(255,255,255,0.55); background: rgba(255,255,255,0.08); }
@@ -252,6 +255,45 @@ RECORD = {  # praxis runs of record, shown next to the tool's own rerun so that 
 }
 
 
+def attack_line(label):
+    c = agent.classify(label)
+    return f"Attack family: {c['family']}. MITRE ATT&CK: {agent.technique_text(c['techniques'])}."
+
+
+def experimental_table(card, o):
+    """All four training conditions and, under them, the experimental fingerprint-sharing arm."""
+    exp = (card.get("experimental") or {}).get("fingerprint_sharing")
+    if not exp:
+        return None
+    c, v, r = card["companies"][o], card.get("verdicts", {}).get(o, {}), exp["orgs"][o]
+    rows = []
+    for road in ROADS:
+        rows.append({"Training condition": SHORT[road], "Recall, withheld type": pct(c["named"].get(road)), "False-positive rate": pct(c["false_alarm"].get(road), 2),
+                     "Gain vs isolated, this local run [95% range]": "baseline" if road == "1_isolated" else pts(c["gain"].get(road)),
+                     "Data sent": kb(c.get("bytes", {}).get(road)), "Verdict": v.get(road, "not measured")})
+    rows.append({"Training condition": "Fingerprint sharing (experimental, not a praxis condition)", "Recall, withheld type": pct(r["named"]),
+                 "False-positive rate": pct(r["false_alarm"], 2), "Gain vs isolated, this local run [95% range]": pts(r["gain"]),
+                 "Data sent": kb(r["bytes"]), "Verdict": r["verdict"]})
+    return pd.DataFrame(rows)
+
+
+def family_stats(cards):
+    """Across the library: for each attack family of the withheld attack types, the mean attack-class recall under each condition."""
+    rows = []
+    for c in cards:
+        exp = (c.get("experimental") or {}).get("fingerprint_sharing")
+        for o in ORG:
+            k = c["companies"][o]
+            cl = agent.classify(k["never_seen"])
+            rows.append(dict(family=cl["family"], techniques=", ".join(t["id"] for t in cl["techniques"]) or "no mapping",
+                             iso=k["named"]["1_isolated"], sha=k["named"]["2_sharing"], fed=k["named"]["3_federated"], cen=k["named"]["4_centralized"],
+                             fp=(exp["orgs"][o]["named"] if exp else float("nan"))))
+    d = pd.DataFrame(rows)
+    g = d.groupby("family").agg(cases=("iso", "size"), techniques=("techniques", "first"), iso=("iso", "mean"), sha=("sha", "mean"), fed=("fed", "mean"),
+                                 cen=("cen", "mean"), fp=("fp", "mean")).reset_index().sort_values("cases", ascending=False)
+    return g
+
+
 def hypothesis_line(name, h, what, card=None):
     if not h:
         return f"**{name}** {what}: not measured."
@@ -319,6 +361,7 @@ def show_card(card, heading=True):
         c = card["companies"][o]
         rerun = " (tool rerun; the run of record is in the last two columns)" if card.get("id") == "datasense" else " (local run of the tool)"
         st.markdown(f"**{c['name']}**, withheld attack type **{c['never_seen']}**, {c['test_rows']:,} test records of that type{rerun}")
+        st.caption(attack_line(c["never_seen"]) + (" The table below is a tool rerun, not the run of record." if card.get("id") == "datasense" else " The table below is a local run of the tool."))
         html_table(org_table(card, o))
         local = "Local run of the tool. " if card.get("id") != "datasense" else "Tool rerun. "
         if not c.get("trace"):
@@ -359,6 +402,17 @@ def show_card(card, heading=True):
         st.markdown(f"**Sharing minus federated**, same test events: {m['diff'] * 100:+.1f} points, 95% range [{m['lo'] * 100:+.1f}, {m['hi'] * 100:+.1f}].")
     with st.expander("Decision rule used for the verdicts"):
         st.markdown(engine.verdicts.__doc__)
+    exp = (card.get("experimental") or {}).get("fingerprint_sharing")
+    if exp:
+        st.markdown("#### Experimental: fingerprint sharing (not part of the praxis)")
+        g = exp["mean_gain"]
+        st.markdown(f"Each organization sends a statistical fingerprint of its attack types (quantiles and rank correlations, groups of at least {exp['min_group_size']} records; no records, no model weights). "
+                    f"The receiver draws made-up records from its peers' fingerprints and trains with the same budget and alarm rule. "
+                    f"Mean gain against isolated training in this local run: {g['gain'] * 100:+.1f} points, 95% range [{g['lo'] * 100:+.1f}, {g['hi'] * 100:+.1f}]. "
+                    f"What a fingerprint reveals about its sender has not been measured.")
+        for o in ORG:
+            st.markdown(f"**{card['companies'][o]['name']}**, withheld attack type **{card['companies'][o]['never_seen']}** (local run of the tool)")
+            html_table(experimental_table(card, o))
 
 
 def report_html(card):
@@ -436,6 +490,8 @@ def page_start():
 four training conditions, one scorecard with 95% ranges, false-positive rates, data sent, and whether sanitized records can be traced back to their source.</p></div>""",
                 unsafe_allow_html=True)
     if not _test_page:
+        c0 = st.columns([1.6, 3])[0]
+        c0.page_link(st.Page(page_agent, title="Local agent and fingerprint", url_path="agent"), label="New: run the agent at home, share only a fingerprint", icon=":material/fingerprint:")
         c1, c2, c3, c4 = st.columns([1.3, 1.3, 1.1, 1.2])
         c1.page_link(st.Page(page_results, title="Results on the datasets", url_path="results"), label="See the results on the datasets", icon=":material/table_chart:")
         c2.page_link(st.Page(page_evaluate, title="Evaluate your own data", url_path="evaluate"), label="Evaluate your own data", icon=":material/upload_file:")
@@ -522,6 +578,15 @@ def page_results():
                "supported when the whole 95% range is above 5 points. Only DataSense carries the praxis claims. "
                f"Local run = this tool's rerun on another machine; the praxis runs of record are DataSense H1 {RECORD['datasense']['H1']}, H2 {RECORD['datasense']['H2']} "
                f"and Edge-IIoTset H1 {RECORD['edge_iiotset']['H1']}, H2 {RECORD['edge_iiotset']['H2']}, with the same decisions.")
+    st.markdown("#### Which attack families transfer (by MITRE ATT&CK)")
+    fs = family_stats(cards)
+    rows = [{"Attack family of the withheld type": r.family, "MITRE ATT&CK": r.techniques, "Cases": int(r.cases),
+             "Isolated training": pct(r.iso), "Sanitized attack-record sharing": pct(r.sha), "Federated learning": pct(r.fed), "Centralized training": pct(r.cen),
+             "Fingerprint sharing (experimental)": pct(r.fp)} for r in fs.itertuples()]
+    html_table(pd.DataFrame(rows), wrap=("Attack family of the withheld type", "MITRE ATT&CK"))
+    st.caption("Local runs of the tool, not the run of record. A case is one organization in one dataset; the number is the mean attack-class recall on the withheld attack type over the cases of that family. "
+               "Families and techniques are the tool's mapping of each dataset's own labels (MITRE ATT&CK v20.1, Enterprise and ICS); a suggestion, not a ruling. "
+               "Fingerprint sharing is experimental and not a praxis training condition.")
     names = [c["name"] for c in cards]
     pick = st.selectbox("Open a dataset", names, index=0)
     card = cards[names.index(pick)]
@@ -874,7 +939,8 @@ The same procedure, as a service: any organization can run it on its own records
 decision rule applied. The results page shows the procedure on the praxis dataset, on the ranking check (Edge-IIoTset) and on public intrusion datasets, so that the method
 is judged on more than one source of data. The study claims rest on DataSense alone; every other run is a tool test with the tool's own split.
 """)
-    st.caption("The problem statement, research questions and hypotheses above are quoted as recorded in the praxis; the thesis is a proposal until the advisor approves it.")
+    st.caption("The problem statement, research questions and hypotheses above are quoted as recorded in the praxis; the thesis is a proposal until the advisor approves it. "
+               "The local agent, the MITRE ATT&CK mapping and fingerprint sharing are product research built on the praxis procedure; they are not part of the praxis.")
 
 
 def page_organizations():
@@ -895,11 +961,11 @@ could still be traced back to one of your devices.</p></div>""", unsafe_allow_ht
     st.markdown("#### Three ways to use it")
     c1, c2, c3 = st.columns(3)
     with c1:
-        card("Try it here", "Upload a labeled sample, run a quick look, read the scorecard. Free, for students, researchers and anyone taking a look.", num=1)
+        card("Try it here", "Upload a labeled sample, run a quick look, read the scorecard. Free.", num=1)
     with c2:
         card("Run it inside your network", "The same tool as a container or a local install (the repository and the Dockerfile are public). Protocol-budget runs on your full records, reports for your records only.", num=2)
     with c3:
-        card("Guided evaluation", "The author runs the procedure with your team on your data, with settings reviewed by hand, a written report and a session on what the numbers mean for your sharing decision. Terms on request.", num=3)
+        card("Start with a fingerprint", "Run the local agent on your records and upload only the fingerprint: no records leave your network. You get your MITRE ATT&CK coverage, the gaps against the library and a readiness check. Free during the review period.", num=3)
     st.markdown("<div class='plab-callout'><b>Who this is for.</b> Operators of industrial and IoT networks (utilities, manufacturing, building systems, healthcare devices) and the groups that ask them to share: ISACs, sector CERTs, consortia and vendors of federated detection. "
                 "It answers the question those groups rarely measure: for this member, with this data, is sharing worth it?</div>", unsafe_allow_html=True)
     st.markdown("#### Honest limits")
@@ -908,13 +974,175 @@ could still be traced back to one of your devices.</p></div>""", unsafe_allow_ht
 <p>Sanitized means direct identifiers removed, nothing more. The tracing test shows what that leaves exposed; it does not apply differential privacy or any other control.</p>
 <p style='margin-bottom:0'>Results on a quick look are a check; the protocol budget is the one to decide on. The study claims rest on DataSense; your data gets its own evidence.</p>
 </div>""", unsafe_allow_html=True)
+    st.markdown("#### What is built, and what is designed")
+    built = [("Evaluation of four training conditions on your data, with the decision rule", "built"),
+             ("Sanitizer with one record shown before and after", "built"),
+             ("Local agent: sanitize at home, fingerprint file, SHA3-256 integrity digest", "built"),
+             ("Attack labels mapped to common families and MITRE ATT&CK v20.1 (Enterprise and ICS), identifiers checked against MITRE's published data", "built"),
+             ("Library of public datasets run with the protocol budget, with a table of which attack families transfer", "built"),
+             ("Fingerprint sharing as an experimental fifth arm", "built, experimental"),
+             ("Measuring what a fingerprint reveals about its sender (tracing and membership tests on fingerprints)", "designed, not built"),
+             ("Post-quantum signature on fingerprints (ML-DSA, FIPS 204) and post-quantum key exchange for uploads (ML-KEM, FIPS 203)", "designed, not built"),
+             ("Differential privacy or other formal protection on what is shared", "not built"),
+             ("Accounts, saved runs, payments", "not built")]
+    html_table(pd.DataFrame([{"Capability": b, "Status": s} for b, s in built]), wrap=("Capability",))
+    st.markdown("#### Why post-quantum matters here")
+    st.markdown("""
+Attack records, model updates and fingerprints describe the weak points of industrial equipment that stays in service for fifteen or twenty years. Traffic captured today can be stored and decrypted
+later, once a large quantum computer exists, so what organizations exchange about their defenses is exactly the kind of data that needs protection with a long life. NIST published the standards in August 2024:
+FIPS 203 (ML-KEM, key exchange), FIPS 204 (ML-DSA, signatures) and FIPS 205 (SLH-DSA, signatures), and its transition report IR 8547 gives 2030 as the date after which today's public-key algorithms are deprecated
+and 2035 as the date after which they are disallowed. In this tool the fingerprint already carries a hash-based integrity digest (SHA3-256) and a signature field built to take ML-DSA; the signing itself and a
+post-quantum upload channel are designed, not built. Quantum machine learning for detection is not part of the plan: the value is in protecting what is shared, not in a quantum detector.
+""")
     st.markdown("#### Contact")
     st.markdown("Open an issue or a discussion on the repository: https://github.com/rayvemalhotra/praxis-lab. The author replies there.")
+
+
+
+@st.cache_data(show_spinner=False)
+def _file_bytes(path):
+    with open(path, "rb") as fh:
+        return fh.read()
+
+
+def page_agent():
+    st.title("Local agent and fingerprint")
+    st.markdown("""<div class='plab-hero'><div class='tag'>Your records never leave your network</div>
+<h1>Run the agent at home. Share only a fingerprint.</h1>
+<p class='lead'>The agent is one readable Python file. On your own machine it finds the identifier columns, removes them, maps your attack labels to common attack families
+and to MITRE ATT&CK, and writes a small fingerprint file: summary statistics per attack type, no records. You look at the file, and only then decide whether to upload it.</p></div>""",
+                unsafe_allow_html=True)
+    c1, c2, c3 = st.columns(3)
+    with c1:
+        card("Download the agent", "One file, pandas and numpy only, no network code. A security team can read all of it before running it.", num=1)
+    with c2:
+        card("Run it on your records", "python praxis_agent.py my_records.csv. It prints what it removed, what it kept, the ATT&CK mapping and a readiness check, and writes my_records.fingerprint.json.", num=2)
+    with c3:
+        card("Upload the fingerprint", "This page checks its integrity digest, shows your attack coverage against the library and tells you whether the full evaluation can run on your data.", num=3)
+    st.markdown("")
+    d1, d2, d3 = st.columns(3)
+    d1.download_button("Download the agent (praxis_agent.py)", _file_bytes(os.path.join(HERE, "praxis_agent.py")), file_name="praxis_agent.py", mime="text/x-python", key="dl_agent", type="primary")
+    syn = os.path.join(HERE, "samples", "sample_organization_water_utility_SYNTHETIC.csv")
+    real = os.path.join(HERE, "samples", "sample_power_grid_dnp3_REAL_CC-BY-4.0.csv")
+    if os.path.exists(syn):
+        d2.download_button("Sample organization file (synthetic water utility)", _file_bytes(syn), file_name=os.path.basename(syn), mime="text/csv", key="dl_syn")
+    if os.path.exists(real):
+        d3.download_button("Sample organization file (real power-grid DNP3 flows)", _file_bytes(real), file_name=os.path.basename(real), mime="text/csv", key="dl_real")
+    st.caption("Two files to try the tool with. The water utility is made up by a script (24 devices, 7 attack types, 22,073 records; device names, addresses and operators are invented) and says nothing about real attacks. "
+               "The power-grid file is a sample of 10,952 real flows from the DNP3 Intrusion Detection Dataset (Kelli et al., 2022, Zenodo record 7348493, licence CC BY 4.0). "
+               "Upload either one on the page Evaluate your own data, or run the agent on it.")
+
+    st.markdown("#### Upload a fingerprint")
+    up = st.file_uploader("A fingerprint file written by the agent (.json)", type=["json"], key="fp_upload")
+    cards = load_cards()
+    if up is not None:
+        try:
+            fp = json.loads(up.getvalue().decode("utf-8"))
+        except Exception as e:
+            st.error(f"The file could not be read as a fingerprint: {e}")
+            fp = None
+        if fp is not None and fp.get("format") != agent.FORMAT:
+            st.error("This file is not a Praxis Lab fingerprint.")
+            fp = None
+        if fp is not None:
+            good = agent.verify(fp)
+            if good:
+                st.success(f"Integrity digest matches (SHA3-256 {fp['integrity']['digest'][:16]}...). Agent version {fp.get('agent')}, made {fp.get('created')}.")
+            else:
+                st.error("The integrity digest does not match: the file was changed after the agent wrote it. Nothing below should be relied on.")
+            k1, k2, k3, k4 = st.columns(4)
+            with k1:
+                kpi(len(fp.get("classes", {})), "attack types in the fingerprint")
+            with k2:
+                kpi(len(fp.get("features", [])), "behavior numbers kept", "teal")
+            with k3:
+                kpi(fp.get("removed_columns_count", 0), "columns removed before anything left", "teal")
+            with k4:
+                kpi(kb(fp.get("payload_bytes", 0)), "calculated payload of the fingerprint", "amber")
+            st.markdown("#### Readiness for the full evaluation")
+            for ok, text in agent.readiness(fp):
+                st.markdown(("- " + pill("ok", "ok") if ok else "- " + pill("missing", "no")) + " " + text, unsafe_allow_html=True)
+            st.markdown("#### Your attack coverage, by MITRE ATT&CK")
+            rows = [{"Your label": lab, "About how many records": f"{c['records']:,}", "Attack family": c.get("family", ""),
+                     "MITRE ATT&CK technique (closest)": agent.technique_text(c.get("techniques", []))} for lab, c in fp.get("classes", {}).items()]
+            html_table(pd.DataFrame(rows), wrap=("Attack family", "MITRE ATT&CK technique (closest)"))
+            if fp.get("suppressed"):
+                st.caption(f"{len(fp['suppressed'])} attack types were left out of the fingerprint because they had fewer than {fp.get('min_group_size')} records.")
+            st.markdown("#### What the library holds that you do not")
+            mine = {c.get("family") for c in fp.get("classes", {}).values()}
+            lib = {}
+            for c in cards:
+                for fam in {agent.classify(x)["family"] for x in c.get("classes", [])}:
+                    lib.setdefault(fam, []).append(c["name"])
+            fs = family_stats(cards).set_index("family") if cards else None
+            rows = []
+            for fam, names in sorted(lib.items(), key=lambda kv: -len(kv[1])):
+                if fam == agent.UNMAPPED:
+                    continue
+                r = fs.loc[fam] if fs is not None and fam in fs.index else None
+                rows.append({"Attack family": fam, "In your fingerprint": "yes" if fam in mine else "no", "Datasets in the library that hold it": len(names),
+                             "Isolated training": pct(r.iso) if r is not None else "not measured", "Sanitized attack-record sharing": pct(r.sha) if r is not None else "not measured",
+                             "Federated learning": pct(r.fed) if r is not None else "not measured", "Centralized training": pct(r.cen) if r is not None else "not measured"})
+            html_table(pd.DataFrame(rows), wrap=("Attack family",))
+            st.caption("The four recall columns are library means from local runs of the tool, not the run of record: when an organization had that family withheld, the share of its test records named correctly under each training condition. "
+                       "A family marked no is one your detectors have no examples of; the library shows how much peers' examples of it helped others. It is not a forecast for your network.")
+            st.markdown("#### Contribute this fingerprint (optional)")
+            agree = st.checkbox("I am allowed to share this fingerprint, and I agree that the operator of this site keeps it to compare attack coverage across organizations. "
+                                "It holds summary statistics only: no records and no identifier columns.", key="fp_agree")
+            if st.button("Contribute this fingerprint", disabled=not (agree and good), key="fp_contribute"):
+                folder = os.path.join(HERE, "contributions")
+                os.makedirs(folder, exist_ok=True)
+                with open(os.path.join(folder, f"{fp['integrity']['digest'][:16]}.json"), "w") as fh:
+                    json.dump(fp, fh, separators=(",", ":"))
+                st.success("Kept on the machine that runs this site. Thank you.")
+    else:
+        st.info("Waiting for a fingerprint file. To make one: download the agent and a sample file above, then run python praxis_agent.py on the sample.")
+
+    st.markdown("#### What a fingerprint is, and what it is not")
+    st.markdown(f"""<div class='plab-muted'>
+<p>For every attack type with at least {agent.K_MIN} records the fingerprint stores the record count rounded down to the nearest ten, {len(agent.GRID)} quantiles (1% to 99%) of every behavior number, and the rank correlations between them.
+It stores no rows, no device names, no addresses, no ports, no time stamps and no minimum or maximum values. Normal traffic is not fingerprinted.</p>
+<p>It is a summary, not a formal privacy protection: no differential privacy is applied, and what a fingerprint reveals about the organization that made it has not been measured.</p>
+<p style='margin-bottom:0'>Each fingerprint carries a SHA3-256 integrity digest, and a signature field reserved for a post-quantum signature (ML-DSA, FIPS 204). Signing is designed, not built.</p>
+</div>""", unsafe_allow_html=True)
+
+    st.markdown("#### Does a fingerprint carry enough to help? (experiment, not part of the praxis)")
+    done = [c for c in cards if (c.get("experimental") or {}).get("fingerprint_sharing")]
+    if done:
+        ok_fp = sum(1 for c in done if c["experimental"]["fingerprint_sharing"]["mean_gain"]["clears"])
+        st.markdown(f"Fingerprint sharing was run on {len(done)} datasets of the library as a fifth, experimental arm: the receiver trains on its own records plus made-up records drawn from its peers' fingerprints, "
+                    f"with the same training budget and alarm rule as the four training conditions. On {ok_fp} of {len(done)} datasets the whole 95% range of the mean gain is above 5 points.")
+        above_fed = sum(1 for c in done if c["experimental"]["fingerprint_sharing"]["mean_gain"]["gain"] > c["hypotheses"]["H2"]["gain"])
+        above_sha = sum(1 for c in done if c["experimental"]["fingerprint_sharing"]["mean_gain"]["gain"] > c["hypotheses"]["H1"]["gain"])
+        ratios = sorted(sum(c["companies"][o]["bytes"]["2_sharing"] for o in ORG) / max(1, sum(c["experimental"]["fingerprint_sharing"]["orgs"][o]["bytes"] for o in ORG)) for c in done)
+        k1, k2, k3 = st.columns(3)
+        with k1:
+            kpi(f"{above_fed} of {len(done)}", "datasets where its mean gain is above federated learning's (point estimates)", "teal")
+        with k2:
+            kpi(f"{above_sha} of {len(done)}", "datasets where its mean gain is above sanitized attack-record sharing's", "amber")
+        with k3:
+            kpi(f"{ratios[len(ratios) // 2]:.0f} times", "fewer bytes than record sharing (median over the datasets)", "teal")
+        st.markdown("")
+        rows = []
+        for c in done:
+            e = c["experimental"]["fingerprint_sharing"]
+            sent_sharing = sum(c["companies"][o]["bytes"]["2_sharing"] for o in ORG)
+            sent_fp = sum(e["orgs"][o]["bytes"] for o in ORG)
+            rows.append({"Dataset": c["name"], "Run": "local run", "Isolated training": "baseline", "Sanitized attack-record sharing": pts(c["hypotheses"]["H1"]), "Federated learning": pts(c["hypotheses"]["H2"]),
+                         "Centralized training": pts(c["checks"].get("pooled")), "Fingerprint sharing (experimental)": pts(e["mean_gain"]),
+                         "Data sent, sharing": kb(sent_sharing), "Data sent, fingerprints": kb(sent_fp)})
+        html_table(pd.DataFrame(rows), wrap=("Dataset",))
+        st.caption("Mean gain in attack-class recall on the withheld attack types against isolated training, points, with the 95% range; local runs of the tool on the tool's own splits, which are optimistic where a dataset has no clock. "
+                   "Only DataSense carries the praxis claims, and the praxis has four training conditions; fingerprint sharing is product research, run with its own isolated baseline. "
+                   "Data sent is the calculated payload received by the three organizations together. What a fingerprint reveals about its sender has not been measured, so a gain here is half of an answer.")
+    else:
+        st.caption("Not yet run on this install.")
 
 
 PAGES = {"start": (page_start, "Start here"), "results": (page_results, "Results on the datasets"),
          "evaluate": (page_evaluate, "Evaluate your own data"), "sanitize": (page_sanitize, "Sanitize a file"),
          "definitions": (page_definitions, "Definitions"), "students": (page_students, "For students"),
+         "agent": (page_agent, "Local agent and fingerprint"),
          "research": (page_research, "The research"), "organizations": (page_organizations, "For organizations")}
 
 if not gate():

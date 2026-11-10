@@ -556,5 +556,97 @@
   "role_text": "Shows the system runs unchanged on new data from a settings file. Not study evidence: the split is the tool's own, not audited.",
   "source": "https://research.unsw.edu.au/projects/toniot-datasets"
  },
- "computed": "training results cached from the 5 and 6 October 2026 runs of system.py; scorecard recomputed by this tool"
+ "computed": "training results cached from the 5 and 6 October 2026 runs of system.py; scorecard recomputed by this tool",
+ "experimental": {
+  "fingerprint_sharing": {
+   "name": "Fingerprint sharing",
+   "status": "experimental; not one of the four training conditions of the praxis",
+   "min_group_size": 50,
+   "quantile_points": 41,
+   "seeds": [
+    0,
+    1,
+    2
+   ],
+   "resamples": 2000,
+   "sender_classes": {
+    "A": 6,
+    "B": 5,
+    "C": 6
+   },
+   "sender_suppressed": {
+    "A": 2,
+    "B": 3,
+    "C": 1
+   },
+   "sender_bytes": {
+    "A": 70128,
+    "B": 58440,
+    "C": 70128
+   },
+   "orgs": {
+    "A": {
+     "named": 0.20090634441087615,
+     "flagged": 0.2026686807653575,
+     "false_alarm": 0.047497663352876196,
+     "isolated_named": 0.0,
+     "isolated_false_alarm": 0.035432067295437165,
+     "gain": {
+      "gain": 0.20090634441087613,
+      "lo": 0.12629379642353533,
+      "hi": 0.32969880308934224,
+      "events": 349
+     },
+     "bytes": 128568,
+     "synthetic_records": 13390,
+     "steps": 8784,
+     "withheld_type_in_peer_fingerprints": 2,
+     "verdict": "gain met, false-positive limit breached"
+    },
+    "B": {
+     "named": 0.23067331670822944,
+     "flagged": 0.26433915211970077,
+     "false_alarm": 0.026839104436100682,
+     "isolated_named": 0.0,
+     "isolated_false_alarm": 0.017521902377972465,
+     "gain": {
+      "gain": 0.23067331670822944,
+      "lo": 0.19430488669758278,
+      "hi": 0.26793455671580657,
+      "events": 290
+     },
+     "bytes": 140256,
+     "synthetic_records": 18880,
+     "steps": 8784,
+     "withheld_type_in_peer_fingerprints": 2,
+     "verdict": "gain met (exposure of the fingerprint not measured)"
+    },
+    "C": {
+     "named": 0.6999999999999998,
+     "flagged": 0.9333333333333332,
+     "false_alarm": 0.048794826572604345,
+     "isolated_named": 0.0,
+     "isolated_false_alarm": 0.05202821869488536,
+     "gain": {
+      "gain": 0.7,
+      "lo": 0.6138511582845859,
+      "hi": 0.7542772108843537,
+      "events": 67
+     },
+     "bytes": 128568,
+     "synthetic_records": 18250,
+     "steps": 8784,
+     "withheld_type_in_peer_fingerprints": 2,
+     "verdict": "gain met (exposure of the fingerprint not measured)"
+    }
+   },
+   "mean_gain": {
+    "gain": 0.3771932203730352,
+    "lo": 0.3373672331640386,
+    "hi": 0.42391894368296096,
+    "clears": true
+   },
+   "computed": "09 November 2026"
+  }
+ }
 }

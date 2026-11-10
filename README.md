@@ -30,8 +30,12 @@ Then open http://localhost:8501.
 
 | File | What |
 |---|---|
-| `app.py` | the web tool: Start here, Results on the datasets, Evaluate your own data, Sanitize a file, Definitions, For students |
+| `app.py` | the web tool: Start here, Results on the datasets, Evaluate your own data, Sanitize a file, Definitions, For students, Local agent and fingerprint, The research, For organizations |
 | `engine.py` | the five-step procedure as a library: `engine.run(settings, frame=DataFrame, budget=engine.QUICK or engine.PROTOCOL)` returns the scorecard; `engine.inspect(df)` guesses column roles; `engine.sanitize(...)` returns what a peer would receive |
+| `praxis_agent.py` | the local agent, one readable file with no network code (pandas and numpy only): an organization runs it on its own machine; it guesses column roles, sanitizes, maps attack labels to common families and MITRE ATT&CK v20.1, and writes a fingerprint (summary statistics per attack type, no records) with a SHA3-256 integrity digest. Also the single definition of the column rules the web tool uses |
+| `fp_experiment.py` | fingerprint sharing as an experimental fifth arm (not a praxis training condition): the receiver trains on its own records plus made-up records drawn from its peers' fingerprints; `tools/run_fingerprint.py` runs it on every dataset |
+| `samples/` | two files to try the tool with: a synthetic water utility (made by `tools/make_sample_org.py`) and a sample of real power-grid DNP3 flows (CC BY 4.0, see `samples/README.md`) |
+| `tools/verify_attack_ids.py` | checks every MITRE ATT&CK identifier and name used by the agent against MITRE's published STIX data |
 | `results/*.json` | one scorecard per dataset shown on the results page: the praxis dataset (DataSense CIC IIoT 2025), the ranking check (Edge-IIoTset) and public intrusion datasets run with the protocol budget (`tools/run_all.py`) |
 | `tools/sample_dataset.py` | makes a working sample of a large labeled file without loading it whole (chunked, sampled by label, zip members allowed) |
 | `tools/run_all.py` | runs the procedure on every dataset that has a settings file in `../Praxis_Lab_Datasets/settings/`, protocol budget, cached and resumable |
@@ -57,6 +61,18 @@ print(card["hypotheses"], card["verdicts"])
 ```
 
 Budgets: `QUICK` (one seed, 24 passes, 400 resamples, 40,000 records at most) shows whether the data works in the tool. `PROTOCOL` (three seeds, 61 passes of the largest organization at batch 128, 2,000 resamples over attack events, the nothing-withheld check, tracing with five random forests and a 200-shuffle test) is the praxis budget and the one to report.
+
+## The local agent and the fingerprint
+
+```
+python praxis_agent.py my_records.csv                      # writes my_records.fingerprint.json; nothing is sent anywhere
+python praxis_agent.py my_records.csv --sanitized out.csv  # also writes the sanitized attack records
+python praxis_agent.py --verify my_records.fingerprint.json
+```
+
+For every attack type with at least 50 records the fingerprint stores the record count rounded down to the nearest ten, 41 quantiles (1% to 99%) of every behavior number and the rank correlations between them. It stores no rows, no identifier columns and no minimum or maximum values. It is a summary, not a formal privacy protection; what a fingerprint reveals about its sender has not been measured. The page Local agent and fingerprint in the web tool checks the digest of an uploaded fingerprint, shows the MITRE ATT&CK coverage, compares it with the library and reports whether the full evaluation can run on the data behind it. The signature field is reserved for a post-quantum signature (ML-DSA, FIPS 204); signing is designed, not built.
+
+Fingerprint sharing (train on made-up records drawn from peers' fingerprints) is an experiment of this tool. It is not one of the four training conditions of the praxis, and its results are shown apart from them.
 
 ## Access password
 

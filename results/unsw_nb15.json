@@ -550,5 +550,97 @@
   "role_text": "Same system, new data, and the only non-industrial set. Not study evidence.",
   "source": "https://www.kaggle.com/datasets/mrwellsdavid/unsw-nb15"
  },
- "computed": "training results cached from the 5 and 6 October 2026 runs of system.py; scorecard recomputed by this tool"
+ "computed": "training results cached from the 5 and 6 October 2026 runs of system.py; scorecard recomputed by this tool",
+ "experimental": {
+  "fingerprint_sharing": {
+   "name": "Fingerprint sharing",
+   "status": "experimental; not one of the four training conditions of the praxis",
+   "min_group_size": 50,
+   "quantile_points": 41,
+   "seeds": [
+    0,
+    1,
+    2
+   ],
+   "resamples": 2000,
+   "sender_classes": {
+    "A": 7,
+    "B": 5,
+    "C": 7
+   },
+   "sender_suppressed": {
+    "A": 1,
+    "B": 3,
+    "C": 1
+   },
+   "sender_bytes": {
+    "A": 54768,
+    "B": 39120,
+    "C": 54768
+   },
+   "orgs": {
+    "A": {
+     "named": 0.29313358302122344,
+     "flagged": 1.0,
+     "false_alarm": 0.047205757832345464,
+     "isolated_named": 0.0,
+     "isolated_false_alarm": 0.04741744284504657,
+     "gain": {
+      "gain": 0.2931335830212235,
+      "lo": 0.1920001782759488,
+      "hi": 0.49823702050264546,
+      "events": 511
+     },
+     "bytes": 93888,
+     "synthetic_records": 15880,
+     "steps": 8052,
+     "withheld_type_in_peer_fingerprints": 2,
+     "verdict": "gain met (exposure of the fingerprint not measured)"
+    },
+    "B": {
+     "named": 0.685890834191555,
+     "flagged": 0.9993134225883967,
+     "false_alarm": 0.04882525697503671,
+     "isolated_named": 0.0,
+     "isolated_false_alarm": 0.0513215859030837,
+     "gain": {
+      "gain": 0.6858908341915549,
+      "lo": 0.611153987504594,
+      "hi": 0.7522538163163164,
+      "events": 116
+     },
+     "bytes": 109536,
+     "synthetic_records": 17180,
+     "steps": 8052,
+     "withheld_type_in_peer_fingerprints": 2,
+     "verdict": "gain met (exposure of the fingerprint not measured)"
+    },
+    "C": {
+     "named": 0.6322532027128862,
+     "flagged": 0.9994976136649084,
+     "false_alarm": 0.05868030192354517,
+     "isolated_named": 0.0,
+     "isolated_false_alarm": 0.06148039931823716,
+     "gain": {
+      "gain": 0.6322532027128862,
+      "lo": 0.47728519138711306,
+      "hi": 0.7725742271196816,
+      "events": 793
+     },
+     "bytes": 93888,
+     "synthetic_records": 16560,
+     "steps": 8052,
+     "withheld_type_in_peer_fingerprints": 2,
+     "verdict": "gain met (exposure of the fingerprint not measured)"
+    }
+   },
+   "mean_gain": {
+    "gain": 0.5370925399752216,
+    "lo": 0.46857941205820697,
+    "hi": 0.625688620073755,
+    "clears": true
+   },
+   "computed": "09 November 2026"
+  }
+ }
 }

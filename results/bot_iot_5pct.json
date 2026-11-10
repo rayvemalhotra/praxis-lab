@@ -549,5 +549,97 @@
   "source": "https://research.unsw.edu.au/projects/bot-iot-dataset",
   "licence": "Cite the makers; analysis use."
  },
- "computed": "computed by this tool on 08 November 2026 with the protocol budget on the working sample described above; the split is the tool's own"
+ "computed": "computed by this tool on 08 November 2026 with the protocol budget on the working sample described above; the split is the tool's own",
+ "experimental": {
+  "fingerprint_sharing": {
+   "name": "Fingerprint sharing",
+   "status": "experimental; not one of the four training conditions of the praxis",
+   "min_group_size": 50,
+   "quantile_points": 41,
+   "seeds": [
+    0,
+    1,
+    2
+   ],
+   "resamples": 2000,
+   "sender_classes": {
+    "A": 7,
+    "B": 7,
+    "C": 7
+   },
+   "sender_suppressed": {
+    "A": 2,
+    "B": 2,
+    "C": 2
+   },
+   "sender_bytes": {
+    "A": 50652,
+    "B": 50652,
+    "C": 50652
+   },
+   "orgs": {
+    "A": {
+     "named": 0.4341301460823373,
+     "flagged": 0.9911022576361223,
+     "false_alarm": 0.041666666666666664,
+     "isolated_named": 0.0,
+     "isolated_false_alarm": 0.0625,
+     "gain": {
+      "gain": 0.43413014608233724,
+      "lo": 0.3154593421985868,
+      "hi": 0.5608340296416333,
+      "events": 70
+     },
+     "bytes": 101304,
+     "synthetic_records": 23960,
+     "steps": 5978,
+     "withheld_type_in_peer_fingerprints": 2,
+     "verdict": "gain met (exposure of the fingerprint not measured)"
+    },
+    "B": {
+     "named": 1.0,
+     "flagged": 1.0,
+     "false_alarm": 0.041666666666666664,
+     "isolated_named": 0.0,
+     "isolated_false_alarm": 0.048611111111111105,
+     "gain": {
+      "gain": 1.0,
+      "lo": 1.0,
+      "hi": 1.0,
+      "events": 39
+     },
+     "bytes": 101304,
+     "synthetic_records": 23870,
+     "steps": 5978,
+     "withheld_type_in_peer_fingerprints": 2,
+     "verdict": "gain met (exposure of the fingerprint not measured)"
+    },
+    "C": {
+     "named": 0.899968193384224,
+     "flagged": 1.0,
+     "false_alarm": 0.06944444444444443,
+     "isolated_named": 0.0,
+     "isolated_false_alarm": 0.05555555555555555,
+     "gain": {
+      "gain": 0.8999681933842238,
+      "lo": 0.8364150672199888,
+      "hi": 0.9511772688345039,
+      "events": 35
+     },
+     "bytes": 101304,
+     "synthetic_records": 23210,
+     "steps": 5978,
+     "withheld_type_in_peer_fingerprints": 2,
+     "verdict": "gain met, false-positive limit breached"
+    }
+   },
+   "mean_gain": {
+    "gain": 0.778032779822187,
+    "lo": 0.7352205125949911,
+    "hi": 0.8234592245127274,
+    "clears": true
+   },
+   "computed": "09 November 2026"
+  }
+ }
 }

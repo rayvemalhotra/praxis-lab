@@ -517,5 +517,97 @@
   "source": "https://www.hs-coburg.de/forschen/cidds-coburg-intrusion-detection-data-sets/",
   "licence": "Cite the makers; analysis use."
  },
- "computed": "computed by this tool on 08 November 2026 with the protocol (shuffle test on 5,000 records per side, 50-tree forests) budget on the working sample described above; the split is the tool's own"
+ "computed": "computed by this tool on 08 November 2026 with the protocol (shuffle test on 5,000 records per side, 50-tree forests) budget on the working sample described above; the split is the tool's own",
+ "experimental": {
+  "fingerprint_sharing": {
+   "name": "Fingerprint sharing",
+   "status": "experimental; not one of the four training conditions of the praxis",
+   "min_group_size": 50,
+   "quantile_points": 41,
+   "seeds": [
+    0,
+    1,
+    2
+   ],
+   "resamples": 2000,
+   "sender_classes": {
+    "A": 3,
+    "B": 3,
+    "C": 2
+   },
+   "sender_suppressed": {
+    "A": 0,
+    "B": 0,
+    "C": 0
+   },
+   "sender_bytes": {
+    "A": 2052,
+    "B": 2052,
+    "C": 1368
+   },
+   "orgs": {
+    "A": {
+     "named": 0.29342359767891685,
+     "flagged": 0.2934880722114765,
+     "false_alarm": 0.03350489454031688,
+     "isolated_named": 0.0,
+     "isolated_false_alarm": 0.033202139469169445,
+     "gain": {
+      "gain": 0.29342359767891685,
+      "lo": 0.2052849487263075,
+      "hi": 0.39085383757568104,
+      "events": 2157
+     },
+     "bytes": 3420,
+     "synthetic_records": 14460,
+     "steps": 7137,
+     "withheld_type_in_peer_fingerprints": 2,
+     "verdict": "gain met (exposure of the fingerprint not measured)"
+    },
+    "B": {
+     "named": 0.07053941908713693,
+     "flagged": 0.07468879668049792,
+     "false_alarm": 0.042854315122723675,
+     "isolated_named": 0.0,
+     "isolated_false_alarm": 0.03859857482185273,
+     "gain": {
+      "gain": 0.07053941908713693,
+      "lo": 0.04918032786885246,
+      "hi": 0.09444958847736622,
+      "events": 238
+     },
+     "bytes": 3420,
+     "synthetic_records": 13870,
+     "steps": 7137,
+     "withheld_type_in_peer_fingerprints": 2,
+     "verdict": "not worth it (gain not met)"
+    },
+    "C": {
+     "named": 0.0,
+     "flagged": 0.0,
+     "false_alarm": 0.04819104819104819,
+     "isolated_named": 0.0,
+     "isolated_false_alarm": 0.05405405405405406,
+     "gain": {
+      "gain": 0.0,
+      "lo": 0.0,
+      "hi": 0.0,
+      "events": 68
+     },
+     "bytes": 4104,
+     "synthetic_records": 17930,
+     "steps": 7137,
+     "withheld_type_in_peer_fingerprints": 2,
+     "verdict": "not worth it (gain not met)"
+    }
+   },
+   "mean_gain": {
+    "gain": 0.1213210055886846,
+    "lo": 0.09052749255567584,
+    "hi": 0.1551367203235311,
+    "clears": true
+   },
+   "computed": "09 November 2026"
+  }
+ }
 }

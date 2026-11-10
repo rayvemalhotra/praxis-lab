@@ -540,5 +540,97 @@
   "source": "https://www.unb.ca/cic/datasets/nsl.html",
   "licence": "Public benchmark; cite the makers."
  },
- "computed": "computed by this tool on 08 November 2026 with the protocol (shuffle test on 5,000 records per side, 50-tree forests) budget on the working sample described above; the split is the tool's own"
+ "computed": "computed by this tool on 08 November 2026 with the protocol (shuffle test on 5,000 records per side, 50-tree forests) budget on the working sample described above; the split is the tool's own",
+ "experimental": {
+  "fingerprint_sharing": {
+   "name": "Fingerprint sharing",
+   "status": "experimental; not one of the four training conditions of the praxis",
+   "min_group_size": 50,
+   "quantile_points": 41,
+   "seeds": [
+    0,
+    1,
+    2
+   ],
+   "resamples": 2000,
+   "sender_classes": {
+    "A": 16,
+    "B": 14,
+    "C": 15
+   },
+   "sender_suppressed": {
+    "A": 19,
+    "B": 21,
+    "C": 16
+   },
+   "sender_bytes": {
+    "A": 80704,
+    "B": 70616,
+    "C": 75660
+   },
+   "orgs": {
+    "A": {
+     "named": 0.9829943314438147,
+     "flagged": 0.9988885183950206,
+     "false_alarm": 0.049440715883668905,
+     "isolated_named": 0.0,
+     "isolated_false_alarm": 0.04765100671140939,
+     "gain": {
+      "gain": 0.9829943314438147,
+      "lo": 0.9783261087029009,
+      "hi": 0.9873291097032344,
+      "events": 2999
+     },
+     "bytes": 146276,
+     "synthetic_records": 16650,
+     "steps": 6527,
+     "withheld_type_in_peer_fingerprints": 2,
+     "verdict": "gain met (exposure of the fingerprint not measured)"
+    },
+    "B": {
+     "named": 0.7099056603773585,
+     "flagged": 0.7327044025157233,
+     "false_alarm": 0.016402465874064288,
+     "isolated_named": 0.0,
+     "isolated_false_alarm": 0.02586966094231616,
+     "gain": {
+      "gain": 0.7099056603773585,
+      "lo": 0.6698113207547169,
+      "hi": 0.75,
+      "events": 424
+     },
+     "bytes": 156364,
+     "synthetic_records": 12460,
+     "steps": 6527,
+     "withheld_type_in_peer_fingerprints": 2,
+     "verdict": "gain met (exposure of the fingerprint not measured)"
+    },
+    "C": {
+     "named": 0.6718885987815492,
+     "flagged": 0.7528285465622281,
+     "false_alarm": 0.04075061070397513,
+     "isolated_named": 0.0,
+     "isolated_false_alarm": 0.03775260937153009,
+     "gain": {
+      "gain": 0.6718885987815493,
+      "lo": 0.6240208877284595,
+      "hi": 0.7188859878154918,
+      "events": 383
+     },
+     "bytes": 151320,
+     "synthetic_records": 12370,
+     "steps": 6527,
+     "withheld_type_in_peer_fingerprints": 2,
+     "verdict": "gain met (exposure of the fingerprint not measured)"
+    }
+   },
+   "mean_gain": {
+    "gain": 0.7882628635342407,
+    "lo": 0.767781979552909,
+    "hi": 0.8088597022380898,
+    "clears": true
+   },
+   "computed": "09 November 2026"
+  }
+ }
 }

@@ -542,5 +542,97 @@
   "role_text": "Same system, new data. Not study evidence. The alarm threshold rests on very few normal records, so false alarms run high.",
   "source": "https://www.kaggle.com/datasets/vigneshvenkateswaran/bot-iot-5-data"
  },
- "computed": "training results cached from the 5 and 6 October 2026 runs of system.py; scorecard recomputed by this tool"
+ "computed": "training results cached from the 5 and 6 October 2026 runs of system.py; scorecard recomputed by this tool",
+ "experimental": {
+  "fingerprint_sharing": {
+   "name": "Fingerprint sharing",
+   "status": "experimental; not one of the four training conditions of the praxis",
+   "min_group_size": 50,
+   "quantile_points": 41,
+   "seeds": [
+    0,
+    1,
+    2
+   ],
+   "resamples": 2000,
+   "sender_classes": {
+    "A": 2,
+    "B": 2,
+    "C": 2
+   },
+   "sender_suppressed": {
+    "A": 1,
+    "B": 1,
+    "C": 1
+   },
+   "sender_bytes": {
+    "A": 14472,
+    "B": 14472,
+    "C": 14472
+   },
+   "orgs": {
+    "A": {
+     "named": 0.5377917102055033,
+     "flagged": 0.5398815743643329,
+     "false_alarm": 0.09523809523809523,
+     "isolated_named": 0.0,
+     "isolated_false_alarm": 0.1292517006802721,
+     "gain": {
+      "gain": 0.5377917102055034,
+      "lo": 0.47299145147279475,
+      "hi": 0.5941258014885624,
+      "events": 18
+     },
+     "bytes": 28944,
+     "synthetic_records": 4330,
+     "steps": 1220,
+     "withheld_type_in_peer_fingerprints": 2,
+     "verdict": "gain met (exposure of the fingerprint not measured)"
+    },
+    "B": {
+     "named": 0.6152263374485597,
+     "flagged": 0.6929012345679012,
+     "false_alarm": 0.020833333333333332,
+     "isolated_named": 0.0,
+     "isolated_false_alarm": 0.020833333333333332,
+     "gain": {
+      "gain": 0.6152263374485597,
+      "lo": 0.5497685647685648,
+      "hi": 0.6666666666666666,
+      "events": 12
+     },
+     "bytes": 28944,
+     "synthetic_records": 3840,
+     "steps": 1220,
+     "withheld_type_in_peer_fingerprints": 2,
+     "verdict": "gain met (exposure of the fingerprint not measured)"
+    },
+    "C": {
+     "named": 0.022357723577235773,
+     "flagged": 0.022357723577235773,
+     "false_alarm": 0.0196078431372549,
+     "isolated_named": 0.0,
+     "isolated_false_alarm": 0.032679738562091505,
+     "gain": {
+      "gain": 0.022357723577235773,
+      "lo": 0.0,
+      "hi": 0.0607909170252544,
+      "events": 40
+     },
+     "bytes": 28944,
+     "synthetic_records": 3370,
+     "steps": 1220,
+     "withheld_type_in_peer_fingerprints": 2,
+     "verdict": "not worth it (gain not met)"
+    }
+   },
+   "mean_gain": {
+    "gain": 0.39179192374376637,
+    "lo": 0.35922630081957485,
+    "hi": 0.42047886837285897,
+    "clears": true
+   },
+   "computed": "09 November 2026"
+  }
+ }
 }

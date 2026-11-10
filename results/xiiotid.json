@@ -569,5 +569,97 @@
   "role_text": "Same system, new data. Not study evidence. Also an early candidate for the praxis that went to future work on 29 September.",
   "source": "https://www.kaggle.com/datasets/munaalhawawreh/xiiotid-iiot-intrusion-dataset"
  },
- "computed": "training results cached from the 5 and 6 October 2026 runs of system.py; scorecard recomputed by this tool"
+ "computed": "training results cached from the 5 and 6 October 2026 runs of system.py; scorecard recomputed by this tool",
+ "experimental": {
+  "fingerprint_sharing": {
+   "name": "Fingerprint sharing",
+   "status": "experimental; not one of the four training conditions of the praxis",
+   "min_group_size": 50,
+   "quantile_points": 41,
+   "seeds": [
+    0,
+    1,
+    2
+   ],
+   "resamples": 2000,
+   "sender_classes": {
+    "A": 8,
+    "B": 8,
+    "C": 8
+   },
+   "sender_suppressed": {
+    "A": 0,
+    "B": 0,
+    "C": 0
+   },
+   "sender_bytes": {
+    "A": 72384,
+    "B": 72384,
+    "C": 72384
+   },
+   "orgs": {
+    "A": {
+     "named": 0.9669398907103824,
+     "flagged": 0.9669398907103824,
+     "false_alarm": 0.040906440056652504,
+     "isolated_named": 0.0,
+     "isolated_false_alarm": 0.042739315171207194,
+     "gain": {
+      "gain": 0.9669398907103824,
+      "lo": 0.9126760736331753,
+      "hi": 0.9976010015789647,
+      "events": 22
+     },
+     "bytes": 144768,
+     "synthetic_records": 18960,
+     "steps": 7747,
+     "withheld_type_in_peer_fingerprints": 2,
+     "verdict": "gain met (exposure of the fingerprint not measured)"
+    },
+    "B": {
+     "named": 0.7906914178100619,
+     "flagged": 0.8528383104654291,
+     "false_alarm": 0.06155893852424923,
+     "isolated_named": 0.0,
+     "isolated_false_alarm": 0.06555195075284918,
+     "gain": {
+      "gain": 0.7906914178100618,
+      "lo": 0.6987866974607573,
+      "hi": 0.8647702190877329,
+      "events": 106
+     },
+     "bytes": 144768,
+     "synthetic_records": 19000,
+     "steps": 7747,
+     "withheld_type_in_peer_fingerprints": 2,
+     "verdict": "gain met (exposure of the fingerprint not measured)"
+    },
+    "C": {
+     "named": 0.9314207650273224,
+     "flagged": 0.9918032786885247,
+     "false_alarm": 0.05723569107723069,
+     "isolated_named": 0.0,
+     "isolated_false_alarm": 0.051487128217945516,
+     "gain": {
+      "gain": 0.9314207650273223,
+      "lo": 0.8814631044867953,
+      "hi": 0.966136642724158,
+      "events": 115
+     },
+     "bytes": 144768,
+     "synthetic_records": 18980,
+     "steps": 7747,
+     "withheld_type_in_peer_fingerprints": 2,
+     "verdict": "gain met (exposure of the fingerprint not measured)"
+    }
+   },
+   "mean_gain": {
+    "gain": 0.8963506911825888,
+    "lo": 0.8569667915731127,
+    "hi": 0.928346572027092,
+    "clears": true
+   },
+   "computed": "09 November 2026"
+  }
+ }
 }

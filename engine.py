@@ -54,7 +54,7 @@ FP_LIMIT = 0.01                                         # decision rule: false-p
 TRACE_MAX = 15000
 TRACE_MAX_HOSTS, TRACE_TOP_HOSTS = 200, 50                  # tracing with more hosts than this covers the busiest 50 only
 EVENT_GAP_S, EVENT_MAX_S, EVENT_MAX_ROWS = 15, 300, 200
-IDENT_RX = re.compile(r"(^|_|\.)(ip|ips|mac|macs|addr|address|host|hostname|timestamp|time_start|time_end|flow_id|uid|id)($|_|\.)", re.I)
+from praxis_agent import IDENT_RX  # noqa: E402  (one definition, shared with the local agent)
 
 
 @dataclass
@@ -689,100 +689,10 @@ def verdicts(card):
 
 
 # ================= helpers for the web tool =================
-LABEL_NAME_RX = re.compile(r"attack|label|class|categor|type|cat$|^y$|target|malicious|anomal", re.I)
-STRICT_LABEL_RX = re.compile(r"label|attack|class|categor|target|malicious|anomal", re.I)
-NORMAL_RX = re.compile(r"^(normal|benign|legit(imate)?|clean|none|background|0|no|false)$", re.I)
-HOST_RX = re.compile(r"ip$|^ip|ips?(_|\.|$)|(^|_|\.)ip|mac|addr|host|device|sensor|node|asset|machine|station", re.I)
-TIME_RX = re.compile(r"time|stamp|^ts$|date|stime|ltime|start|frame\.time", re.I)
-KEEP_HINT_RX = re.compile(r"len|size|byte|pkt|packet|count|cnt|rate|dur|num|avg|mean|min|max|std|sum|ttl|throughput|ratio|freq|conn|^n_|^ct_|per_", re.I)
-IDENT_NAME_RX = re.compile(r"port$|_port|port_|^proto(col)?$|service|state$|^uid$|^id$|name|^flow_id|^label", re.I)
-
-
-def inspect(df):
-    """Guess the roles of the columns in an uploaded table. Everything here is a suggestion the user can change."""
-    n = len(df)
-    cols = list(df.columns)
-    nun = {c: int(df[c].nunique(dropna=True)) for c in cols}
-    # label column: text or small-integer column, 2 to 80 values, name or values look like labels
-    cands = []
-    for c in cols:
-        if not (2 <= nun[c] <= 80):
-            continue
-        vals = df[c].dropna().astype(str).str.strip()
-        score = 0
-        if LABEL_NAME_RX.search(c):
-            score += 3
-        if vals.str.match(NORMAL_RX).any():
-            score += 2
-        if df[c].dtype == object:
-            score += 2
-        if nun[c] >= 3:
-            score += 1
-        if c in cols[-3:]:
-            score += 1
-        if IDENT_RX.search(c) or TIME_RX.search(c):
-            score -= 4
-        cands.append((score, -nun[c] if nun[c] <= 2 else 0, c))
-    cands.sort(reverse=True)
-    label_col = cands[0][2] if cands and cands[0][0] > 0 else None
-    other_labels = [c for s, _, c in cands if c != label_col and s >= 3 and STRICT_LABEL_RX.search(c)]
-    benign = None
-    if label_col:
-        vc = df[label_col].astype(str).str.strip().value_counts()
-        hits = [v for v in vc.index if NORMAL_RX.match(v)]
-        benign = hits[0] if hits else vc.index[0]
-    # source host: a column that names a device or an address, with a sensible number of values
-    srcs = []
-    for c in cols:
-        if c == label_col or c in other_labels:
-            continue
-        if HOST_RX.search(c) and 2 <= nun[c] <= max(5, n // 20) and not re.search(r"port", c, re.I):
-            if df[c].dtype != object:
-                v = pd.to_numeric(df[c], errors="coerce").dropna()
-                if KEEP_HINT_RX.search(c) or nun[c] < 3 or (len(v) and not (v == v.round()).all()):
-                    continue
-            pri = 0
-            if re.search(r"device|host|sensor|node|asset|machine|station", c, re.I):
-                pri += 3
-            if re.search(r"dst|des_|dest|^d(addr|ip)", c, re.I):
-                pri += 2
-            if df[c].dtype == object:
-                pri += 3
-            srcs.append((pri, c))
-    srcs.sort(reverse=True)
-    source_col = srcs[0][1] if srcs else None
-    times = [c for c in cols if TIME_RX.search(c) and c != label_col and nun[c] > 10
-             and not re.search(r"duration|elapsed|iat|interval|_per_|rate|end|ttl|live|active|idle", c, re.I)]
-    time_col = times[0] if times else None
-    identifiers, text_cols, numbers, unusable = [], [], [], []
-    for c in cols:
-        if c in (label_col, source_col, time_col) or c in other_labels:
-            continue
-        v = pd.to_numeric(df[c], errors="coerce")
-        is_number = v.notna().mean() >= 0.95 and v.nunique() >= 2
-        if IDENT_RX.search(c) and not (is_number and KEEP_HINT_RX.search(c)):
-            identifiers.append(c)
-        elif IDENT_NAME_RX.search(c):
-            identifiers.append(c)
-        elif is_number:
-            numbers.append(c)
-        elif df[c].dtype == object:
-            text_cols.append(c)
-        else:
-            unusable.append(c)
-    return dict(rows=n, columns=len(cols), label_col=label_col, benign_label=benign, label_cols=other_labels,
-                source_col=source_col, time_col=time_col, identifiers=identifiers, text_columns=text_cols, numbers=numbers, unusable=unusable,
-                label_values=(df[label_col].astype(str).str.strip().value_counts().to_dict() if label_col else {}))
-
-
-def sanitize(df, label_col, keep_numbers, attack_only=False, benign_label=None):
-    """Return the sanitized table an organization may send: the chosen behavior numbers and the attack type."""
-    out = df[keep_numbers + [label_col]].copy()
-    for c in keep_numbers:
-        out[c] = pd.to_numeric(out[c], errors="coerce")
-    if attack_only and benign_label is not None:
-        out = out[out[label_col].astype(str).str.strip() != str(benign_label)]
-    return out.reset_index(drop=True)
+# Column-role guessing and sanitizing live in praxis_agent.py (the local agent, no torch), so that the web tool and the
+# agent an organization runs on its own machine apply exactly the same rules.
+from praxis_agent import (LABEL_NAME_RX, STRICT_LABEL_RX, NORMAL_RX, HOST_RX, TIME_RX, KEEP_HINT_RX, IDENT_NAME_RX,  # noqa: E402,F401
+                          inspect, sanitize)
 
 
 def example_data(seed=0, n_hosts=30, per_host=220):

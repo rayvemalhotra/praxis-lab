@@ -593,5 +593,97 @@
   "role_text": "The praxis claims about H1, H2 and H3 rest on this dataset alone. Companies are real device groups by role; the train/validation/test split was audited on 23 September.",
   "source": "https://doi.org/10.3390/electronics14204095"
  },
- "computed": "training results cached from the 5 and 6 October 2026 runs of system.py; scorecard recomputed by this tool"
+ "computed": "training results cached from the 5 and 6 October 2026 runs of system.py; scorecard recomputed by this tool",
+ "experimental": {
+  "fingerprint_sharing": {
+   "name": "Fingerprint sharing",
+   "status": "experimental; not one of the four training conditions of the praxis",
+   "min_group_size": 50,
+   "quantile_points": 41,
+   "seeds": [
+    0,
+    1,
+    2
+   ],
+   "resamples": 2000,
+   "sender_classes": {
+    "A": 6,
+    "B": 4,
+    "C": 4
+   },
+   "sender_suppressed": {
+    "A": 0,
+    "B": 0,
+    "C": 0
+   },
+   "sender_bytes": {
+    "A": 99144,
+    "B": 66096,
+    "C": 66096
+   },
+   "orgs": {
+    "A": {
+     "named": 0.5013888888888889,
+     "flagged": 0.9583333333333334,
+     "false_alarm": 0.08333333333333333,
+     "isolated_named": 0.0,
+     "isolated_false_alarm": 0.0679563492063492,
+     "gain": {
+      "gain": 0.5013888888888889,
+      "lo": 0.3495787297616566,
+      "hi": 0.6495726495726496,
+      "events": 24
+     },
+     "bytes": 132192,
+     "synthetic_records": 5250,
+     "steps": 3660,
+     "withheld_type_in_peer_fingerprints": 2,
+     "verdict": "gain met, false-positive limit breached"
+    },
+    "B": {
+     "named": 0.628099173553719,
+     "flagged": 0.9848484848484849,
+     "false_alarm": 0.05486111111111111,
+     "isolated_named": 0.0,
+     "isolated_false_alarm": 0.060763888888888895,
+     "gain": {
+      "gain": 0.628099173553719,
+      "lo": 0.46556473829201106,
+      "hi": 0.778236914600551,
+      "events": 22
+     },
+     "bytes": 165240,
+     "synthetic_records": 6060,
+     "steps": 3660,
+     "withheld_type_in_peer_fingerprints": 2,
+     "verdict": "gain met (exposure of the fingerprint not measured)"
+    },
+    "C": {
+     "named": 0.0,
+     "flagged": 0.5523809523809523,
+     "false_alarm": 0.046792328042328045,
+     "isolated_named": 0.0,
+     "isolated_false_alarm": 0.046957671957671955,
+     "gain": {
+      "gain": 0.0,
+      "lo": 0.0,
+      "hi": 0.0,
+      "events": 11
+     },
+     "bytes": 165240,
+     "synthetic_records": 3750,
+     "steps": 3660,
+     "withheld_type_in_peer_fingerprints": 2,
+     "verdict": "not worth it (gain not met)"
+    }
+   },
+   "mean_gain": {
+    "gain": 0.3764960208142026,
+    "lo": 0.3032844543924089,
+    "hi": 0.4473067442672024,
+    "clears": true
+   },
+   "computed": "09 November 2026"
+  }
+ }
 }

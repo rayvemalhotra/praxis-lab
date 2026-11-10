@@ -17,7 +17,7 @@ def pts(h):
     return f"{h['gain'] * 100:+.1f} [{h['lo'] * 100:+.1f}, {h['hi'] * 100:+.1f}]" + (" yes" if h["clears"] else " no")
 
 
-lines = ["| Dataset | Role | Records (train+val+test) | Organizations | Numbers kept | H1 sharing | H2 federated | H3 traced above guessing | Verdicts sharing A/B/C | Verdicts federated A/B/C |", "|---|---|---|---|---|---|---|---|---|---|"]
+lines = ["| Dataset | Role | Records (train+val+test) | Organizations | Numbers kept | H1 sharing | H2 federated | Centralized (reference) | Fingerprint sharing (experimental) | H3 traced above guessing | Verdicts sharing A/B/C | Verdicts federated A/B/C |", "|---|---|---|---|---|---|---|---|---|---|---|---|"]
 for c in cards:
     s1 = c["step1"]
     n = sum(s1[o]["train"] + s1[o]["val"] + s1[o]["test"] for o in "ABC")
@@ -28,11 +28,12 @@ for c in cards:
     short = lambda t: {"gain met": "gain", "gain met, privacy trade-off": "trade-off", "gain met, false-positive limit breached": "FP breach", "not worth it (gain not met)": "no gain"}.get(t, t)
     vs = "/".join(short(v.get(o, {}).get("2_sharing", "?")) for o in "ABC")
     vf = "/".join(short(v.get(o, {}).get("3_federated", "?")) for o in "ABC")
-    lines.append(f"| {c['name']} | {c.get('study_role', '')} | {n:,} | {orgs} | {c['step2']['kept_numbers']} | {pts(c['hypotheses']['H1'])} | {pts(c['hypotheses']['H2'])} | {h3s} | {vs} | {vf} |")
+    e = (c.get("experimental") or {}).get("fingerprint_sharing")
+    lines.append(f"| {c['name']} | {c.get('study_role', '')} | {n:,} | {orgs} | {c['step2']['kept_numbers']} | {pts(c['hypotheses']['H1'])} | {pts(c['hypotheses']['H2'])} | {pts(c['checks']['pooled'])} | {pts(e['mean_gain']) if e else 'not measured'} | {h3s} | {vs} | {vf} |")
 failed = os.path.join(HERE, "results", "_failed.json")
 if os.path.exists(failed):
     for k, v in json.load(open(failed)).items():
-        lines.append(f"| {k} | failed | | | | {v['error'][:120]} | | | | |")
+        lines.append(f"| {k} | failed | | | | {v['error'][:120]} | | | | | | |")
 out = "\n".join(lines)
 open(os.path.join(HERE, "results", "_summary.md"), "w").write(out + "\n")
 print(out)

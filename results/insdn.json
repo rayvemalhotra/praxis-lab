@@ -588,5 +588,97 @@
   "source": "https://aseados.ucd.ie/datasets/SDN/",
   "licence": "Cite the makers; analysis use."
  },
- "computed": "computed by this tool on 08 November 2026 with the protocol (shuffle test on 5,000 records per side, 50-tree forests) budget on the working sample described above; the split is the tool's own"
+ "computed": "computed by this tool on 08 November 2026 with the protocol (shuffle test on 5,000 records per side, 50-tree forests) budget on the working sample described above; the split is the tool's own",
+ "experimental": {
+  "fingerprint_sharing": {
+   "name": "Fingerprint sharing",
+   "status": "experimental; not one of the four training conditions of the praxis",
+   "min_group_size": 50,
+   "quantile_points": 41,
+   "seeds": [
+    0,
+    1,
+    2
+   ],
+   "resamples": 2000,
+   "sender_classes": {
+    "A": 3,
+    "B": 3,
+    "C": 3
+   },
+   "sender_suppressed": {
+    "A": 3,
+    "B": 3,
+    "C": 3
+   },
+   "sender_bytes": {
+    "A": 53208,
+    "B": 53208,
+    "C": 53208
+   },
+   "orgs": {
+    "A": {
+     "named": 0.9958529477695585,
+     "flagged": 1.0,
+     "false_alarm": 0.05213963963963964,
+     "isolated_named": 0.0,
+     "isolated_false_alarm": 0.04617117117117117,
+     "gain": {
+      "gain": 0.9958529477695583,
+      "lo": 0.9925771575642126,
+      "hi": 0.9986105950086231,
+      "events": 53
+     },
+     "bytes": 106416,
+     "synthetic_records": 19910,
+     "steps": 7137,
+     "withheld_type_in_peer_fingerprints": 2,
+     "verdict": "gain met (exposure of the fingerprint not measured)"
+    },
+    "B": {
+     "named": 0.9237553025228845,
+     "flagged": 0.9575798169234204,
+     "false_alarm": 0.04123014531936465,
+     "isolated_named": 0.0,
+     "isolated_false_alarm": 0.04213135068153656,
+     "gain": {
+      "gain": 0.9237553025228846,
+      "lo": 0.867823004454129,
+      "hi": 0.9616178363979877,
+      "events": 49
+     },
+     "bytes": 106416,
+     "synthetic_records": 19920,
+     "steps": 7137,
+     "withheld_type_in_peer_fingerprints": 2,
+     "verdict": "gain met (exposure of the fingerprint not measured)"
+    },
+    "C": {
+     "named": 0.9966810487885828,
+     "flagged": 1.0,
+     "false_alarm": 0.04543409806567702,
+     "isolated_named": 0.0,
+     "isolated_false_alarm": 0.048920377867746286,
+     "gain": {
+      "gain": 0.9966810487885828,
+      "lo": 0.9896263765452483,
+      "hi": 1.0,
+      "events": 46
+     },
+     "bytes": 106416,
+     "synthetic_records": 19910,
+     "steps": 7137,
+     "withheld_type_in_peer_fingerprints": 2,
+     "verdict": "gain met (exposure of the fingerprint not measured)"
+    }
+   },
+   "mean_gain": {
+    "gain": 0.9720964330270085,
+    "lo": 0.9529812249925828,
+    "hi": 0.9846237643033551,
+    "clears": true
+   },
+   "computed": "09 November 2026"
+  }
+ }
 }

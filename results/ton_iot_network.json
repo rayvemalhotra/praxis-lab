@@ -550,5 +550,97 @@
   "source": "https://research.unsw.edu.au/projects/toniot-datasets",
   "licence": "Cite the makers; analysis use."
  },
- "computed": "computed by this tool on 08 November 2026 with the protocol (shuffle test on 5,000 records per side, 50-tree forests) budget on the working sample described above; the split is the tool's own"
+ "computed": "computed by this tool on 08 November 2026 with the protocol (shuffle test on 5,000 records per side, 50-tree forests) budget on the working sample described above; the split is the tool's own",
+ "experimental": {
+  "fingerprint_sharing": {
+   "name": "Fingerprint sharing",
+   "status": "experimental; not one of the four training conditions of the praxis",
+   "min_group_size": 50,
+   "quantile_points": 41,
+   "seeds": [
+    0,
+    1,
+    2
+   ],
+   "resamples": 2000,
+   "sender_classes": {
+    "A": 8,
+    "B": 8,
+    "C": 5
+   },
+   "sender_suppressed": {
+    "A": 0,
+    "B": 0,
+    "C": 3
+   },
+   "sender_bytes": {
+    "A": 17888,
+    "B": 17888,
+    "C": 11180
+   },
+   "orgs": {
+    "A": {
+     "named": 0.8671383647798742,
+     "flagged": 0.999475890985325,
+     "false_alarm": 0.05256797583081571,
+     "isolated_named": 0.0,
+     "isolated_false_alarm": 0.051359516616314195,
+     "gain": {
+      "gain": 0.8671383647798742,
+      "lo": 0.8490566037735849,
+      "hi": 0.8860062893081762,
+      "events": 1272
+     },
+     "bytes": 29068,
+     "synthetic_records": 25200,
+     "steps": 10797,
+     "withheld_type_in_peer_fingerprints": 2,
+     "verdict": "gain met (exposure of the fingerprint not measured)"
+    },
+    "B": {
+     "named": 0.043226381461675574,
+     "flagged": 0.8315508021390374,
+     "false_alarm": 0.04064087534193044,
+     "isolated_named": 0.0,
+     "isolated_false_alarm": 0.018757327080890975,
+     "gain": {
+      "gain": 0.043226381461675574,
+      "lo": 0.03498217468805704,
+      "hi": 0.05191622103386809,
+      "events": 1496
+     },
+     "bytes": 29068,
+     "synthetic_records": 27460,
+     "steps": 10797,
+     "withheld_type_in_peer_fingerprints": 2,
+     "verdict": "not worth it (gain not met)"
+    },
+    "C": {
+     "named": 0.21603174603174602,
+     "flagged": 0.9992063492063492,
+     "false_alarm": 0.056420672534416606,
+     "isolated_named": 0.0,
+     "isolated_false_alarm": 0.045813586097946286,
+     "gain": {
+      "gain": 0.21603174603174602,
+      "lo": 0.19904761904761906,
+      "hi": 0.233015873015873,
+      "events": 2100
+     },
+     "bytes": 35776,
+     "synthetic_records": 31920,
+     "steps": 10797,
+     "withheld_type_in_peer_fingerprints": 2,
+     "verdict": "gain met, false-positive limit breached"
+    }
+   },
+   "mean_gain": {
+    "gain": 0.37546549742443186,
+    "lo": 0.3666214044413268,
+    "hi": 0.38421901283860216,
+    "clears": true
+   },
+   "computed": "09 November 2026"
+  }
+ }
 }

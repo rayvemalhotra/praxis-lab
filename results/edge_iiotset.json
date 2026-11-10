@@ -511,5 +511,97 @@
   "role_text": "Used to check that the ranking of the two roads seen on DataSense holds on different data. No device column, so companies are random thirds and tracing (H3) cannot be tested.",
   "source": "https://doi.org/10.1109/ACCESS.2022.3165809"
  },
- "computed": "training results cached from the 5 and 6 October 2026 runs of system.py; scorecard recomputed by this tool"
+ "computed": "training results cached from the 5 and 6 October 2026 runs of system.py; scorecard recomputed by this tool",
+ "experimental": {
+  "fingerprint_sharing": {
+   "name": "Fingerprint sharing",
+   "status": "experimental; not one of the four training conditions of the praxis",
+   "min_group_size": 50,
+   "quantile_points": 41,
+   "seeds": [
+    0,
+    1,
+    2
+   ],
+   "resamples": 2000,
+   "sender_classes": {
+    "A": 11,
+    "B": 11,
+    "C": 11
+   },
+   "sender_suppressed": {
+    "A": 2,
+    "B": 2,
+    "C": 2
+   },
+   "sender_bytes": {
+    "A": 99528,
+    "B": 99528,
+    "C": 99528
+   },
+   "orgs": {
+    "A": {
+     "named": 0.7258498410369283,
+     "flagged": 1.0,
+     "false_alarm": 0.027932960893854747,
+     "isolated_named": 0.0,
+     "isolated_false_alarm": 0.027932960893854747,
+     "gain": {
+      "gain": 0.7258498410369283,
+      "lo": 0.7033443384690633,
+      "hi": 0.7495720224993885,
+      "events": 1363
+     },
+     "bytes": 199056,
+     "synthetic_records": 40490,
+     "steps": 9943,
+     "withheld_type_in_peer_fingerprints": 2,
+     "verdict": "gain met (exposure of the fingerprint not measured)"
+    },
+    "B": {
+     "named": 0.3512573568753344,
+     "flagged": 1.0,
+     "false_alarm": 0.054003724394785846,
+     "isolated_named": 0.0,
+     "isolated_false_alarm": 0.054003724394785846,
+     "gain": {
+      "gain": 0.3512573568753344,
+      "lo": 0.3263710540395934,
+      "hi": 0.375073568753344,
+      "events": 1246
+     },
+     "bytes": 199056,
+     "synthetic_records": 40290,
+     "steps": 9943,
+     "withheld_type_in_peer_fingerprints": 2,
+     "verdict": "gain met (exposure of the fingerprint not measured)"
+    },
+    "C": {
+     "named": 0.9929929929929929,
+     "flagged": 1.0,
+     "false_alarm": 0.05027932960893855,
+     "isolated_named": 0.0,
+     "isolated_false_alarm": 0.0484171322160149,
+     "gain": {
+      "gain": 0.992992992992993,
+      "lo": 0.988988988988989,
+      "hi": 0.9963296629963297,
+      "events": 999
+     },
+     "bytes": 199056,
+     "synthetic_records": 39880,
+     "steps": 9943,
+     "withheld_type_in_peer_fingerprints": 2,
+     "verdict": "gain met (exposure of the fingerprint not measured)"
+    }
+   },
+   "mean_gain": {
+    "gain": 0.6900333969684186,
+    "lo": 0.6790486206257875,
+    "hi": 0.7008410320432138,
+    "clears": true
+   },
+   "computed": "09 November 2026"
+  }
+ }
 }

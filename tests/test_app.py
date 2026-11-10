@@ -166,7 +166,38 @@ def test_research_and_organizations_pages():
     assert "Three ways to use it" in all_text(at)
 
 
+def test_agent_classify_and_fingerprint_roundtrip(tmp_path):
+    import numpy as np
+    import praxis_agent as agent
+    assert agent.classify("DDoS_UDP")["family"] == "Distributed denial of service"
+    assert agent.classify("ARP_poisioning")["techniques"][0]["id"] == "T1557.002"
+    assert agent.classify("COLD_RESTART")["techniques"][0]["id"] == "T0816"
+    assert agent.classify("something else")["family"] == agent.UNMAPPED
+    df = engine.example_data()
+    roles = agent.inspect(df)
+    fp = agent.build_fingerprint(df, roles["label_col"], roles["benign_label"], roles["numbers"], source_col=roles["source_col"], time_col=roles["time_col"])
+    assert agent.verify(fp) and len(fp["classes"]) == 6
+    text = json.dumps(fp)
+    assert "10.0." not in text and "192.168." not in text            # no addresses from the example table
+    c = next(iter(fp["classes"].values()))
+    x = agent.synthesize(c, 200, np.random.default_rng(0))
+    assert x.shape == (200, len(fp["features"])) and np.isfinite(x).all()
+    fp["classes"][next(iter(fp["classes"]))]["records"] += 10          # tampering is detected
+    assert not agent.verify(fp)
+    assert all(isinstance(ok, bool) for ok, _ in agent.readiness(fp))
+
+
+def test_agent_page_and_samples():
+    at = run_page("agent")
+    assert not at.exception, [str(e.value)[:400] for e in at.exception]
+    txt = all_text(at)
+    assert "Waiting for a fingerprint file" in txt and "not a formal privacy protection" in txt
+    for f in ("sample_organization_water_utility_SYNTHETIC.csv", "sample_power_grid_dnp3_REAL_CC-BY-4.0.csv"):
+        assert os.path.exists(os.path.join(ROOT, "samples", f))
+
+
 def test_report_html_is_self_contained():
+    # keep this test last: importing the app as a module runs it outside a Streamlit session
     import glob as _g
     import app as _app  # noqa
     cards = [json.load(open(f)) for f in sorted(_g.glob(os.path.join(ROOT, "results", "*.json"))) if not os.path.basename(f).startswith("_")]

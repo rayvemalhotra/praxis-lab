@@ -545,5 +545,97 @@
   "role_text": "Same system, new data. Not study evidence. Few attacked hosts, so companies are random thirds.",
   "source": "https://www.kaggle.com/datasets/annaamalaiu/wustl-iiot-2021-dataset"
  },
- "computed": "training results cached from the 5 and 6 October 2026 runs of system.py; scorecard recomputed by this tool"
+ "computed": "training results cached from the 5 and 6 October 2026 runs of system.py; scorecard recomputed by this tool",
+ "experimental": {
+  "fingerprint_sharing": {
+   "name": "Fingerprint sharing",
+   "status": "experimental; not one of the four training conditions of the praxis",
+   "min_group_size": 50,
+   "quantile_points": 41,
+   "seeds": [
+    0,
+    1,
+    2
+   ],
+   "resamples": 2000,
+   "sender_classes": {
+    "A": 1,
+    "B": 1,
+    "C": 2
+   },
+   "sender_suppressed": {
+    "A": 2,
+    "B": 2,
+    "C": 1
+   },
+   "sender_bytes": {
+    "A": 9364,
+    "B": 9364,
+    "C": 18728
+   },
+   "orgs": {
+    "A": {
+     "named": 1.0,
+     "flagged": 1.0,
+     "false_alarm": 0.04845154845154845,
+     "isolated_named": 0.0,
+     "isolated_false_alarm": 0.04204129204129204,
+     "gain": {
+      "gain": 1.0,
+      "lo": 1.0,
+      "hi": 1.0,
+      "events": 19
+     },
+     "bytes": 28092,
+     "synthetic_records": 5280,
+     "steps": 4758,
+     "withheld_type_in_peer_fingerprints": 2,
+     "verdict": "gain met (exposure of the fingerprint not measured)"
+    },
+    "B": {
+     "named": 1.0,
+     "flagged": 1.0,
+     "false_alarm": 0.043366500829187395,
+     "isolated_named": 0.0,
+     "isolated_false_alarm": 0.045273631840796025,
+     "gain": {
+      "gain": 1.0,
+      "lo": 1.0,
+      "hi": 1.0,
+      "events": 14
+     },
+     "bytes": 28092,
+     "synthetic_records": 4620,
+     "steps": 4758,
+     "withheld_type_in_peer_fingerprints": 2,
+     "verdict": "gain met (exposure of the fingerprint not measured)"
+    },
+    "C": {
+     "named": 0.0,
+     "flagged": 1.0,
+     "false_alarm": 0.05559649553754196,
+     "isolated_named": 0.0,
+     "isolated_false_alarm": 0.05314009661835748,
+     "gain": {
+      "gain": 0.0,
+      "lo": 0.0,
+      "hi": 0.0,
+      "events": 10
+     },
+     "bytes": 18728,
+     "synthetic_records": 3320,
+     "steps": 4758,
+     "withheld_type_in_peer_fingerprints": 0,
+     "verdict": "not worth it (gain not met)"
+    }
+   },
+   "mean_gain": {
+    "gain": 0.6666666666666666,
+    "lo": 0.6666666666666666,
+    "hi": 0.6666666666666666,
+    "clears": true
+   },
+   "computed": "09 November 2026"
+  }
+ }
 }

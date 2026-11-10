@@ -11,3 +11,5 @@ ACCESS_PASSWORD.txt
 *.log
 *.out
 screenshots/
+contributions/
+*.fingerprint.json
