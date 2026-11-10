@@ -1,0 +1,420 @@
+[
+ {
+  "case": "well-formed base table",
+  "expect": "run",
+  "shape": [
+   1440,
+   10
+  ],
+  "outcome": "ran",
+  "kept": 6,
+  "organizations": "organizations = three random thirds of the records",
+  "seconds": 0.8,
+  "ok": true,
+  "note": ""
+ },
+ {
+  "case": "labels with stray spaces and mixed case (' Normal ', 'DoS ')",
+  "expect": "run",
+  "shape": [
+   1440,
+   10
+  ],
+  "outcome": "ran",
+  "kept": 6,
+  "organizations": "organizations = three random thirds of the records",
+  "seconds": 0.8,
+  "ok": true,
+  "note": ""
+ },
+ {
+  "case": "constant column and all-empty column among the numbers",
+  "expect": "run",
+  "shape": [
+   1440,
+   12
+  ],
+  "outcome": "ran",
+  "kept": 6,
+  "organizations": "organizations = three random thirds of the records",
+  "seconds": 0.8,
+  "ok": true,
+  "note": ""
+ },
+ {
+  "case": "infinite values in a number column",
+  "expect": "run",
+  "shape": [
+   1440,
+   10
+  ],
+  "outcome": "ran",
+  "kept": 5,
+  "organizations": "organizations = three random thirds of the records",
+  "seconds": 0.8,
+  "ok": true,
+  "note": ""
+ },
+ {
+  "case": "unicode, emoji and very long headers",
+  "expect": "run",
+  "shape": [
+   1440,
+   10
+  ],
+  "outcome": "ran",
+  "kept": 6,
+  "organizations": "organizations = three random thirds of the records",
+  "seconds": 0.9,
+  "ok": true,
+  "note": ""
+ },
+ {
+  "case": "2,000 number columns",
+  "expect": "run",
+  "shape": [
+   720,
+   2010
+  ],
+  "outcome": "refused",
+  "message": "ValueError: organization A has only 14 normal validation records; the alarm threshold needs at least 25",
+  "human": true,
+  "seconds": 0.5,
+  "ok": false,
+  "note": "refused although it should run"
+ },
+ {
+  "case": "numeric labels (0 = normal, 1..4 = attack types)",
+  "expect": "run",
+  "shape": [
+   1440,
+   10
+  ],
+  "outcome": "ran",
+  "kept": 6,
+  "organizations": "organizations = three random thirds of the records",
+  "seconds": 0.8,
+  "ok": true,
+  "note": ""
+ },
+ {
+  "case": "mixed types in one number column (numbers and words)",
+  "expect": "run",
+  "shape": [
+   1440,
+   10
+  ],
+  "outcome": "ran",
+  "kept": 6,
+  "organizations": "organizations = three random thirds of the records",
+  "seconds": 0.8,
+  "ok": true,
+  "note": ""
+ },
+ {
+  "case": "no host column and no clock",
+  "expect": "run",
+  "shape": [
+   1440,
+   8
+  ],
+  "outcome": "ran",
+  "kept": 6,
+  "organizations": "organizations = three random thirds of the records",
+  "seconds": 0.4,
+  "ok": true,
+  "note": ""
+ },
+ {
+  "case": "file: UTF-8 byte order mark at the start",
+  "expect": "run",
+  "shape": [
+   1440,
+   10
+  ],
+  "outcome": "ran",
+  "kept": 6,
+  "organizations": "organizations = three random thirds of the records",
+  "seconds": 0.8,
+  "ok": true,
+  "note": ""
+ },
+ {
+  "case": "file: semicolon delimiter",
+  "expect": "run",
+  "shape": [
+   1440,
+   1
+  ],
+  "outcome": "refused",
+  "message": "No label column was recognized (the page asks the person to pick it).",
+  "human": true,
+  "seconds": 1.0,
+  "ok": false,
+  "note": "refused although it should run"
+ },
+ {
+  "case": "file: tab delimiter",
+  "expect": "run",
+  "shape": [
+   1440,
+   1
+  ],
+  "outcome": "refused",
+  "message": "No label column was recognized (the page asks the person to pick it).",
+  "human": true,
+  "seconds": 1.0,
+  "ok": false,
+  "note": "refused although it should run"
+ },
+ {
+  "case": "file: Latin-1 bytes in a header (not UTF-8)",
+  "expect": "run",
+  "outcome": "refused",
+  "message": "UnicodeDecodeError: 'utf-8' codec can't decode byte 0xe9 in position 81: invalid continuation byte",
+  "human": false,
+  "seconds": 0.0,
+  "ok": false,
+  "note": "ended with an error that is not written for a person"
+ },
+ {
+  "case": "file: duplicate column names",
+  "expect": "run",
+  "shape": [
+   1440,
+   10
+  ],
+  "outcome": "ran",
+  "kept": 6,
+  "organizations": "organizations = three random thirds of the records",
+  "seconds": 0.8,
+  "ok": true,
+  "note": ""
+ },
+ {
+  "case": "file: a cell '1e2147483648' (a number with an impossible exponent; pandas 2.3 on Linux dies on it)",
+  "expect": "run",
+  "outcome": "crash",
+  "message": "the process died (exit code -11) ",
+  "seconds": 0.8,
+  "ok": false,
+  "note": "crash"
+ },
+ {
+  "case": "table: the same impossible-exponent cell inside a DataFrame (Parquet path)",
+  "expect": "run",
+  "outcome": "crash",
+  "message": "the process died (exit code -11) ",
+  "seconds": 0.8,
+  "ok": false,
+  "note": "crash"
+ },
+ {
+  "case": "file: Parquet with a nested (list) column",
+  "expect": "run",
+  "shape": [
+   1440,
+   11
+  ],
+  "outcome": "refused",
+  "message": "TypeError: unhashable type: 'numpy.ndarray'",
+  "human": false,
+  "seconds": 0.0,
+  "ok": false,
+  "note": "ended with an error that is not written for a person"
+ },
+ {
+  "case": "file: script and image tags in column names, label values and host names",
+  "expect": "run",
+  "shape": [
+   1440,
+   10
+  ],
+  "outcome": "ran",
+  "kept": 6,
+  "organizations": "organizations = three random thirds of the records",
+  "seconds": 0.9,
+  "ok": true,
+  "note": ""
+ },
+ {
+  "case": "file: empty (0 bytes)",
+  "expect": "refuse",
+  "outcome": "refused",
+  "message": "EmptyDataError: No columns to parse from file",
+  "human": false,
+  "seconds": 0.0,
+  "ok": false,
+  "note": "ended with an error that is not written for a person"
+ },
+ {
+  "case": "file: header only, no records",
+  "expect": "refuse",
+  "shape": [
+   0,
+   3
+  ],
+  "outcome": "refused",
+  "message": "No label column was recognized (the page asks the person to pick it).",
+  "human": true,
+  "seconds": 1.0,
+  "ok": true,
+  "note": ""
+ },
+ {
+  "case": "file: one record",
+  "expect": "refuse",
+  "shape": [
+   1,
+   10
+  ],
+  "outcome": "refused",
+  "message": "No label column was recognized (the page asks the person to pick it).",
+  "human": true,
+  "seconds": 1.0,
+  "ok": true,
+  "note": ""
+ },
+ {
+  "case": "file: not a table at all (random bytes)",
+  "expect": "refuse",
+  "outcome": "refused",
+  "message": "UnicodeDecodeError: 'utf-8' codec can't decode byte 0x82 in position 1: invalid start byte",
+  "human": false,
+  "seconds": 0.0,
+  "ok": false,
+  "note": "ended with an error that is not written for a person"
+ },
+ {
+  "case": "file: a PDF named .csv (wrong extension)",
+  "expect": "refuse",
+  "outcome": "refused",
+  "message": "UnicodeDecodeError: 'utf-8' codec can't decode byte 0xe2 in position 10: invalid continuation byte",
+  "human": false,
+  "seconds": 0.0,
+  "ok": false,
+  "note": "ended with an error that is not written for a person"
+ },
+ {
+  "case": "file: a CSV named .parquet (wrong extension)",
+  "expect": "refuse",
+  "outcome": "refused",
+  "message": "ArrowInvalid: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.",
+  "human": false,
+  "seconds": 0.0,
+  "ok": false,
+  "note": "ended with an error that is not written for a person"
+ },
+ {
+  "case": "no label column",
+  "expect": "refuse",
+  "shape": [
+   1440,
+   9
+  ],
+  "outcome": "refused",
+  "message": "ValueError: organization A has only 1 normal validation records; the alarm threshold needs at least 25",
+  "human": true,
+  "seconds": 0.0,
+  "ok": true,
+  "note": ""
+ },
+ {
+  "case": "one class only (all normal)",
+  "expect": "refuse",
+  "shape": [
+   1440,
+   10
+  ],
+  "outcome": "refused",
+  "message": "ValueError: organization A has only 3 normal validation records; the alarm threshold needs at least 25",
+  "human": true,
+  "seconds": 0.0,
+  "ok": true,
+  "note": ""
+ },
+ {
+  "case": "all attack, no normal records",
+  "expect": "refuse",
+  "shape": [
+   960,
+   10
+  ],
+  "outcome": "refused",
+  "message": "ValueError: organization A has only 13 normal validation records; the alarm threshold needs at least 25",
+  "human": true,
+  "seconds": 0.0,
+  "ok": true,
+  "note": ""
+ },
+ {
+  "case": "two classes (normal and one attack type)",
+  "expect": "refuse",
+  "shape": [
+   720,
+   10
+  ],
+  "outcome": "refused",
+  "message": "ValueError: at least three attack types are needed so that each organization can withhold a different one",
+  "human": true,
+  "seconds": 0.0,
+  "ok": true,
+  "note": ""
+ },
+ {
+  "case": "three attack types but 5 records each",
+  "expect": "refuse",
+  "shape": [
+   495,
+   10
+  ],
+  "outcome": "ran",
+  "kept": 6,
+  "organizations": "organizations = three random thirds of the records",
+  "seconds": 0.4,
+  "ok": false,
+  "note": "ran, but the table cannot support an evaluation and should have been refused"
+ },
+ {
+  "case": "no number columns (text only)",
+  "expect": "refuse",
+  "shape": [
+   1440,
+   4
+  ],
+  "outcome": "refused",
+  "message": "ValueError: only 0 usable number columns were found; the detector needs more",
+  "human": true,
+  "seconds": 0.0,
+  "ok": true,
+  "note": ""
+ },
+ {
+  "case": "every number column empty",
+  "expect": "refuse",
+  "shape": [
+   1440,
+   10
+  ],
+  "outcome": "refused",
+  "message": "ValueError: only 0 usable number columns were found; the detector needs more",
+  "human": true,
+  "seconds": 0.0,
+  "ok": true,
+  "note": ""
+ },
+ {
+  "case": "20 records in all",
+  "expect": "refuse",
+  "shape": [
+   20,
+   10
+  ],
+  "outcome": "refused",
+  "message": "ValueError: at least three attack types are needed so that each organization can withhold a different one",
+  "human": true,
+  "seconds": 0.0,
+  "ok": true,
+  "note": ""
+ }
+]

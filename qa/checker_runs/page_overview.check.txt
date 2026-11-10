@@ -1,0 +1,5 @@
+2026-11-10 04:27 check.py --advisor page_overview.md
+
+== page_overview.md: 0 error(s), 0 warning(s)
+
+Total errors: 0

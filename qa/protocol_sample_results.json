@@ -1,0 +1,21 @@
+{
+ "file": "sample_power_grid_dnp3_REAL_CC-BY-4.0.csv",
+ "bytes": 7125921,
+ "rows": 10952,
+ "columns": 85,
+ "budget": "protocol",
+ "ok": true,
+ "run_s": 57,
+ "read_s": 0.4,
+ "seeds": 3,
+ "H1": {
+  "gain": 59.9,
+  "clears": true
+ },
+ "H2": {
+  "gain": 33.3,
+  "clears": true
+ },
+ "traced": true,
+ "peak_mb": 557
+}

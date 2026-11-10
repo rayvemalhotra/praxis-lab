@@ -1,0 +1,12 @@
+[
+ {
+  "test": "hostile fingerprint through the real page: image tag with a script handler as removed_columns_count",
+  "ok": true,
+  "evidence": "scripts that ran: 0; elements from the file in the page: 0 (with its script handler still attached: 0); tracebacks: 0; page said: This file could not be used: the file is not a valid fingerprint: removed_columns_count or payload_bytes."
+ },
+ {
+  "test": "hostile fingerprint through the real page: a JSON list",
+  "ok": true,
+  "evidence": "scripts that ran: 0; elements from the file in the page: 0 (with its script handler still attached: 0); tracebacks: 0; page said: This file could not be used: the file is not a valid fingerprint: it is not a JSON object."
+ }
+]

@@ -1,0 +1,22 @@
+[
+ {
+  "test": "browser upload: script_tags.csv",
+  "ok": true,
+  "evidence": "server alive: True; tracebacks on the page: 0; scripts that ran: 0; injected elements: 0; evaluation started: True; page said: nothing special"
+ },
+ {
+  "test": "browser upload: impossible_exponent.csv",
+  "ok": true,
+  "evidence": "server alive: True; tracebacks on the page: 0; scripts that ran: 0; injected elements: 0; evaluation started: True; page said: Note: 3 cells look like numbers with an impossible exponent (for example 1e2147483648); they are kept as text with a ~ in front."
+ },
+ {
+  "test": "browser upload: binary.csv",
+  "ok": true,
+  "evidence": "server alive: True; tracebacks on the page: 0; scripts that ran: 0; injected elements: 0; evaluation started: False; page said: The file could not be read: the file is not a text table; it looks like a binary file with a .csv name"
+ },
+ {
+  "test": "browser upload: semicolons.csv",
+  "ok": true,
+  "evidence": "server alive: True; tracebacks on the page: 0; scripts that ran: 0; injected elements: 0; evaluation started: True; page said: Note: the columns are separated by semicolons, not commas; the file was read that way."
+ }
+]

@@ -1,0 +1,4 @@
+# NVIDIA FLARE, for integrations/nvflare only (product research, not part of the praxis).
+# Install on top of requirements.txt:  pip install -r requirements.txt -r requirements-nvflare.txt
+# The web tool, the engine and the tests in tests/ do not need it.
+nvflare==2.9.0

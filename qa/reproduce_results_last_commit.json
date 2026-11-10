@@ -1,0 +1,19 @@
+[
+ {
+  "dataset": "bot_iot_5pct",
+  "stored_made": "08 Nov 2026, 22:47",
+  "values_compared": 335,
+  "differences": 5,
+  "largest_difference": 0.02487562189054726,
+  "minutes": 1.7,
+  "examples": [
+   "/companies/B/trace/hi: -0.30253563107778375 -> -0.3023973909744231",
+   "/companies/B/trace/lo: -0.43745830673627584 -> -0.43836304259485315",
+   "/companies/B/trace/p_value: 0.5323383084577115 -> 0.5572139303482587",
+   "/companies/C/trace/hi: -0.36725607760268836 -> -0.3704306647227857",
+   "/companies/C/trace/lo: -0.5089048878932354 -> -0.507622598853898"
+  ],
+  "h1_stored": 0.8819402940848327,
+  "h1_now": 0.8819402940848327
+ }
+]

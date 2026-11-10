@@ -1,0 +1,611 @@
+{
+ "status": "tested",
+ "summary": "The federated learning condition ran as an NVIDIA FLARE 2.9.0 FedAvg job in the FLARE simulator on CPU (6 runs, three sites each, no NVIDIA hardware); product research, not part of the praxis.",
+ "details": [
+  "NVIDIA FLARE 2.9.0, simulator, CPU only (Linux aarch64); no NVIDIA GPU was used and none is claimed.",
+  "Three sites, one per organization. Each site read only its own training records; model weights travelled, records did not.",
+  "Same detector, training loop, batch size, learning rate, local passes, rounds and record-count weighting as the engine's federated condition, read from the engine.",
+  "Check of FLARE's arithmetic: from the same starting weights and shuffling seeds, a plain loop without FLARE gave the same shared detector, to within 6e-08 after one round (float rounding) and 5e-05 at the end, with identical scores in 6 of 6 runs.",
+  "built-in example, quick budget, seed 0, attack-class recall on the withheld type (local run of the tool): engine A 100.0%, B 44.8%, C 93.5%; FLARE A 100.0%, B 38.8%, C 96.8%. The two differ only in their random draws.",
+  "sample_organization_water_utility_SYNTHETIC.csv, quick budget, seed 0, attack-class recall on the withheld type (local run of the tool): engine A 100.0%, B 100.0%, C 59.9%; FLARE A 100.0%, B 100.0%, C 58.4%. The two differ only in their random draws.",
+  "Largest difference between engine and FLARE at the same seed over the 6 runs: 9.0 points (organization B of built-in example, 67 test records of the withheld type). Between seeds the engine itself moved by up to 11.9 points there.",
+  "Not shown: real separate sites, FLARE provisioning and secured channels, training on NVIDIA GPUs.",
+  "Product research. The praxis federated condition is the engine's own loop and is unchanged."
+ ],
+ "command": "python integrations/nvflare/run_simulator.py",
+ "budget": "quick",
+ "nvflare_version": "2.9.0",
+ "torch": "2.6.0+cpu",
+ "python": "3.12.13",
+ "platform": "Linux aarch64",
+ "processors": 4,
+ "cuda_available": false,
+ "date": "2026-11-10 03:07:54 EST",
+ "engine_files_sha256": {
+  "engine.py": "11b9d1d474816c27",
+  "threatprint_agent.py": "03b3202809d165e1"
+ },
+ "tables": [
+  {
+   "table": "built-in example",
+   "records": 6600,
+   "behavior_numbers": 12,
+   "attack_types_and_normal": 7,
+   "detector_weights": 10375,
+   "organizations": {
+    "A": {
+     "name": "Organization A",
+     "withheld_attack_type": "mitm",
+     "own_training_records": 977,
+     "local_steps_per_round": 16
+    },
+    "B": {
+     "name": "Organization B",
+     "withheld_attack_type": "dos",
+     "own_training_records": 987,
+     "local_steps_per_round": 16
+    },
+    "C": {
+     "name": "Organization C",
+     "withheld_attack_type": "malware",
+     "own_training_records": 997,
+     "local_steps_per_round": 16
+    }
+   },
+   "rounds": 4,
+   "local_passes_per_round": 2,
+   "batch": 128,
+   "learning_rate": 0.001,
+   "training_budget_steps": 192,
+   "seeds": [
+    {
+     "seed": 0,
+     "engine": {
+      "A": {
+       "recall": 1.0,
+       "flagged": 1.0,
+       "false_positive_rate": 0.027303754266211604,
+       "test_records": 73
+      },
+      "B": {
+       "recall": 0.44776119402985076,
+       "flagged": 0.7014925373134329,
+       "false_positive_rate": 0.056856187290969896,
+       "test_records": 67
+      },
+      "C": {
+       "recall": 0.9354838709677419,
+       "flagged": 0.9838709677419355,
+       "false_positive_rate": 0.048859934853420196,
+       "test_records": 62
+      }
+     },
+     "flare": {
+      "A": {
+       "recall": 1.0,
+       "flagged": 1.0,
+       "false_positive_rate": 0.017064846416382253,
+       "test_records": 73
+      },
+      "B": {
+       "recall": 0.3880597014925373,
+       "flagged": 0.7611940298507462,
+       "false_positive_rate": 0.05016722408026756,
+       "test_records": 67
+      },
+      "C": {
+       "recall": 0.967741935483871,
+       "flagged": 0.9838709677419355,
+       "false_positive_rate": 0.05211726384364821,
+       "test_records": 62
+      }
+     },
+     "plain_loop": {
+      "A": {
+       "recall": 1.0,
+       "flagged": 1.0,
+       "false_positive_rate": 0.017064846416382253,
+       "test_records": 73
+      },
+      "B": {
+       "recall": 0.3880597014925373,
+       "flagged": 0.7611940298507462,
+       "false_positive_rate": 0.05016722408026756,
+       "test_records": 67
+      },
+      "C": {
+       "recall": 0.967741935483871,
+       "flagged": 0.9838709677419355,
+       "false_positive_rate": 0.05211726384364821,
+       "test_records": 62
+      }
+     },
+     "flare_minus_engine_points": {
+      "A": 0.0,
+      "B": -6.0,
+      "C": 3.2
+     },
+     "flare_scores_equal_plain_loop": true,
+     "weight_gap_flare_vs_plain_loop_after_each_round": [
+      5.960464477539063e-08,
+      8.940696716308594e-08,
+      1.7881393432617188e-07,
+      1.7881393432617188e-07
+     ],
+     "flare_seconds": 20.5,
+     "seconds": 21.6
+    },
+    {
+     "seed": 1,
+     "engine": {
+      "A": {
+       "recall": 1.0,
+       "flagged": 1.0,
+       "false_positive_rate": 0.013651877133105802,
+       "test_records": 73
+      },
+      "B": {
+       "recall": 0.5223880597014925,
+       "flagged": 0.8059701492537313,
+       "false_positive_rate": 0.06354515050167224,
+       "test_records": 67
+      },
+      "C": {
+       "recall": 0.9193548387096774,
+       "flagged": 0.9838709677419355,
+       "false_positive_rate": 0.02280130293159609,
+       "test_records": 62
+      }
+     },
+     "flare": {
+      "A": {
+       "recall": 1.0,
+       "flagged": 1.0,
+       "false_positive_rate": 0.017064846416382253,
+       "test_records": 73
+      },
+      "B": {
+       "recall": 0.5522388059701493,
+       "flagged": 0.7611940298507462,
+       "false_positive_rate": 0.05351170568561873,
+       "test_records": 67
+      },
+      "C": {
+       "recall": 0.9838709677419355,
+       "flagged": 0.9838709677419355,
+       "false_positive_rate": 0.03908794788273615,
+       "test_records": 62
+      }
+     },
+     "plain_loop": {
+      "A": {
+       "recall": 1.0,
+       "flagged": 1.0,
+       "false_positive_rate": 0.017064846416382253,
+       "test_records": 73
+      },
+      "B": {
+       "recall": 0.5522388059701493,
+       "flagged": 0.7611940298507462,
+       "false_positive_rate": 0.05351170568561873,
+       "test_records": 67
+      },
+      "C": {
+       "recall": 0.9838709677419355,
+       "flagged": 0.9838709677419355,
+       "false_positive_rate": 0.03908794788273615,
+       "test_records": 62
+      }
+     },
+     "flare_minus_engine_points": {
+      "A": 0.0,
+      "B": 3.0,
+      "C": 6.5
+     },
+     "flare_scores_equal_plain_loop": true,
+     "weight_gap_flare_vs_plain_loop_after_each_round": [
+      5.960464477539063e-08,
+      5.960464477539063e-08,
+      1.5147030353546143e-05,
+      4.684552550315857e-05
+     ],
+     "flare_seconds": 20.5,
+     "seconds": 21.2
+    },
+    {
+     "seed": 2,
+     "engine": {
+      "A": {
+       "recall": 1.0,
+       "flagged": 1.0,
+       "false_positive_rate": 0.023890784982935155,
+       "test_records": 73
+      },
+      "B": {
+       "recall": 0.5671641791044776,
+       "flagged": 0.7910447761194029,
+       "false_positive_rate": 0.06688963210702341,
+       "test_records": 67
+      },
+      "C": {
+       "recall": 0.9516129032258065,
+       "flagged": 0.9838709677419355,
+       "false_positive_rate": 0.048859934853420196,
+       "test_records": 62
+      }
+     },
+     "flare": {
+      "A": {
+       "recall": 1.0,
+       "flagged": 1.0,
+       "false_positive_rate": 0.020477815699658702,
+       "test_records": 73
+      },
+      "B": {
+       "recall": 0.47761194029850745,
+       "flagged": 0.7313432835820896,
+       "false_positive_rate": 0.056856187290969896,
+       "test_records": 67
+      },
+      "C": {
+       "recall": 0.9354838709677419,
+       "flagged": 0.9838709677419355,
+       "false_positive_rate": 0.035830618892508145,
+       "test_records": 62
+      }
+     },
+     "plain_loop": {
+      "A": {
+       "recall": 1.0,
+       "flagged": 1.0,
+       "false_positive_rate": 0.020477815699658702,
+       "test_records": 73
+      },
+      "B": {
+       "recall": 0.47761194029850745,
+       "flagged": 0.7313432835820896,
+       "false_positive_rate": 0.056856187290969896,
+       "test_records": 67
+      },
+      "C": {
+       "recall": 0.9354838709677419,
+       "flagged": 0.9838709677419355,
+       "false_positive_rate": 0.035830618892508145,
+       "test_records": 62
+      }
+     },
+     "flare_minus_engine_points": {
+      "A": 0.0,
+      "B": -9.0,
+      "C": -1.6
+     },
+     "flare_scores_equal_plain_loop": true,
+     "weight_gap_flare_vs_plain_loop_after_each_round": [
+      5.960464477539063e-08,
+      8.940696716308594e-08,
+      8.940696716308594e-08,
+      2.127140760421753e-06
+     ],
+     "flare_seconds": 20.5,
+     "seconds": 21.2
+    }
+   ],
+   "mean_recall_engine": {
+    "A": 1.0,
+    "B": 0.5124378109452736,
+    "C": 0.935483870967742
+   },
+   "mean_recall_flare": {
+    "A": 1.0,
+    "B": 0.472636815920398,
+    "C": 0.9623655913978495
+   },
+   "engine_spread_between_seeds_points": {
+    "A": 0.0,
+    "B": 11.9,
+    "C": 3.2
+   },
+   "flare_spread_between_seeds_points": {
+    "A": 0.0,
+    "B": 16.4,
+    "C": 4.8
+   }
+  },
+  {
+   "table": "sample_organization_water_utility_SYNTHETIC.csv",
+   "records": 22073,
+   "behavior_numbers": 19,
+   "attack_types_and_normal": 8,
+   "detector_weights": 11336,
+   "organizations": {
+    "A": {
+     "name": "Organization A",
+     "withheld_attack_type": "port_scan",
+     "own_training_records": 3237,
+     "local_steps_per_round": 52
+    },
+    "B": {
+     "name": "Organization B",
+     "withheld_attack_type": "ddos_udp_flood",
+     "own_training_records": 3150,
+     "local_steps_per_round": 50
+    },
+    "C": {
+     "name": "Organization C",
+     "withheld_attack_type": "arp_mitm",
+     "own_training_records": 3174,
+     "local_steps_per_round": 50
+    }
+   },
+   "rounds": 4,
+   "local_passes_per_round": 2,
+   "batch": 128,
+   "learning_rate": 0.001,
+   "training_budget_steps": 624,
+   "seeds": [
+    {
+     "seed": 0,
+     "engine": {
+      "A": {
+       "recall": 1.0,
+       "flagged": 1.0,
+       "false_positive_rate": 0.04807692307692308,
+       "test_records": 281
+      },
+      "B": {
+       "recall": 1.0,
+       "flagged": 1.0,
+       "false_positive_rate": 0.04487179487179487,
+       "test_records": 271
+      },
+      "C": {
+       "recall": 0.5992217898832685,
+       "flagged": 0.6070038910505836,
+       "false_positive_rate": 0.0625,
+       "test_records": 257
+      }
+     },
+     "flare": {
+      "A": {
+       "recall": 1.0,
+       "flagged": 1.0,
+       "false_positive_rate": 0.035256410256410256,
+       "test_records": 281
+      },
+      "B": {
+       "recall": 1.0,
+       "flagged": 1.0,
+       "false_positive_rate": 0.03685897435897436,
+       "test_records": 271
+      },
+      "C": {
+       "recall": 0.5836575875486382,
+       "flagged": 0.5875486381322957,
+       "false_positive_rate": 0.057692307692307696,
+       "test_records": 257
+      }
+     },
+     "plain_loop": {
+      "A": {
+       "recall": 1.0,
+       "flagged": 1.0,
+       "false_positive_rate": 0.035256410256410256,
+       "test_records": 281
+      },
+      "B": {
+       "recall": 1.0,
+       "flagged": 1.0,
+       "false_positive_rate": 0.03685897435897436,
+       "test_records": 271
+      },
+      "C": {
+       "recall": 0.5836575875486382,
+       "flagged": 0.5875486381322957,
+       "false_positive_rate": 0.057692307692307696,
+       "test_records": 257
+      }
+     },
+     "flare_minus_engine_points": {
+      "A": 0.0,
+      "B": 0.0,
+      "C": -1.6
+     },
+     "flare_scores_equal_plain_loop": true,
+     "weight_gap_flare_vs_plain_loop_after_each_round": [
+      2.9802322387695312e-08,
+      3.948807716369629e-07,
+      4.0978193283081055e-07,
+      4.0978193283081055e-07
+     ],
+     "flare_seconds": 21.9,
+     "seconds": 23.9
+    },
+    {
+     "seed": 1,
+     "engine": {
+      "A": {
+       "recall": 1.0,
+       "flagged": 1.0,
+       "false_positive_rate": 0.041666666666666664,
+       "test_records": 281
+      },
+      "B": {
+       "recall": 1.0,
+       "flagged": 1.0,
+       "false_positive_rate": 0.041666666666666664,
+       "test_records": 271
+      },
+      "C": {
+       "recall": 0.5953307392996109,
+       "flagged": 0.603112840466926,
+       "false_positive_rate": 0.06570512820512821,
+       "test_records": 257
+      }
+     },
+     "flare": {
+      "A": {
+       "recall": 1.0,
+       "flagged": 1.0,
+       "false_positive_rate": 0.041666666666666664,
+       "test_records": 281
+      },
+      "B": {
+       "recall": 1.0,
+       "flagged": 1.0,
+       "false_positive_rate": 0.041666666666666664,
+       "test_records": 271
+      },
+      "C": {
+       "recall": 0.5875486381322957,
+       "flagged": 0.5992217898832685,
+       "false_positive_rate": 0.052884615384615384,
+       "test_records": 257
+      }
+     },
+     "plain_loop": {
+      "A": {
+       "recall": 1.0,
+       "flagged": 1.0,
+       "false_positive_rate": 0.041666666666666664,
+       "test_records": 281
+      },
+      "B": {
+       "recall": 1.0,
+       "flagged": 1.0,
+       "false_positive_rate": 0.041666666666666664,
+       "test_records": 271
+      },
+      "C": {
+       "recall": 0.5875486381322957,
+       "flagged": 0.5992217898832685,
+       "false_positive_rate": 0.052884615384615384,
+       "test_records": 257
+      }
+     },
+     "flare_minus_engine_points": {
+      "A": 0.0,
+      "B": 0.0,
+      "C": -0.8
+     },
+     "flare_scores_equal_plain_loop": true,
+     "weight_gap_flare_vs_plain_loop_after_each_round": [
+      2.9802322387695312e-08,
+      6.556510925292969e-07,
+      6.407499313354492e-07,
+      6.407499313354492e-07
+     ],
+     "flare_seconds": 23.5,
+     "seconds": 25.4
+    },
+    {
+     "seed": 2,
+     "engine": {
+      "A": {
+       "recall": 1.0,
+       "flagged": 1.0,
+       "false_positive_rate": 0.04326923076923077,
+       "test_records": 281
+      },
+      "B": {
+       "recall": 1.0,
+       "flagged": 1.0,
+       "false_positive_rate": 0.04807692307692308,
+       "test_records": 271
+      },
+      "C": {
+       "recall": 0.5836575875486382,
+       "flagged": 0.5914396887159533,
+       "false_positive_rate": 0.060897435897435896,
+       "test_records": 257
+      }
+     },
+     "flare": {
+      "A": {
+       "recall": 1.0,
+       "flagged": 1.0,
+       "false_positive_rate": 0.04487179487179487,
+       "test_records": 281
+      },
+      "B": {
+       "recall": 1.0,
+       "flagged": 1.0,
+       "false_positive_rate": 0.041666666666666664,
+       "test_records": 271
+      },
+      "C": {
+       "recall": 0.5836575875486382,
+       "flagged": 0.5953307392996109,
+       "false_positive_rate": 0.05608974358974359,
+       "test_records": 257
+      }
+     },
+     "plain_loop": {
+      "A": {
+       "recall": 1.0,
+       "flagged": 1.0,
+       "false_positive_rate": 0.04487179487179487,
+       "test_records": 281
+      },
+      "B": {
+       "recall": 1.0,
+       "flagged": 1.0,
+       "false_positive_rate": 0.041666666666666664,
+       "test_records": 271
+      },
+      "C": {
+       "recall": 0.5836575875486382,
+       "flagged": 0.5953307392996109,
+       "false_positive_rate": 0.05608974358974359,
+       "test_records": 257
+      }
+     },
+     "flare_minus_engine_points": {
+      "A": 0.0,
+      "B": 0.0,
+      "C": 0.0
+     },
+     "flare_scores_equal_plain_loop": true,
+     "weight_gap_flare_vs_plain_loop_after_each_round": [
+      5.960464477539063e-08,
+      8.940696716308594e-08,
+      8.940696716308594e-08,
+      6.854534149169922e-07
+     ],
+     "flare_seconds": 21.5,
+     "seconds": 23.5
+    }
+   ],
+   "mean_recall_engine": {
+    "A": 1.0,
+    "B": 1.0,
+    "C": 0.5927367055771725
+   },
+   "mean_recall_flare": {
+    "A": 1.0,
+    "B": 1.0,
+    "C": 0.5849546044098574
+   },
+   "engine_spread_between_seeds_points": {
+    "A": 0.0,
+    "B": 0.0,
+    "C": 1.6
+   },
+   "flare_spread_between_seeds_points": {
+    "A": 0.0,
+    "B": 0.0,
+    "C": 0.4
+   }
+  }
+ ],
+ "largest_weight_gap_after_one_round": 5.960464477539063e-08,
+ "largest_weight_gap_at_the_end": 4.684552550315857e-05,
+ "arithmetic_tolerance": 1e-06,
+ "runs_with_scores_equal_to_plain_loop": "6 of 6",
+ "not_shown": [
+  "no NVIDIA hardware: CPU simulator only",
+  "no real separate sites: three simulated sites on one machine",
+  "no FLARE provisioning, certificates or secured channels",
+  "no secure aggregation, homomorphic encryption or differential privacy",
+  "no claim about what model weights reveal about a site"
+ ]
+}

@@ -1,0 +1,62 @@
+[
+ {
+  "test": "the payloads survive into the scorecard data (so the rendering is really tested)",
+  "ok": true,
+  "evidence": "attack types in the card: ['<b>scan</b>**md**', \"<script>alert('dos')</script>\"]; kept columns with a tag: ['<script>alert(1)</script>', '<img src=x onerror=alert(2)>']"
+ },
+ {
+  "test": "app.report_html (the downloadable report)",
+  "ok": true,
+  "evidence": "12,822 characters of HTML, every payload escaped"
+ },
+ {
+  "test": "app.org_panel (organization panels of the scorecard)",
+  "ok": true,
+  "evidence": "11,334 characters of HTML, every payload escaped"
+ },
+ {
+  "test": "app.show_card (the whole scorecard, expanders included)",
+  "ok": true,
+  "evidence": "21,810 characters of HTML, every payload escaped"
+ },
+ {
+  "test": "app.org_table through ui.table",
+  "ok": true,
+  "evidence": "4,014 characters of HTML, every payload escaped"
+ },
+ {
+  "test": "app._before_after (one record before and after sanitizing)",
+  "ok": true,
+  "evidence": "1,418 characters of HTML, every payload escaped"
+ },
+ {
+  "test": "ui.table on the raw table (column names and cells)",
+  "ok": true,
+  "evidence": "2,102 characters of HTML, every payload escaped"
+ },
+ {
+  "test": "ui.chip on every column name",
+  "ok": true,
+  "evidence": "453 characters of HTML, every payload escaped"
+ },
+ {
+  "test": "app.role_reasons (why each column got its role, live demo)",
+  "ok": true,
+  "evidence": "852 characters of HTML, every payload escaped"
+ },
+ {
+  "test": "the download written by pandas with no helper (what the page did): cells a spreadsheet would run as formulas",
+  "ok": null,
+  "evidence": "961 cells start with = + - @ (label values and one column name came from the sender)"
+ },
+ {
+  "test": "threatprint_agent.csv_safe: no cell of the downloaded table starts a formula, and no number changes",
+  "ok": true,
+  "evidence": "0 formula cells after csv_safe; numbers identical: True"
+ },
+ {
+  "test": "app.py: every CSV download goes through csv_safe",
+  "ok": true,
+  "evidence": "3 to_csv calls in app.py, 3 csv_safe calls (see qa/APP_PATCHES.md when they differ)"
+ }
+]

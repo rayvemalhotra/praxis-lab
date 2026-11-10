@@ -1,0 +1,458 @@
+[
+ {
+  "case": "well-formed base table",
+  "expect": "run",
+  "shape": [
+   1440,
+   10
+  ],
+  "outcome": "ran",
+  "kept": 6,
+  "organizations": "organizations = three random thirds of the records",
+  "seconds": 1.1,
+  "ok": true,
+  "note": ""
+ },
+ {
+  "case": "labels with stray spaces and mixed case (' Normal ', 'DoS ')",
+  "expect": "run",
+  "shape": [
+   1440,
+   10
+  ],
+  "outcome": "ran",
+  "kept": 6,
+  "organizations": "organizations = three random thirds of the records",
+  "seconds": 1.1,
+  "ok": true,
+  "note": ""
+ },
+ {
+  "case": "constant column and all-empty column among the numbers",
+  "expect": "run",
+  "shape": [
+   1440,
+   12
+  ],
+  "outcome": "ran",
+  "kept": 6,
+  "organizations": "organizations = three random thirds of the records",
+  "seconds": 1.1,
+  "ok": true,
+  "note": ""
+ },
+ {
+  "case": "infinite values in a number column",
+  "expect": "run",
+  "shape": [
+   1440,
+   10
+  ],
+  "outcome": "ran",
+  "kept": 5,
+  "organizations": "organizations = three random thirds of the records",
+  "seconds": 1.1,
+  "ok": true,
+  "note": ""
+ },
+ {
+  "case": "unicode, emoji and very long headers",
+  "expect": "run",
+  "shape": [
+   1440,
+   10
+  ],
+  "outcome": "ran",
+  "kept": 6,
+  "organizations": "organizations = three random thirds of the records",
+  "seconds": 1.1,
+  "ok": true,
+  "note": ""
+ },
+ {
+  "case": "2,000 number columns",
+  "expect": "run",
+  "shape": [
+   1440,
+   2010
+  ],
+  "outcome": "ran",
+  "kept": 2006,
+  "organizations": "organizations = three random thirds of the records",
+  "seconds": 3.2,
+  "ok": true,
+  "note": ""
+ },
+ {
+  "case": "numeric labels (0 = normal, 1..4 = attack types)",
+  "expect": "run",
+  "shape": [
+   1440,
+   10
+  ],
+  "outcome": "ran",
+  "kept": 6,
+  "organizations": "organizations = three random thirds of the records",
+  "seconds": 1.1,
+  "ok": true,
+  "note": ""
+ },
+ {
+  "case": "mixed types in one number column (numbers and words)",
+  "expect": "run",
+  "shape": [
+   1440,
+   10
+  ],
+  "outcome": "ran",
+  "kept": 6,
+  "organizations": "organizations = three random thirds of the records",
+  "seconds": 1.1,
+  "ok": true,
+  "note": ""
+ },
+ {
+  "case": "no host column and no clock",
+  "expect": "run",
+  "shape": [
+   1440,
+   8
+  ],
+  "outcome": "ran",
+  "kept": 6,
+  "organizations": "organizations = three random thirds of the records",
+  "seconds": 0.5,
+  "ok": true,
+  "note": ""
+ },
+ {
+  "case": "file: UTF-8 byte order mark at the start",
+  "expect": "run",
+  "shape": [
+   1440,
+   10
+  ],
+  "outcome": "ran",
+  "kept": 6,
+  "organizations": "organizations = three random thirds of the records",
+  "seconds": 1.1,
+  "ok": true,
+  "note": ""
+ },
+ {
+  "case": "file: semicolon delimiter",
+  "expect": "run",
+  "shape": [
+   1440,
+   10
+  ],
+  "outcome": "ran",
+  "kept": 6,
+  "organizations": "organizations = three random thirds of the records",
+  "seconds": 1.1,
+  "ok": true,
+  "note": ""
+ },
+ {
+  "case": "file: tab delimiter",
+  "expect": "run",
+  "shape": [
+   1440,
+   10
+  ],
+  "outcome": "ran",
+  "kept": 6,
+  "organizations": "organizations = three random thirds of the records",
+  "seconds": 1.1,
+  "ok": true,
+  "note": ""
+ },
+ {
+  "case": "file: Latin-1 bytes in a header (not UTF-8)",
+  "expect": "run",
+  "shape": [
+   1440,
+   10
+  ],
+  "outcome": "ran",
+  "kept": 6,
+  "organizations": "organizations = three random thirds of the records",
+  "seconds": 1.1,
+  "ok": true,
+  "note": ""
+ },
+ {
+  "case": "file: duplicate column names",
+  "expect": "run",
+  "shape": [
+   1440,
+   10
+  ],
+  "outcome": "ran",
+  "kept": 6,
+  "organizations": "organizations = three random thirds of the records",
+  "seconds": 1.1,
+  "ok": true,
+  "note": ""
+ },
+ {
+  "case": "file: a cell '1e2147483648' (a number with an impossible exponent; pandas 2.3 on Linux dies on it)",
+  "expect": "run",
+  "shape": [
+   1440,
+   12
+  ],
+  "outcome": "ran",
+  "kept": 7,
+  "organizations": "organizations = three random thirds of the records",
+  "seconds": 1.0,
+  "ok": true,
+  "note": ""
+ },
+ {
+  "case": "table: the same impossible-exponent cell inside a DataFrame (Parquet path)",
+  "expect": "run",
+  "shape": [
+   1440,
+   11
+  ],
+  "outcome": "ran",
+  "kept": 6,
+  "organizations": "organizations = three random thirds of the records",
+  "seconds": 1.1,
+  "ok": true,
+  "note": ""
+ },
+ {
+  "case": "file: Parquet with a nested (list) column",
+  "expect": "run",
+  "shape": [
+   1440,
+   11
+  ],
+  "outcome": "ran",
+  "kept": 6,
+  "organizations": "organizations = three random thirds of the records",
+  "seconds": 1.1,
+  "ok": true,
+  "note": ""
+ },
+ {
+  "case": "file: script and image tags in column names, label values and host names",
+  "expect": "run",
+  "shape": [
+   1440,
+   10
+  ],
+  "outcome": "ran",
+  "kept": 6,
+  "organizations": "organizations = three random thirds of the records",
+  "seconds": 1.1,
+  "ok": true,
+  "note": ""
+ },
+ {
+  "case": "file: empty (0 bytes)",
+  "expect": "refuse",
+  "outcome": "refused",
+  "message": "DataProblem: the file is empty",
+  "human": true,
+  "seconds": 0.0,
+  "ok": true,
+  "note": ""
+ },
+ {
+  "case": "file: header only, no records",
+  "expect": "refuse",
+  "outcome": "refused",
+  "message": "DataProblem: the table has column names but no records",
+  "human": true,
+  "seconds": 0.0,
+  "ok": true,
+  "note": ""
+ },
+ {
+  "case": "file: one record",
+  "expect": "refuse",
+  "shape": [
+   1,
+   10
+  ],
+  "outcome": "refused",
+  "message": "No label column was recognized (the page asks the person to pick it).",
+  "human": true,
+  "seconds": 1.4,
+  "ok": true,
+  "note": ""
+ },
+ {
+  "case": "file: not a table at all (random bytes)",
+  "expect": "refuse",
+  "outcome": "refused",
+  "message": "DataProblem: the file is not a text table; it looks like a binary file with a .csv name",
+  "human": true,
+  "seconds": 0.0,
+  "ok": true,
+  "note": ""
+ },
+ {
+  "case": "file: a PDF named .csv (wrong extension)",
+  "expect": "refuse",
+  "outcome": "refused",
+  "message": "DataProblem: the file is a PDF document, not a CSV table; export the records as CSV (one header row, one record per row)",
+  "human": true,
+  "seconds": 0.0,
+  "ok": true,
+  "note": ""
+ },
+ {
+  "case": "file: a CSV named .parquet (wrong extension)",
+  "expect": "refuse",
+  "outcome": "refused",
+  "message": "DataProblem: the file is named as a Parquet file but is not one; if it is a CSV, give it a name that ends in .csv",
+  "human": true,
+  "seconds": 0.0,
+  "ok": true,
+  "note": ""
+ },
+ {
+  "case": "no label column",
+  "expect": "refuse",
+  "shape": [
+   1440,
+   9
+  ],
+  "outcome": "refused",
+  "message": "No label column was recognized (the page asks the person to pick it).",
+  "human": true,
+  "seconds": 1.4,
+  "ok": true,
+  "note": ""
+ },
+ {
+  "case": "one class only (all normal)",
+  "expect": "refuse",
+  "shape": [
+   1440,
+   10
+  ],
+  "outcome": "refused",
+  "message": "No label column was recognized (the page asks the person to pick it).",
+  "human": true,
+  "seconds": 1.4,
+  "ok": true,
+  "note": ""
+ },
+ {
+  "case": "all attack, no normal records",
+  "expect": "refuse",
+  "shape": [
+   960,
+   10
+  ],
+  "outcome": "refused",
+  "message": "DataProblem: organization A has only 13 normal validation records; the alarm threshold needs at least 25. The table needs more records labeled 'dos' (about 300 per organization), or 'dos' is not the value that means normal traffic",
+  "human": true,
+  "seconds": 0.0,
+  "ok": true,
+  "note": ""
+ },
+ {
+  "case": "two classes (normal and one attack type)",
+  "expect": "refuse",
+  "shape": [
+   720,
+   10
+  ],
+  "outcome": "refused",
+  "message": "DataProblem: the label column holds 1 attack type besides the normal value 'normal' (dos); at least three are needed so that each organization can withhold a different one. Pick another label column, or add records of more attack types",
+  "human": true,
+  "seconds": 0.0,
+  "ok": true,
+  "note": ""
+ },
+ {
+  "case": "columns named like the tool's own working columns (y, org, part, event, source)",
+  "expect": "run",
+  "shape": [
+   1440,
+   13
+  ],
+  "outcome": "ran",
+  "kept": 9,
+  "organizations": "organizations = three random thirds of the records",
+  "seconds": 0.5,
+  "ok": true,
+  "note": ""
+ },
+ {
+  "case": "missing labels in some records",
+  "expect": "run",
+  "shape": [
+   1440,
+   10
+  ],
+  "outcome": "ran",
+  "kept": 6,
+  "organizations": "organizations = three random thirds of the records",
+  "seconds": 1.1,
+  "ok": true,
+  "note": ""
+ },
+ {
+  "case": "three attack types with 5 records each (runs, with a warning in the scorecard)",
+  "expect": "run",
+  "shape": [
+   495,
+   10
+  ],
+  "outcome": "ran",
+  "kept": 6,
+  "organizations": "organizations = three random thirds of the records",
+  "seconds": 0.5,
+  "ok": true,
+  "note": ""
+ },
+ {
+  "case": "no number columns (text only)",
+  "expect": "refuse",
+  "shape": [
+   1440,
+   4
+  ],
+  "outcome": "refused",
+  "message": "DataProblem: only 0 usable number columns were found; the detector needs at least 3 columns of behavior numbers (a column counts when at least 95% of its cells are numbers and it has more than one value)",
+  "human": true,
+  "seconds": 0.0,
+  "ok": true,
+  "note": ""
+ },
+ {
+  "case": "every number column empty",
+  "expect": "refuse",
+  "shape": [
+   1440,
+   10
+  ],
+  "outcome": "refused",
+  "message": "DataProblem: only 0 usable number columns were found; the detector needs at least 3 columns of behavior numbers (a column counts when at least 95% of its cells are numbers and it has more than one value)",
+  "human": true,
+  "seconds": 0.0,
+  "ok": true,
+  "note": ""
+ },
+ {
+  "case": "20 records in all",
+  "expect": "refuse",
+  "shape": [
+   20,
+   10
+  ],
+  "outcome": "refused",
+  "message": "No label column was recognized (the page asks the person to pick it).",
+  "human": true,
+  "seconds": 1.4,
+  "ok": true,
+  "note": ""
+ }
+]

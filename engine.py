@@ -1,7 +1,7 @@
 """ThreatPrint engine: the praxis study procedure as a library, for any labeled intrusion dataset.
 
-This is Rayve Malhotra's praxis code (praxis-rayve/system.py, frozen protocol rev 7 and rev 8) with three changes
-so that a web tool can drive it: it takes a DataFrame or a settings dict instead of files in a fixed folder, every
+This is the praxis procedure (praxis-rayve/system.py, frozen protocol rev 7 and rev 8) packaged as a library, with three
+changes so that a web tool can drive it: it takes a DataFrame or a settings dict instead of files in a fixed folder, every
 budget number is a parameter (so a quick look and the full protocol run are both possible), and it reports
 progress through a callback instead of printing. The study logic is unchanged.
 
@@ -10,21 +10,33 @@ Steps
      from each organization's own training records: its withheld attack type.
   2  Sanitize the records. Keep the behavior numbers and the attack type. Remove device names, addresses, ports,
      time stamps and the other label columns.
-  3  Train one detector per organization under four training conditions, with the same network, the same number of
-     training steps and the same alarm rule:
+  3  Train one detector per organization under four training conditions, with the same network, the same step budget
+     per tested detector (the steps of each condition are reported on the scorecard) and the same alarm rule:
        isolated training                  own records only (baseline)
        sanitized attack-record sharing    own records plus the peers' sanitized attack records
        federated learning                 own records; only model weights travel (FedAvg)
-       centralized training               every organization's training records in one place (reference)
+       centralized training               the training records every organization keeps after withholding, in one place (reference)
   4  Test on the withheld attack type: flagged as an attack, and named with the right attack type.
   5  Scorecard: gains against isolated training with 95% ranges (bootstrap over attack events), false-positive
      rate, data sent, and whether sanitized records can be traced back to their source host.
+
+Hardening of 10 November 2026 (pressure test, qa/PRESSURE_TEST_REPORT.md). None of it changes a number of a run that
+worked before; the library cards were recomputed and compared value by value (tests/pressure/reproduce_card.py).
+  - One evaluation at a time in a process (RUN_LOCK): runs at once used to share PyTorch's global random generator.
+  - Problems with a table are DataProblem errors: one sentence for the person, never a traceback.
+  - A table is made safe before any number conversion (defuse), and a column named like one of the tool's own
+    working columns (y, org, part, event, source) is renamed instead of being overwritten.
+  - Under a record cap (the quick look) normal traffic keeps at least 1,500 records, and when grouping by host leaves
+    one organization without enough normal validation records, three random thirds are used and the scorecard says so.
+  - warnings_for(card): what a person should read before trusting a scorecard. save_contribution and AttemptLimiter
+    are helpers for the web tool.
 """
 import json
 import math
 import os
 import pickle
 import re
+import threading
 import time
 import warnings
 from dataclasses import dataclass, asdict, field
@@ -54,7 +66,13 @@ FP_LIMIT = 0.01                                         # decision rule: false-p
 TRACE_MAX = 15000
 TRACE_MAX_HOSTS, TRACE_TOP_HOSTS = 200, 50                  # tracing with more hosts than this covers the busiest 50 only
 EVENT_GAP_S, EVENT_MAX_S, EVENT_MAX_ROWS = 15, 300, 200
-from threatprint_agent import IDENT_RX  # noqa: E402  (one definition, shared with the local agent)
+from threatprint_agent import IDENT_RX, DataProblem, defuse, read_table  # noqa: E402  (one definition, shared with the local agent)
+# One evaluation at a time in a process. Every visitor of the web tool is a thread of the same process, and the network
+# weights are drawn from PyTorch's one global random generator (torch.manual_seed), so two evaluations training at once
+# would mix their draws: measured on 9 November 2026, 2 of 2 and 6 of 6 simultaneous runs gave numbers that differed from
+# the serial run. With the lock every run gives the serial numbers, and six runs in line finish sooner than six at once.
+RUN_LOCK = threading.Lock()
+QUEUE_WAIT_S = 1800                                      # how long a run may wait in line before it gives up with a clear message
 
 
 @dataclass
@@ -107,7 +125,8 @@ class Data:
         for o in ORG:
             nb = ((self.df.part == "val") & (self.df.org == o) & (self.df.y == self.benign)).sum()
             if nb < 25:
-                raise ValueError(f"organization {o} has only {nb} normal validation records; the alarm threshold needs at least 25")
+                raise DataProblem(f"organization {o} has only {nb} normal validation records; the alarm threshold needs at least 25. "
+                                  f"The table needs more records labeled '{self.benign}' (about 300 per organization), or '{self.benign}' is not the value that means normal traffic")
         self.TR = {o: self.df[(self.df.part == "train") & (self.df.org == o)] for o in ORG}
         self.VA = {o: self.df[(self.df.part == "val") & (self.df.org == o)] for o in ORG}
         self.EV = {o: self.df[(self.df.part == "evaluation") & (self.df.org == o)] for o in ORG}
@@ -140,10 +159,25 @@ class Data:
     def _load_generic(self, frame):
         c = self.cfg
         if frame is None:
-            frames = [pd.read_csv(p, low_memory=False, nrows=c.get("nrows")) for p in c["paths"]]
+            frames = [read_table(p) if not c.get("nrows") else pd.read_csv(p, low_memory=False, nrows=c.get("nrows")) for p in c["paths"]]
             df = pd.concat(frames, ignore_index=True)
         else:
             df = frame.copy()
+        dup = [str(x) for x in df.columns[df.columns.duplicated()]]
+        if dup:
+            raise DataProblem(f"two columns are both named '{dup[0]}'; rename one of them and load the table again")
+        if len(df) == 0:
+            raise DataProblem("the table has no records")
+        for role, col in (("label", c.get("label_col")), ("host", self.source_col), ("time", self.time_col)):
+            if (col or role == "label") and col not in df.columns:
+                raise DataProblem(f"the {role} column '{col}' is not in the table")
+        for col in ("y", "org", "part", "event", "source"):
+            if col in df.columns:
+                df = df.rename(columns={col: f"{col}_"})          # the tool's own working columns keep their names
+                c = self.cfg = dict(c, **{k: (f"{col}_" if c.get(k) == col else c.get(k)) for k in ("label_col", "source_col", "time_col")})
+                self.source_col = c.get("source_col") or None
+                self.time_col = c.get("time_col") or None
+        defuse(df)                                               # no cell may end the process in a number conversion (see threatprint_agent.read_table)
         self.raw_columns = df.shape[1]
         df["y"] = df[c["label_col"]].astype(str).str.strip()
         if c.get("label_map"):
@@ -154,10 +188,17 @@ class Data:
             keep = df.y.value_counts()
             keep = keep[keep >= c["min_class_rows"]].index
             df = df[df.y.isin(keep)]
+        values = df.y.value_counts()                              # after the renaming and dropping the settings ask for
+        if str(self.benign) not in values.index:
+            raise DataProblem(f"no record has the value '{self.benign}' in the label column '{c['label_col']}'; pick the value that means normal traffic "
+                              f"(the column holds: {', '.join(map(str, values.index[:8]))}{' ...' if len(values) > 8 else ''})")
         cap = c.get("sample_rows") or self.budget.max_rows
         if cap and len(df) > cap:
             frac = cap / len(df)
-            df = df.groupby("y", group_keys=False).apply(lambda g: g.sample(max(min(len(g), 200), int(len(g) * frac)), random_state=0))
+            # every class keeps at least 200 records; normal traffic keeps at least 1,500, because each of the three organizations
+            # needs normal validation records for its alarm threshold (a quick look on a table with little normal traffic stopped here)
+            floor = lambda g: 1500 if g.name == str(self.benign) else 200
+            df = df.groupby("y", group_keys=False).apply(lambda g: g.sample(max(min(len(g), floor(g)), int(len(g) * frac)), random_state=0))
             self.log(f"sampled {len(df):,} of the records by class (cap {cap:,})")
         df = df.reset_index(drop=True)
         df["source"] = df[self.source_col].astype(str) if self.source_col else "unknown"
@@ -184,8 +225,11 @@ class Data:
                 continue
             df[col] = v.astype(float)
             feats.append(col)
+        if len(df) == 0:
+            raise DataProblem("no records are left after the labels named in the settings were removed")
         if len(feats) < 3:
-            raise ValueError(f"only {len(feats)} usable number columns were found; the detector needs more")
+            raise DataProblem(f"only {len(feats)} usable number columns were found; the detector needs at least 3 columns of behavior numbers "
+                              "(a column counts when at least 95% of its cells are numbers and it has more than one value)")
         self.feats = feats
         self.dropped = sorted(drop - {"y", "source"})
         # organizations: by source host when there is one, else class-stratified random thirds
@@ -278,7 +322,9 @@ class Data:
         ct = pd.crosstab(TR.org, TR.y).drop(columns=[self.benign], errors="ignore").reindex(index=ORG, fill_value=0)
         ce = pd.crosstab(EV.org, EV.y).reindex(index=ORG, columns=ct.columns, fill_value=0)
         if ct.shape[1] < 3:
-            raise ValueError("at least three attack types are needed so that each organization can withhold a different one")
+            have = ", ".join(map(str, ct.columns)) or "none"
+            raise DataProblem(f"the label column holds {ct.shape[1]} attack type{'s' if ct.shape[1] != 1 else ''} besides the normal value '{self.benign}' ({have}); "
+                              "at least three are needed so that each organization can withhold a different one. Pick another label column, or add records of more attack types")
         out = {o: {} for o in ORG}
         taken = set()
         fixed = self.cfg.get("never_seen", {}) or {}
@@ -475,7 +521,7 @@ def compare(tA, tB, rng, resamples):
 # ================= STEP 5b: H3, can a sanitized record be traced to its source host? =================
 def trace(data, budget, log, cache=None):
     """Attacker = the receiving organization, holding the sender's sanitized attack records plus the sender's normal
-    traffic labeled by source host (an upper bound). Scored against always guessing the most common host."""
+    traffic labeled by source host (a test assumption). Scored against the majority-host baseline: always naming the most common host."""
     df = data.df
     feats = data.feats
     TR = df[df.part == "train"]
@@ -542,14 +588,42 @@ def trace(data, budget, log, cache=None):
 # ================= the whole procedure on one dataset =================
 def run(cfg, frame=None, budget=PROTOCOL, log=None, cache=None):
     """Run the five steps. cfg: settings dict (label_col, benign_label, optional source_col, time_col, drop, keep,
-    label_cols, never_seen, companies). frame: a DataFrame instead of cfg['paths']. Returns the scorecard dict."""
+    label_cols, never_seen, companies). frame: a DataFrame instead of cfg['paths']. Returns the scorecard dict.
+    Runs wait in line: one evaluation at a time in a process (see RUN_LOCK)."""
     log = log or (lambda m: None)
+    if not RUN_LOCK.acquire(blocking=False):
+        log("Another evaluation is running on this server. Yours is in line and starts by itself.")
+        if not RUN_LOCK.acquire(timeout=QUEUE_WAIT_S):
+            raise RuntimeError("the server is busy with other evaluations; try again in a few minutes")
+    try:
+        return _run(cfg, frame, budget, log, cache)
+    except DataProblem:
+        raise
+    except Exception as e:
+        if type(e).__module__.startswith("streamlit"):          # the page stopped or reran the script
+            raise
+        raise DataProblem(f"the evaluation stopped on this table in a way the tool did not foresee ({type(e).__name__}: {str(e)[:160]}). "
+                          "Check the column roles; if they are right, this is a fault of the tool to report", unexpected=True) from e
+    finally:
+        RUN_LOCK.release()
+
+
+def _run(cfg, frame, budget, log, cache):
     t0 = time.time()
     seeds = list(budget.seeds)
     if cache:
         os.makedirs(cache, exist_ok=True)
     log("Step 1: load the records and make the three organizations")
-    data = Data(cfg, frame=frame, budget=budget, log=log)
+    try:
+        data = Data(cfg, frame=frame, budget=budget, log=log)
+    except DataProblem as e:
+        by_host = cfg.get("source_col") and not isinstance(cfg.get("companies"), dict) and cfg.get("companies") != "random" and cfg.get("loader") != "datasense"
+        if not (by_host and "normal validation records" in str(e)):
+            raise
+        # grouping by host can leave one organization with almost no normal traffic in its validation part: use random thirds instead
+        log("Grouping the hosts into organizations left one organization with too few normal validation records; three random thirds of the records are used instead.")
+        data = Data(dict(cfg, companies="random"), frame=frame, budget=budget, log=log)
+        data.company_note = "organizations = three random thirds of the records (grouping by host left one organization with too few normal validation records)"
     bench = Bench(data, budget=budget, log=log)
     step1 = data.describe()
     for o in ORG:
@@ -656,18 +730,41 @@ def run(cfg, frame=None, budget=PROTOCOL, log=None, cache=None):
             "rounds": int(R[(R.world == 0) & (R.road == "3_federated")].rounds.iloc[0])},
     }
     card["verdicts"] = verdicts(card)
+    card["warnings"] = warnings_for(card)
     log(f"H1 sanitized attack-record sharing: {card['hypotheses']['H1']['gain'] * 100:+.1f} points [{card['hypotheses']['H1']['lo'] * 100:+.1f}, {card['hypotheses']['H1']['hi'] * 100:+.1f}]")
     log(f"H2 federated learning: {card['hypotheses']['H2']['gain'] * 100:+.1f} points [{card['hypotheses']['H2']['lo'] * 100:+.1f}, {card['hypotheses']['H2']['hi'] * 100:+.1f}]")
     log(f"done in {card['minutes']} min")
     return card
 
 
+def warnings_for(card):
+    """Sentences a person should read before trusting a scorecard. They describe the data and the budget; no number changes."""
+    out = []
+    for o in ORG:
+        s = card["step1"][o]
+        if s["test_never_seen"] < 30:
+            out.append(f"{s['name']} has only {s['test_never_seen']} test records of its withheld attack type ({s['never_seen']}); its recall and its range rest on very few records.")
+        nb = card["checks"]["benign_val_rows"][o]
+        if nb < 100:
+            out.append(f"{s['name']} has only {nb} normal validation records; its alarm threshold, and so its false-positive rate, is rough.")
+    if "random" in card["rules"]["split"]:
+        out.append("The table has no time column, so every record is its own event and the 95% ranges are optimistic.")
+    if "random thirds" in card["rules"]["companies"]:
+        out.append("The organizations are random thirds of the records, not groups of hosts; real organizations differ more from each other than these do.")
+    if card["budget"].get("name") == "quick":
+        out.append("Quick look: a smaller training budget, one seed and fewer resamples than the protocol. It shows whether the data works in the tool; it is not a result to report.")
+    return out
+
+
 def verdicts(card):
     """The decision rule of 8 October, per organization and condition.
     Gain: the low end of the 95% range of the gain in attack-class recall must be above 5 points.
     False positives: the false-positive rate may rise by at most 1 point over isolated training.
-    Privacy (sharing only): if the gain is met but sanitized records are traced above the majority-host guess, the
-    result is a trade-off. Data sent is reported, not judged."""
+    Privacy (sharing only): if the gain is met but the organization's own sent records are traced above the
+    majority-host baseline, the result is a trade-off. Data sent is reported, not judged.
+    In the rule's own words: not worth it (the gain is not met, or the false-positive rate rises by more than 1 point);
+    trade-off (sharing, gain met, records traced); worth it (sharing, gain met, not traced); gain met (federated learning).
+    The stored verdict strings keep their earlier wording; the pages show the rule's words."""
     out = {}
     for o, c in card["companies"].items():
         v = {"1_isolated": "baseline", "4_centralized": "reference"}
@@ -692,7 +789,78 @@ def verdicts(card):
 # Column-role guessing and sanitizing live in threatprint_agent.py (the local agent, no torch), so that the web tool and the
 # agent an organization runs on its own machine apply exactly the same rules.
 from threatprint_agent import (LABEL_NAME_RX, STRICT_LABEL_RX, NORMAL_RX, HOST_RX, TIME_RX, KEEP_HINT_RX, IDENT_NAME_RX,  # noqa: E402,F401
-                          inspect, sanitize)
+                          inspect, sanitize, csv_safe)   # DataProblem, defuse and read_table are imported at the top
+
+
+class AttemptLimiter:
+    """A count of wrong passwords that is shared by every session of the process. The sign-in page's own delay lives in
+    one visitor session, and a guesser simply opens a fresh session for every try (measured on 10 November 2026: 262
+    guesses a minute from one machine against the per-session delay). This count does not reset with the session:
+    a client that fails `per_client` times inside `window_s` seconds waits `lock_s` seconds, and when the whole site sees
+    more than `site_per_minute` wrong passwords in a minute, every new try waits until the minute has passed.
+    People who are already signed in (the cookie) are not touched. In memory: a restart of the site clears it."""
+
+    def __init__(self, per_client=5, window_s=300, lock_s=300, site_per_minute=30, clock=time.time):
+        self.per_client, self.window_s, self.lock_s, self.site_per_minute, self.clock = per_client, window_s, lock_s, site_per_minute, clock
+        self._lock = threading.Lock()
+        self._fails = {}                    # client -> times of wrong passwords
+        self._site = []                     # times of wrong passwords, all clients
+
+    def _trim(self, now):
+        self._site = [t for t in self._site if now - t < 60]
+        for c in list(self._fails):
+            self._fails[c] = [t for t in self._fails[c] if now - t < max(self.window_s, self.lock_s)]
+            if not self._fails[c]:
+                del self._fails[c]
+        if len(self._fails) > 50000:        # a flood of made-up client names cannot grow the table without bound
+            self._fails.clear()
+
+    def wait(self, client):
+        """Seconds this client must wait before the next try is looked at (0 = go ahead)."""
+        now = self.clock()
+        with self._lock:
+            self._trim(now)
+            recent = [t for t in self._fails.get(str(client), []) if now - t < self.window_s]
+            w = 0.0
+            if len(recent) >= self.per_client:
+                w = max(w, self.lock_s - (now - recent[-1]))
+            if len(self._site) >= self.site_per_minute:
+                w = max(w, 60 - (now - self._site[0]))
+            return max(0, int(math.ceil(w)))
+
+    def failed(self, client):
+        now = self.clock()
+        with self._lock:
+            self._fails.setdefault(str(client), []).append(now)
+            self._site.append(now)
+
+    def passed(self, client):
+        with self._lock:
+            self._fails.pop(str(client), None)
+
+
+GATE_LIMITER = AttemptLimiter()             # the one count of the process (see qa/APP_PATCHES.md for its use in the sign-in page)
+
+
+def save_contribution(fp, folder, max_files=500, max_bytes=50_000_000):
+    """Keep a contributed fingerprint on the machine that runs the site. The fingerprint is checked field by field and
+    its integrity digest must match; the file name is made from the digest this function computes itself (never from a
+    field of the uploaded file, which could carry a path); the folder has an upper limit so that it cannot fill the disk.
+    Returns the file name. Raises DataProblem with one sentence when the fingerprint is not kept."""
+    import threatprint_agent as agent
+    agent.check_fingerprint(fp)
+    if not agent.verify(fp):
+        raise DataProblem("the integrity digest of this fingerprint does not match, so it was not kept")
+    name = agent.digest(fp)[:16] + ".json"
+    os.makedirs(folder, exist_ok=True)
+    body = json.dumps(fp, separators=(",", ":"))
+    kept = [f for f in os.listdir(folder) if f.endswith(".json")]
+    if name not in kept:
+        if len(kept) >= max_files or sum(os.path.getsize(os.path.join(folder, f)) for f in kept) + len(body) > max_bytes:
+            raise DataProblem("the library of contributed fingerprints on this site is full; tell the person who runs the site")
+    with open(os.path.join(folder, name), "w") as fh:
+        fh.write(body)
+    return name
 
 
 def example_data(seed=0, n_hosts=30, per_host=220):

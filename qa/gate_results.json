@@ -1,0 +1,133 @@
+[
+ {
+  "test": "without the password: GET /_stcore/health",
+  "ok": true,
+  "evidence": "HTTP 200; Streamlit's own health answer ('ok'); no content of the site"
+ },
+ {
+  "test": "without the password: GET /_stcore/host-config",
+  "ok": true,
+  "evidence": "HTTP 200; Streamlit's own settings for the browser; no content of the site"
+ },
+ {
+  "test": "without the password: GET /app/static/inter-latin-wght-normal.woff2",
+  "ok": true,
+  "evidence": "HTTP 200; a typeface; the static folder is public by design and must hold nothing else"
+ },
+ {
+  "test": "without the password: 13 tries to read files of the site (secrets, the password file, code, results, .git) through the web server",
+  "ok": true,
+  "evidence": "none of them returned a file"
+ },
+ {
+  "test": "the public static folder holds only typefaces and their licence texts",
+  "ok": true,
+  "evidence": [
+   "Inter-LICENSE-OFL.txt",
+   "JetBrainsMono-LICENSE-OFL.txt",
+   "SourceSerif4-LICENSE-OFL.txt",
+   "inter-latin-wght-normal.woff2",
+   "jetbrains-mono-latin-wght-normal.woff2",
+   "source-serif-4-latin-wght-italic.woff2",
+   "source-serif-4-latin-wght-normal.woff2"
+  ]
+ },
+ {
+  "test": "without the password: a websocket session is sent the sign-in screen and nothing of the pages",
+  "ok": true,
+  "evidence": "7 elements sent; page content found: none"
+ },
+ {
+  "test": "without the password: asking for five pages by name over the websocket",
+  "ok": true,
+  "evidence": "each time only the sign-in screen came back"
+ },
+ {
+  "test": "without the password: forged session values sent over the websocket (_access_ok, _left, _access_attempts) do not open the site",
+  "ok": true,
+  "evidence": "5 forgeries, no page content came back"
+ },
+ {
+  "test": "the same forgeries leave the sign-in screen working (no error box)",
+  "ok": true,
+  "evidence": "the sign-in form came back each time"
+ },
+ {
+  "test": "cookie: a made-up cookie",
+  "ok": true,
+  "evidence": "sign-in screen"
+ },
+ {
+  "test": "cookie: the cookie of another password",
+  "ok": true,
+  "evidence": "sign-in screen"
+ },
+ {
+  "test": "cookie: an empty cookie",
+  "ok": true,
+  "evidence": "sign-in screen"
+ },
+ {
+  "test": "cookie: a cookie of 100,000 characters",
+  "ok": true,
+  "evidence": "connection refused (HTTPTimeoutError)"
+ },
+ {
+  "test": "cookie: the genuine cookie of today",
+  "ok": true,
+  "evidence": "admitted"
+ },
+ {
+  "test": "cookie: the genuine cookie of yesterday",
+  "ok": true,
+  "evidence": "admitted"
+ },
+ {
+  "test": "cookie: the genuine cookie of two days ago",
+  "ok": true,
+  "evidence": "sign-in screen"
+ },
+ {
+  "test": "without the password: sending a 1 MB file to Streamlit's upload address from a session that only saw the sign-in screen",
+  "ok": null,
+  "evidence": "HTTP 204 (204 = the server took the bytes into memory). Session obtained: True; anti-forgery token obtained: True. Nothing reads such a file, but the gate does not stop it: the per-file upload limit (200 MB) is the only bound, so a front door before Streamlit is needed for customers"
+ },
+ {
+  "test": "the right password over the websocket admits (so the probe can tell the two states apart)",
+  "ok": true,
+  "evidence": "after the password: 35 elements, navigation links present: True"
+ },
+ {
+  "test": "wrong guesses in ONE session are slowed down more each time",
+  "ok": true,
+  "evidence": "seconds per guess: [2.05, 4.05, 8.04, 10.04]"
+ },
+ {
+  "test": "guessing with 10 fresh sessions at once",
+  "ok": null,
+  "rate_per_minute": 140,
+  "sessions": 10,
+  "seconds": 4.3,
+  "refused": 9,
+  "evidence": "10 guesses answered in 4.3 s = 140 guesses a minute from one machine; 9 were turned away by a server-side limit"
+ },
+ {
+  "test": "guessing with 30 fresh sessions at once",
+  "ok": null,
+  "rate_per_minute": 291,
+  "sessions": 30,
+  "seconds": 6.2,
+  "refused": 30,
+  "evidence": "30 guesses answered in 6.2 s = 291 guesses a minute from one machine; 30 were turned away by a server-side limit"
+ },
+ {
+  "test": "after the owner changes the password, a cookie made with the old password no longer admits",
+  "ok": true,
+  "evidence": "sign-in screen"
+ },
+ {
+  "test": "a server-side limit on password guesses across sessions",
+  "ok": true,
+  "evidence": "guesses from fresh sessions are turned away after a few failures"
+ }
+]

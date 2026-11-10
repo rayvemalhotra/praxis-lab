@@ -1,0 +1,43 @@
+{
+ "machine": {
+  "platform": "darwin",
+  "cpus": 18
+ },
+ "runs": [
+  {
+   "at_once": 2,
+   "seconds": 12.9,
+   "errors": [],
+   "different_from_serial": 0,
+   "h1_gain_points": [
+    85.57,
+    85.57
+   ],
+   "h1_serial_points": 85.57,
+   "peak_mb": 455
+  },
+  {
+   "at_once": 6,
+   "seconds": 38.5,
+   "errors": [],
+   "different_from_serial": 0,
+   "h1_gain_points": [
+    85.57,
+    85.57,
+    85.57,
+    85.57,
+    85.57,
+    85.57
+   ],
+   "h1_serial_points": 85.57,
+   "peak_mb": 485
+  }
+ ],
+ "serial": {
+  "seconds": 6.9,
+  "identical_when_repeated": true,
+  "h1_gain": 0.8557444769084318,
+  "peak_mb_after_two_serial_runs": 448,
+  "mb_before": 338
+ }
+}

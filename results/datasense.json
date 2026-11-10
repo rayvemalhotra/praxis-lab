@@ -1,6 +1,6 @@
 {
  "name": "DataSense CIC IIoT 2025 (the study)",
- "about": "Industrial IoT testbed, 38 devices, 10-second windows per device: 59 behavior numbers (52 network, 7 log) and the attack name. The companies are device groups by role.",
+ "about": "Industrial IoT testbed, 38 devices in the files analyzed, one record per 10 seconds per device: 59 behavior numbers (52 network, 7 log) and the attack type. The organizations are simulated: device groups by role.",
  "made": "08 Nov 2026, 21:10",
  "minutes": 0.1,
  "budget": {
@@ -155,7 +155,6 @@
    "device_mac",
    "device_name",
    "label1",
-   "label2",
    "label3",
    "label4",
    "label_full",
@@ -585,12 +584,12 @@
   "short": "DataSense CIC IIoT 2025",
   "maker": "Canadian Institute for Cybersecurity, University of New Brunswick (Firouzi, Dadkhah, Maret and Ghorbani, 2025)",
   "year": 2025,
-  "what": "A real industrial IoT testbed: 38 devices (routers, an MQTT broker, cameras, sensors, smart plugs) recorded under normal use and under attack. Each record summarizes 10 seconds of one device as 59 numbers (52 about its network traffic, 7 about its log messages) plus the attack name.",
+  "what": "An industrial IoT testbed. The files analyzed hold 38 devices (routers, an MQTT broker, cameras, sensors, smart plugs) recorded under normal use and under attack. Each record summarizes 10 seconds of one device as 59 numbers (52 about its network traffic, 7 about its log messages) plus the attack name.",
   "records": "29,574 records used (the audited split of the praxis)",
   "attacks": "7 attack types: DoS, DDoS, MITM, reconnaissance, malware, brute force, web",
-  "host": "device name (38 devices)",
+  "host": "device name (38 devices in the files analyzed)",
   "role": "Primary study dataset",
-  "role_text": "The praxis claims about H1, H2 and H3 rest on this dataset alone. Companies are real device groups by role; the train/validation/test split was audited on 23 September.",
+  "role_text": "The praxis claims about H1, H2 and H3 rest on this dataset alone. The three organizations are simulated: groups of the testbed's devices by role. The train/validation/test split was audited on 23 September.",
   "source": "https://doi.org/10.3390/electronics14204095"
  },
  "computed": "training results cached from the 5 and 6 October 2026 runs of system.py; scorecard recomputed by this tool",

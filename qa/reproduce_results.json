@@ -1,0 +1,86 @@
+[
+ {
+  "dataset": "edge_iiotset_ml",
+  "budget": "protocol (shuffle test on 5,000 records per side, 50-tree forests)",
+  "stored_made": "08 Nov 2026, 23:16",
+  "values_compared": 358,
+  "differences": 0,
+  "largest_difference": 0.0,
+  "minutes": 2.3,
+  "examples": [],
+  "h1_stored": 0.7447802787537046,
+  "h1_now": 0.7447802787537046
+ },
+ {
+  "dataset": "cic_ids2017",
+  "budget": "protocol (shuffle test on 5,000 records per side, 50-tree forests)",
+  "stored_made": "08 Nov 2026, 23:02",
+  "values_compared": 380,
+  "differences": 0,
+  "largest_difference": 0.0,
+  "minutes": 2.3,
+  "examples": [],
+  "h1_stored": 0.9872165187362155,
+  "h1_now": 0.9872165187362155
+ },
+ {
+  "dataset": "rt_iot2022",
+  "budget": "protocol (shuffle test on 5,000 records per side, 50-tree forests)",
+  "stored_made": "08 Nov 2026, 23:29",
+  "values_compared": 345,
+  "differences": 0,
+  "largest_difference": 0.0,
+  "minutes": 1.0,
+  "examples": [],
+  "h1_stored": 0.9447668867023706,
+  "h1_now": 0.9447668867023706
+ },
+ {
+  "dataset": "bot_iot_5pct",
+  "budget": "protocol",
+  "stored_made": "08 Nov 2026, 22:47",
+  "values_compared": 335,
+  "differences": 0,
+  "largest_difference": 0.0,
+  "minutes": 2.0,
+  "examples": [],
+  "h1_stored": 0.8819402940848327,
+  "h1_now": 0.8819402940848327
+ },
+ {
+  "dataset": "iec104",
+  "budget": "protocol (shuffle test on 5,000 records per side, 50-tree forests)",
+  "stored_made": "08 Nov 2026, 23:21",
+  "values_compared": 376,
+  "differences": 0,
+  "largest_difference": 0.0,
+  "minutes": 0.6,
+  "examples": [],
+  "h1_stored": 0.4522417153996101,
+  "h1_now": 0.4522417153996101
+ },
+ {
+  "dataset": "dnp3",
+  "budget": "protocol (shuffle test on 5,000 records per side, 50-tree forests)",
+  "stored_made": "08 Nov 2026, 23:14",
+  "values_compared": 377,
+  "differences": 0,
+  "largest_difference": 0.0,
+  "minutes": 1.5,
+  "examples": [],
+  "h1_stored": 0.6090534979423868,
+  "h1_now": 0.6090534979423868
+ },
+ {
+  "dataset": "cidds001",
+  "budget": "protocol (shuffle test on 5,000 records per side, 50-tree forests)",
+  "stored_made": "08 Nov 2026, 23:09",
+  "values_compared": 301,
+  "differences": 0,
+  "largest_difference": 0.0,
+  "minutes": 2.1,
+  "examples": [],
+  "h1_stored": 0.13010229424107767,
+  "h1_now": 0.13010229424107767
+ }
+]

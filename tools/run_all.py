@@ -75,7 +75,7 @@ for f in files:
         h1, h2 = card["hypotheses"]["H1"], card["hypotheses"]["H2"]
         log(f"{did}: done in {(time.time() - t0) / 60:.1f} min. H1 {h1['gain'] * 100:+.1f} [{h1['lo'] * 100:+.1f}, {h1['hi'] * 100:+.1f}]  H2 {h2['gain'] * 100:+.1f} [{h2['lo'] * 100:+.1f}, {h2['hi'] * 100:+.1f}]  H3 {card['hypotheses']['H3']}")
     except Exception as e:
-        failed[did] = dict(error=str(e), when=time.strftime("%Y-%m-%d %H:%M"), trace=traceback.format_exc()[-1500:])
+        failed[did] = dict(error=str(e), when=time.strftime("%Y-%m-%d %H:%M"), trace=traceback.format_exc()[-1500:].replace(HERE + os.sep, "").replace(os.path.expanduser("~"), "~"))
         log(f"{did}: FAILED after {(time.time() - t0) / 60:.1f} min: {e}")
     json.dump(failed, open(failed_path, "w"), indent=1)
 log("run_all: finished")

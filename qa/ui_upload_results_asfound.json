@@ -1,0 +1,22 @@
+[
+ {
+  "test": "browser upload: script_tags.csv",
+  "ok": true,
+  "evidence": "server alive: True; tracebacks on the page: 0; scripts that ran: 0; injected elements: 0; evaluation started: True; page said: nothing special"
+ },
+ {
+  "test": "browser upload: impossible_exponent.csv",
+  "ok": false,
+  "evidence": "server alive: False; tracebacks on the page: 0; scripts that ran: 0; injected elements: 0; evaluation started: False; page said: nothing special"
+ },
+ {
+  "test": "browser upload: binary.csv",
+  "ok": true,
+  "evidence": "server alive: True; tracebacks on the page: 0; scripts that ran: 0; injected elements: 0; evaluation started: False; page said: The file could not be read: 'utf-8' codec can't decode byte 0x82 in position 1: invalid start byte"
+ },
+ {
+  "test": "browser upload: semicolons.csv",
+  "ok": true,
+  "evidence": "server alive: True; tracebacks on the page: 0; scripts that ran: 0; injected elements: 0; evaluation started: True; page said: The run stopped"
+ }
+]

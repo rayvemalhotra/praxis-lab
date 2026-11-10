@@ -14,7 +14,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = sys.argv[1] if len(sys.argv) > 1 else "/tmp"
 PY = os.environ.get("THREATPRINT_PY") or os.environ.get("PRAXIS_PY") or sys.executable
 PORT = 8765
-PAGES = ["", "results", "evaluate", "sanitize", "agent", "research", "organizations", "definitions", "students"]
+PAGES = ["", "demo", "results", "evaluate", "agent", "research", "organizations", "definitions", "students"]
 
 env = dict(os.environ, TP_OPEN="1")
 env.pop("TP_PAGE", None)

@@ -1,0 +1,173 @@
+[
+ {
+  "Dataset": "BoT-IoT, 5% release (four files)",
+  "Made by": "UNSW Canberra Cyber Range (Koroniotis, Moustafa, Sitnikova and Turnbull, 2019)",
+  "Attack types": "DDoS and DoS (TCP, UDP, HTTP), service scan, OS fingerprint, keylogging, data exfiltration",
+  "Host column": "destination IP",
+  "Source": "https://research.unsw.edu.au/projects/bot-iot-dataset",
+  "Licence": "Cite the makers; analysis use.",
+  "Runs in the tool": "yes, see its card on the Results page"
+ },
+ {
+  "Dataset": "CIC-IDS2017 (labelled flows)",
+  "Made by": "Canadian Institute for Cybersecurity, University of New Brunswick (Sharafaldin, Habibi Lashkari and Ghorbani, 2018)",
+  "Attack types": "14 attack types",
+  "Host column": "destination IP",
+  "Source": "https://www.unb.ca/cic/datasets/ids-2017.html",
+  "Licence": "Cite the makers; analysis use. The raw files are not re-hosted here.",
+  "Runs in the tool": "yes, see its card on the Results page"
+ },
+ {
+  "Dataset": "CIC-IDS2017 improved (Engelen, Troia and Vanhoef, 2021)",
+  "Made by": "DistriNet, KU Leuven (Engelen, Troia and Vanhoef, 2021; Liu, Engelen, Lynar, Essam and Joosen, 2022)",
+  "Attack types": "13 attack types, each also as an 'Attempted' variant",
+  "Host column": "destination IP",
+  "Source": "https://intrusion-detection.distrinet-research.be/CNS2022/",
+  "Licence": "Cite the makers; analysis use.",
+  "Runs in the tool": "yes, see its card on the Results page"
+ },
+ {
+  "Dataset": "CICIoT2023 (merged flows)",
+  "Made by": "Canadian Institute for Cybersecurity (Neto, Dadkhah, Ferreira, Zohourian, Lu and Ghorbani, 2023)",
+  "Attack types": "33 attack types",
+  "Host column": "none in the CSV release",
+  "Source": "https://www.unb.ca/cic/datasets/iotdataset-2023.html",
+  "Licence": "Cite the makers; analysis use.",
+  "Runs in the tool": "yes, see its card on the Results page"
+ },
+ {
+  "Dataset": "CIDDS-001 (OpenStack and external server flows)",
+  "Made by": "Coburg University of Applied Sciences (Ring, Wunderlich, Grudl, Landes and Hotho, 2017)",
+  "Attack types": "dos, portScan, pingScan, bruteForce",
+  "Host column": "destination IP",
+  "Source": "https://www.hs-coburg.de/forschen/cidds-coburg-intrusion-detection-data-sets/",
+  "Licence": "Cite the makers; analysis use.",
+  "Runs in the tool": "yes, see its card on the Results page"
+ },
+ {
+  "Dataset": "CIDDS-002 (port scans)",
+  "Made by": "Coburg University of Applied Sciences (Ring, Wunderlich, Grudl, Landes and Hotho, 2017)",
+  "Attack types": "portScan",
+  "Host column": "destination IP",
+  "Source": "https://www.hs-coburg.de/forschen/cidds-coburg-intrusion-detection-data-sets/",
+  "Licence": "Cite the makers; analysis use.",
+  "Runs in the tool": "no: at least three attack types are needed so that each organization can withhold a different one"
+ },
+ {
+  "Dataset": "CSE-CIC-IDS2018 (seven days)",
+  "Made by": "Communications Security Establishment and the Canadian Institute for Cybersecurity (Sharafaldin, Habibi Lashkari and Ghorbani, 2018)",
+  "Attack types": "brute force (FTP, SSH), DoS (GoldenEye, Slowloris, Hulk, SlowHTTPTest), DDoS (LOIC-UDP, HOIC), web attacks, botnet",
+  "Host column": "none in the day files",
+  "Source": "https://www.unb.ca/cic/datasets/ids-2018.html",
+  "Licence": "Cite the makers; analysis use.",
+  "Runs in the tool": "yes, see its card on the Results page"
+ },
+ {
+  "Dataset": "CTU-13 botnet families (NetTiSA flows)",
+  "Made by": "CESNET and CTU Prague (Koumar, Hynek, Cejka and Siska, 2023), Zenodo 8301043; original captures by Garcia et al. (2014)",
+  "Attack types": "botnet families: neris, fast_flux, qvod, rbot, donbot",
+  "Host column": "source IP",
+  "Source": "https://zenodo.org/records/8301043",
+  "Licence": "CC BY 4.0.",
+  "Runs in the tool": "yes, see its card on the Results page"
+ },
+ {
+  "Dataset": "DNP3 intrusion detection dataset (CICFlowMeter flows, 120 s timeout)",
+  "Made by": "University of Western Macedonia (Radoglou-Grammatikis et al., 2022), Zenodo 7348493",
+  "Attack types": "10 attack types",
+  "Host column": "destination IP",
+  "Source": "https://zenodo.org/records/7348493",
+  "Licence": "CC BY 4.0.",
+  "Runs in the tool": "yes, see its card on the Results page"
+ },
+ {
+  "Dataset": "Edge-IIoTset, ML subset (raw packet fields)",
+  "Made by": "Ferrag, Friha, Hamouda, Maglaras and Janicke (2022), IEEE Access",
+  "Attack types": "14 attack types",
+  "Host column": "ip.dst_host",
+  "Source": "https://doi.org/10.1109/ACCESS.2022.3165809",
+  "Licence": "Cite the makers; analysis use.",
+  "Runs in the tool": "yes, see its card on the Results page"
+ },
+ {
+  "Dataset": "Electra Modbus (electric traction substation)",
+  "Made by": "University of Murcia (Gomez, Maimo, Celdran, Clemente, Sarmiento, Masa and Nistal, 2019)",
+  "Attack types": "7 attack types",
+  "Host column": "destination IP",
+  "Source": "http://perception.inf.um.es/ICS-datasets/",
+  "Licence": "Cite the makers; analysis use.",
+  "Runs in the tool": "yes, see its card on the Results page"
+ },
+ {
+  "Dataset": "Electra S7comm (electric traction substation)",
+  "Made by": "University of Murcia (Gomez et al., 2019)",
+  "Attack types": "see label values",
+  "Host column": "destination IP",
+  "Source": "http://perception.inf.um.es/ICS-datasets/",
+  "Licence": "Cite the makers; analysis use.",
+  "Runs in the tool": "yes, see its card on the Results page"
+ },
+ {
+  "Dataset": "IEC 60870-5-104 intrusion detection dataset (balanced flows)",
+  "Made by": "University of Western Macedonia (Radoglou-Grammatikis et al., 2022), Zenodo 7108614",
+  "Attack types": "11 attack types",
+  "Host column": "destination IP",
+  "Source": "https://zenodo.org/records/7108614",
+  "Licence": "CC BY 4.0.",
+  "Runs in the tool": "yes, see its card on the Results page"
+ },
+ {
+  "Dataset": "InSDN (software-defined network)",
+  "Made by": "Elsayed, Le-Khac and Jurcut (2020), University College Dublin",
+  "Attack types": "7 attack types",
+  "Host column": "destination IP",
+  "Source": "https://aseados.ucd.ie/datasets/SDN/",
+  "Licence": "Cite the makers; analysis use.",
+  "Runs in the tool": "yes, see its card on the Results page"
+ },
+ {
+  "Dataset": "IoT-23 (twelve scenarios, Zeek connection logs)",
+  "Made by": "Stratosphere Laboratory, CTU Prague (Garcia, Parmisano and Erquiaga, 2020)",
+  "Attack types": "C&C, DDoS, horizontal port scan, attack, heartbeat and file-download variants",
+  "Host column": "responding IP",
+  "Source": "https://www.stratosphereips.org/datasets-iot23",
+  "Licence": "CC BY 4.0.",
+  "Runs in the tool": "yes, see its card on the Results page"
+ },
+ {
+  "Dataset": "N-BaIoT (nine IoT devices)",
+  "Made by": "Meidan, Bohadana, Mathov, Mirsky, Breitenbacher, Shabtai and Elovici (2018), UCI 442",
+  "Attack types": "gafgyt combo, junk, scan, tcp, udp; mirai ack, scan, syn, udp, udpplain",
+  "Host column": "device",
+  "Source": "https://doi.org/10.24432/C5RC8J",
+  "Licence": "CC BY 4.0.",
+  "Runs in the tool": "yes, see its card on the Results page"
+ },
+ {
+  "Dataset": "NSL-KDD (KDDTrain+ and KDDTest+)",
+  "Made by": "Tavallaee, Bagheri, Lu and Ghorbani (2009), from the DARPA 1998 and KDD Cup 1999 data",
+  "Attack types": "38 attack names (DoS, probe, R2L, U2R)",
+  "Host column": "none",
+  "Source": "https://www.unb.ca/cic/datasets/nsl.html",
+  "Licence": "Public benchmark; cite the makers.",
+  "Runs in the tool": "yes, see its card on the Results page"
+ },
+ {
+  "Dataset": "RT-IoT2022",
+  "Made by": "Sharmila and Nagapadma (2023), UCI Machine Learning Repository 942",
+  "Attack types": "DoS SYN, DDoS Slowloris, ARP poisoning, five NMAP scans, SSH brute force",
+  "Host column": "none",
+  "Source": "https://doi.org/10.24432/C5P338",
+  "Licence": "CC BY 4.0.",
+  "Runs in the tool": "yes, see its card on the Results page"
+ },
+ {
+  "Dataset": "ToN_IoT network (Train_Test_Network)",
+  "Made by": "UNSW Canberra Cyber Range (Moustafa, 2021)",
+  "Attack types": "backdoor, DDoS, DoS, injection, MITM, password, ransomware, scanning, XSS",
+  "Host column": "destination IP",
+  "Source": "https://research.unsw.edu.au/projects/toniot-datasets",
+  "Licence": "Cite the makers; analysis use.",
+  "Runs in the tool": "yes, see its card on the Results page"
+ }
+]

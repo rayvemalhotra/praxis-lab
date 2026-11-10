@@ -1,6 +1,6 @@
 {
  "name": "Edge-IIoTset (ranking check)",
- "about": "IoT and IIoT testbed, packet records, 38 cleaned features. No device column, so companies are random thirds and tracing (H3) cannot be tested.",
+ "about": "IoT and IIoT testbed, packet records, 38 cleaned features. The praxis run used three class-stratified random thirds of the records as organizations. Tracing (H3) was not repeated on this dataset: normal traffic gives no device-labelled examples for one of the two attacked hosts.",
  "made": "08 Nov 2026, 21:10",
  "minutes": 0.0,
  "budget": {
@@ -40,7 +40,7 @@
   "resamples": 2000,
   "network": "38-128-64-15",
   "split": "class-stratified random 50/20/30 inside each organization; no clock, so each record is its own event (ranges are optimistic)",
-  "companies": "organizations = three random thirds of the records (the hosts in this data are too few or too one-sided to form three organizations)"
+  "companies": "organizations = three class-stratified random thirds of the records"
  },
  "step1": {
   "A": {
@@ -131,8 +131,7 @@
    "mqtt.topic_present"
   ],
   "removed_columns": [
-   "Attack_label",
-   "Attack_type"
+   "Attack_label"
   ]
  },
  "classes": [
@@ -433,7 +432,7 @@
    "clears": true
   },
   "H3": null,
-  "H3_note": "this data has no device or host column, so tracing cannot be tested"
+  "H3_note": "not repeated on this dataset: normal traffic gives no device-labelled examples for one of the two attacked hosts"
  },
  "checks": {
   "pooled": {
@@ -506,9 +505,9 @@
   "what": "An IoT and IIoT testbed with sensors, edge devices and cloud, recorded packet by packet. The praxis uses a cleaned copy (identifier and placeholder columns removed, 38 features) locked on 25 September.",
   "records": "134,981 records used (the full cleaned file)",
   "attacks": "14 attack types, e.g. DDoS (TCP, UDP, HTTP, ICMP), password, port scanning, SQL injection, XSS, MITM, ransomware, backdoor",
-  "host": "none in the cleaned file",
+  "host": "the dataset has host address columns; the cleaned copy given to the tool keeps none of them",
   "role": "Second dataset: ranking check",
-  "role_text": "Used to check that the ranking of the two roads seen on DataSense holds on different data. No device column, so companies are random thirds and tracing (H3) cannot be tested.",
+  "role_text": "Used to check that the ranking of the two approaches seen on DataSense holds on different data. The organizations are class-stratified random thirds of the records. Tracing (H3) was not repeated: normal traffic gives no device-labelled examples for one of the two attacked hosts.",
   "source": "https://doi.org/10.1109/ACCESS.2022.3165809"
  },
  "computed": "training results cached from the 5 and 6 October 2026 runs of system.py; scorecard recomputed by this tool",

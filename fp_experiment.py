@@ -22,6 +22,12 @@ from engine import ORG, BATCH, MIN_GAIN, FP_LIMIT, Detector
 
 
 def run(data, bench, seeds=(0, 1, 2), resamples=2000, k=agent.K_MIN, log=None):
+    """One run at a time in a process, like engine.run: the network weights come from PyTorch's global random generator."""
+    with engine.RUN_LOCK:
+        return _run(data, bench, seeds, resamples, k, log)
+
+
+def _run(data, bench, seeds, resamples, k, log):
     log = log or (lambda m: None)
     d, F = data, bench.F
     own = {o: d.TR[o][d.TR[o].y != d.never[o]] for o in ORG}

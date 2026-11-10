@@ -1,0 +1,34 @@
+[
+  {
+    "file": "sample_organization_water_utility_SYNTHETIC.csv",
+    "title": "Water utility",
+    "kind": "synthetic",
+    "sector": "Water and wastewater",
+    "summary": "A made-up water utility: 24 devices, 7 attack types, 22,073 records. Device names, addresses and operators are invented.",
+    "licence": "Made by tools/make_sample_org.py. Free to use. It says nothing about real attacks."
+  },
+  {
+    "file": "sample_power_grid_dnp3_REAL_CC-BY-4.0.csv",
+    "title": "Power grid, DNP3",
+    "kind": "real",
+    "sector": "Electric power",
+    "summary": "10,952 real network flows sampled from the DNP3 Intrusion Detection Dataset (CICFlowMeter flows, 120 s timeout).",
+    "licence": "CC BY 4.0. Kelli et al., 2022, Zenodo record 7348493."
+  },
+  {
+    "file": "sample_organization_hospital_SYNTHETIC.csv",
+    "title": "Hospital",
+    "kind": "synthetic",
+    "sector": "Healthcare",
+    "summary": "A made-up hospital: 24 medical and building devices (infusion pumps, patient monitors, imaging workstations, nurse stations, building controllers), 6 attack types, 19,507 records. Device names, addresses, wards and badges are invented.",
+    "licence": "Made by tools/make_sample_orgs_more.py. Free to use. It says nothing about real attacks."
+  },
+  {
+    "file": "sample_organization_manufacturing_plant_SYNTHETIC.csv",
+    "title": "Manufacturing plant",
+    "kind": "synthetic",
+    "sector": "Manufacturing",
+    "summary": "A made-up plant: 21 devices (PLCs, HMI panels, robot arms, historians), 8 attack types, 21,198 records. Station names, addresses, lines and operators are invented.",
+    "licence": "Made by tools/make_sample_orgs_more.py. Free to use. It says nothing about real attacks."
+  }
+]

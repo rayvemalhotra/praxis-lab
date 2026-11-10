@@ -1,0 +1,1382 @@
+[
+ {
+  "file": "sample_organization_hospital_SYNTHETIC.csv",
+  "bytes": 4472250,
+  "read_s": 0.0,
+  "rows": 19507,
+  "columns": 31,
+  "inspect_s": 0.1,
+  "detected": {
+   "label_col": "attack_category",
+   "benign_label": "benign",
+   "source_col": "asset_name",
+   "time_col": "event_time"
+  },
+  "label_values": 7,
+  "numbers": 19,
+  "identifiers": 7,
+  "stage": "done",
+  "ok": true,
+  "run_s": 8.7,
+  "organizations": "organizations = groups of hosts (each host belongs to one or",
+  "kept_numbers": 19,
+  "withheld": {
+   "A": "arp_mitm",
+   "B": "port_scan",
+   "C": "ransomware_smb"
+  },
+  "H1": {
+   "gain": 78.1,
+   "clears": true
+  },
+  "H2": {
+   "gain": 74.9,
+   "clears": true
+  },
+  "H3": true,
+  "verdict_sharing": [
+   "gain met, privacy trade-off",
+   "gain met, privacy trade-off",
+   "gain met, privacy trade-off"
+  ],
+  "peak_mb": 492,
+  "total_s": 10.5,
+  "kind": "sample",
+  "over_upload_limit": false,
+  "expected": {
+   "label_col": "attack_category",
+   "benign_label": "benign",
+   "source_col": "asset_name",
+   "time_col": "event_time"
+  },
+  "match": {
+   "label_col": true,
+   "benign_label": true,
+   "source_col": true,
+   "time_col": true
+  },
+  "notes": ""
+ },
+ {
+  "file": "sample_organization_manufacturing_plant_SYNTHETIC.csv",
+  "bytes": 4703597,
+  "read_s": 0.0,
+  "rows": 21198,
+  "columns": 30,
+  "inspect_s": 0.1,
+  "detected": {
+   "label_col": "Label",
+   "benign_label": "Normal",
+   "source_col": "station",
+   "time_col": "ts"
+  },
+  "label_values": 9,
+  "numbers": 19,
+  "identifiers": 6,
+  "stage": "done",
+  "ok": true,
+  "run_s": 8.9,
+  "organizations": "organizations = groups of hosts (each host belongs to one or",
+  "kept_numbers": 19,
+  "withheld": {
+   "A": "DDoS_UDP_Flood",
+   "B": "Network_Scan",
+   "C": "Modbus_Command_Injection"
+  },
+  "H1": {
+   "gain": 98.2,
+   "clears": true
+  },
+  "H2": {
+   "gain": 98.8,
+   "clears": true
+  },
+  "H3": true,
+  "verdict_sharing": [
+   "gain met, false-positive limit breached",
+   "gain met, privacy trade-off",
+   "gain met, false-positive limit breached"
+  ],
+  "peak_mb": 499,
+  "total_s": 10.6,
+  "kind": "sample",
+  "over_upload_limit": false,
+  "expected": {
+   "label_col": "Label",
+   "benign_label": "Normal",
+   "source_col": "station",
+   "time_col": "ts"
+  },
+  "match": {
+   "label_col": true,
+   "benign_label": true,
+   "source_col": true,
+   "time_col": true
+  },
+  "notes": ""
+ },
+ {
+  "file": "sample_organization_water_utility_SYNTHETIC.csv",
+  "bytes": 5023524,
+  "read_s": 0.0,
+  "rows": 22073,
+  "columns": 31,
+  "inspect_s": 0.1,
+  "detected": {
+   "label_col": "attack_type",
+   "benign_label": "normal",
+   "source_col": "device_name",
+   "time_col": "timestamp"
+  },
+  "label_values": 8,
+  "numbers": 19,
+  "identifiers": 7,
+  "stage": "done",
+  "ok": true,
+  "run_s": 8.8,
+  "organizations": "organizations = groups of hosts (each host belongs to one or",
+  "kept_numbers": 19,
+  "withheld": {
+   "A": "port_scan",
+   "B": "ddos_udp_flood",
+   "C": "arp_mitm"
+  },
+  "H1": {
+   "gain": 86.8,
+   "clears": true
+  },
+  "H2": {
+   "gain": 86.6,
+   "clears": true
+  },
+  "H3": true,
+  "verdict_sharing": [
+   "gain met, privacy trade-off",
+   "gain met, privacy trade-off",
+   "gain met, privacy trade-off"
+  ],
+  "peak_mb": 501,
+  "total_s": 10.4,
+  "kind": "sample",
+  "over_upload_limit": false,
+  "expected": {
+   "label_col": "attack_type",
+   "benign_label": "normal",
+   "source_col": "device_name",
+   "time_col": "timestamp"
+  },
+  "match": {
+   "label_col": true,
+   "benign_label": true,
+   "source_col": true,
+   "time_col": true
+  },
+  "notes": ""
+ },
+ {
+  "file": "sample_power_grid_dnp3_REAL_CC-BY-4.0.csv",
+  "bytes": 7125921,
+  "read_s": 0.0,
+  "rows": 10952,
+  "columns": 85,
+  "inspect_s": 0.1,
+  "detected": {
+   "label_col": "Label",
+   "benign_label": "NORMAL",
+   "source_col": "Dst IP",
+   "time_col": "Timestamp"
+  },
+  "label_values": 11,
+  "numbers": 65,
+  "identifiers": 3,
+  "stage": "done",
+  "ok": true,
+  "run_s": 7.7,
+  "organizations": "organizations = groups of hosts (each host belongs to one or",
+  "kept_numbers": 65,
+  "withheld": {
+   "A": "COLD_RESTART",
+   "B": "DNP3_INFO",
+   "C": "WARM_RESTART"
+  },
+  "H1": {
+   "gain": 20.5,
+   "clears": true
+  },
+  "H2": {
+   "gain": 0.0,
+   "clears": false
+  },
+  "H3": false,
+  "verdict_sharing": [
+   "not worth it (gain not met)",
+   "gain met",
+   "not worth it (gain not met)"
+  ],
+  "peak_mb": 537,
+  "total_s": 9.3,
+  "kind": "sample",
+  "over_upload_limit": false,
+  "expected": {
+   "label_col": "Label",
+   "benign_label": "NORMAL",
+   "source_col": "Dst IP",
+   "time_col": "Timestamp"
+  },
+  "match": {
+   "label_col": true,
+   "benign_label": true,
+   "source_col": true,
+   "time_col": true
+  },
+  "notes": ""
+ },
+ {
+  "file": "bot_iot_5pct.csv",
+  "bytes": 28646558,
+  "read_s": 0.3,
+  "rows": 95944,
+  "columns": 47,
+  "inspect_s": 0.5,
+  "detected": {
+   "label_col": "attack_type",
+   "benign_label": "Normal",
+   "source_col": "daddr",
+   "time_col": "stime"
+  },
+  "label_values": 11,
+  "numbers": 32,
+  "identifiers": 7,
+  "stage": "done",
+  "ok": true,
+  "run_s": 8.7,
+  "organizations": "organizations = three random thirds of the records (the host",
+  "kept_numbers": 32,
+  "withheld": {
+   "A": "Reconnaissance_Service_Scan",
+   "B": "DoS_UDP",
+   "C": "DoS_TCP"
+  },
+  "H1": {
+   "gain": 99.9,
+   "clears": true
+  },
+  "H2": {
+   "gain": 99.0,
+   "clears": true
+  },
+  "H3": false,
+  "verdict_sharing": [
+   "gain met",
+   "gain met",
+   "gain met, false-positive limit breached"
+  ],
+  "peak_mb": 736,
+  "total_s": 11.1,
+  "kind": "dataset",
+  "over_upload_limit": false,
+  "expected": {
+   "label_col": "attack_type",
+   "benign_label": "Normal",
+   "source_col": "daddr",
+   "time_col": "stime",
+   "hand_tuned": [
+    "drop"
+   ]
+  },
+  "match": {
+   "label_col": true,
+   "benign_label": true,
+   "source_col": true,
+   "time_col": true
+  },
+  "notes": ""
+ },
+ {
+  "file": "cic_ids2017.csv",
+  "bytes": 66274933,
+  "read_s": 0.7,
+  "rows": 120013,
+  "columns": 85,
+  "inspect_s": 0.7,
+  "detected": {
+   "label_col": "Label",
+   "benign_label": "BENIGN",
+   "source_col": "Destination IP",
+   "time_col": "Timestamp"
+  },
+  "label_values": 15,
+  "numbers": 69,
+  "identifiers": 3,
+  "stage": "done",
+  "ok": true,
+  "run_s": 10.1,
+  "organizations": "organizations = three random thirds of the records (the host",
+  "kept_numbers": 67,
+  "withheld": {
+   "A": "PortScan",
+   "B": "DoS Hulk",
+   "C": "DDoS"
+  },
+  "H1": {
+   "gain": 95.6,
+   "clears": true
+  },
+  "H2": {
+   "gain": 79.5,
+   "clears": true
+  },
+  "H3": false,
+  "verdict_sharing": [
+   "gain met",
+   "gain met",
+   "gain met"
+  ],
+  "peak_mb": 1146,
+  "total_s": 13.0,
+  "kind": "dataset",
+  "over_upload_limit": false,
+  "expected": {
+   "label_col": "Label",
+   "benign_label": "BENIGN",
+   "source_col": "Destination IP",
+   "time_col": "Timestamp",
+   "hand_tuned": [
+    "drop",
+    "label_map"
+   ]
+  },
+  "match": {
+   "label_col": true,
+   "benign_label": true,
+   "source_col": true,
+   "time_col": true
+  },
+  "notes": ""
+ },
+ {
+  "file": "cic_ids2017_improved.csv",
+  "bytes": 65963080,
+  "read_s": 0.7,
+  "rows": 120069,
+  "columns": 91,
+  "inspect_s": 0.7,
+  "detected": {
+   "label_col": "Label",
+   "benign_label": "BENIGN",
+   "source_col": "Dst IP",
+   "time_col": "Timestamp"
+  },
+  "label_values": 27,
+  "numbers": 80,
+  "identifiers": 4,
+  "stage": "done",
+  "ok": true,
+  "run_s": 9.9,
+  "organizations": "organizations = three random thirds of the records (the host",
+  "kept_numbers": 79,
+  "withheld": {
+   "A": "Portscan",
+   "B": "DoS Hulk",
+   "C": "DDoS"
+  },
+  "H1": {
+   "gain": 97.8,
+   "clears": true
+  },
+  "H2": {
+   "gain": 85.2,
+   "clears": true
+  },
+  "H3": false,
+  "verdict_sharing": [
+   "gain met, false-positive limit breached",
+   "gain met",
+   "gain met"
+  ],
+  "peak_mb": 1045,
+  "total_s": 12.9,
+  "kind": "dataset",
+  "over_upload_limit": false,
+  "expected": {
+   "label_col": "Label",
+   "benign_label": "BENIGN",
+   "source_col": "Dst IP",
+   "time_col": "Timestamp",
+   "hand_tuned": [
+    "drop"
+   ]
+  },
+  "match": {
+   "label_col": true,
+   "benign_label": true,
+   "source_col": true,
+   "time_col": true
+  },
+  "notes": ""
+ },
+ {
+  "file": "ciciot2023.csv",
+  "bytes": 27111454,
+  "read_s": 0.2,
+  "rows": 120624,
+  "columns": 40,
+  "inspect_s": 0.4,
+  "detected": {
+   "label_col": "Label",
+   "benign_label": "BENIGN",
+   "source_col": null,
+   "time_col": null
+  },
+  "label_values": 34,
+  "numbers": 39,
+  "identifiers": 0,
+  "stage": "done",
+  "ok": true,
+  "run_s": 3.1,
+  "organizations": "organizations = three random thirds of the records (no host ",
+  "kept_numbers": 39,
+  "withheld": {
+   "A": "DDOS-ICMP_FLOOD",
+   "B": "DDOS-UDP_FLOOD",
+   "C": "DDOS-TCP_FLOOD"
+  },
+  "H1": {
+   "gain": 52.2,
+   "clears": true
+  },
+  "H2": {
+   "gain": 33.3,
+   "clears": true
+  },
+  "H3": null,
+  "verdict_sharing": [
+   "gain met",
+   "gain met",
+   "not worth it (gain not met)"
+  ],
+  "peak_mb": 662,
+  "total_s": 5.2,
+  "kind": "dataset",
+  "over_upload_limit": false,
+  "expected": {
+   "label_col": "Label",
+   "benign_label": "BENIGN",
+   "source_col": null,
+   "time_col": null,
+   "hand_tuned": [
+    "drop_labels"
+   ]
+  },
+  "match": {
+   "label_col": true,
+   "benign_label": true,
+   "source_col": true,
+   "time_col": true
+  },
+  "notes": ""
+ },
+ {
+  "file": "cidds001.csv",
+  "bytes": 11451076,
+  "read_s": 0.1,
+  "rows": 95753,
+  "columns": 16,
+  "inspect_s": 0.3,
+  "detected": {
+   "label_col": "attackType",
+   "benign_label": "---",
+   "source_col": "Dst IP Addr",
+   "time_col": "Timestamp"
+  },
+  "label_values": 5,
+  "numbers": 6,
+  "identifiers": 1,
+  "stage": "done",
+  "ok": true,
+  "run_s": 9.7,
+  "organizations": "organizations = groups of hosts (each host belongs to one or",
+  "kept_numbers": 6,
+  "withheld": {
+   "A": "portScan",
+   "B": "pingScan",
+   "C": "bruteForce"
+  },
+  "H1": {
+   "gain": 38.8,
+   "clears": true
+  },
+  "H2": {
+   "gain": 9.2,
+   "clears": true
+  },
+  "H3": false,
+  "verdict_sharing": [
+   "gain met, false-positive limit breached",
+   "gain met",
+   "not worth it (gain not met)"
+  ],
+  "peak_mb": 661,
+  "total_s": 11.6,
+  "kind": "dataset",
+  "over_upload_limit": false,
+  "expected": {
+   "label_col": "attackType",
+   "benign_label": "normal",
+   "source_col": "Dst IP Addr",
+   "time_col": "Timestamp",
+   "hand_tuned": [
+    "drop",
+    "keep",
+    "label_map"
+   ]
+  },
+  "match": {
+   "label_col": true,
+   "benign_label": true,
+   "source_col": true,
+   "time_col": true
+  },
+  "notes": ""
+ },
+ {
+  "file": "cidds002.csv",
+  "bytes": 7355912,
+  "read_s": 0.0,
+  "rows": 60000,
+  "columns": 16,
+  "inspect_s": 0.2,
+  "detected": {
+   "label_col": "label",
+   "benign_label": "normal",
+   "source_col": "Dst IP Addr",
+   "time_col": "Date first seen"
+  },
+  "label_values": 3,
+  "numbers": 6,
+  "identifiers": 1,
+  "stage": "run",
+  "ok": false,
+  "error": "DataProblem: the label column holds 2 attack types besides the normal value 'normal' (attacker, victim); at least three are needed so that each organization can withhold a different one. Pick another label column, or add records of more attack types",
+  "peak_mb": 427,
+  "total_s": 1.9,
+  "kind": "dataset",
+  "over_upload_limit": false,
+  "expected": {
+   "label_col": "attackType",
+   "benign_label": "---",
+   "source_col": "Dst IP Addr",
+   "time_col": "Timestamp",
+   "hand_tuned": [
+    "drop",
+    "keep",
+    "label_map"
+   ]
+  },
+  "match": {
+   "label_col": false,
+   "benign_label": false,
+   "source_col": true,
+   "time_col": false
+  },
+  "notes": "The file holds one attack type (scan) in attackType; the hand-made settings built attack types from the nmap arguments and name a time column the file does not have. Without that hand work the table cannot support an evaluation, and the tool says so in one sentence."
+ },
+ {
+  "file": "cse_cic_ids2018.csv",
+  "bytes": 43270872,
+  "read_s": 0.8,
+  "rows": 120089,
+  "columns": 80,
+  "inspect_s": 3.0,
+  "detected": {
+   "label_col": "Label",
+   "benign_label": "Benign",
+   "source_col": null,
+   "time_col": "Timestamp"
+  },
+  "label_values": 14,
+  "numbers": 66,
+  "identifiers": 2,
+  "stage": "done",
+  "ok": true,
+  "run_s": 4.6,
+  "organizations": "organizations = three random thirds of the records (no host ",
+  "kept_numbers": 66,
+  "withheld": {
+   "A": "DoS attacks-SlowHTTPTest",
+   "B": "SSH-Bruteforce",
+   "C": "FTP-BruteForce"
+  },
+  "H1": {
+   "gain": 81.4,
+   "clears": true
+  },
+  "H2": {
+   "gain": 81.9,
+   "clears": true
+  },
+  "H3": null,
+  "verdict_sharing": [
+   "gain met",
+   "gain met",
+   "gain met"
+  ],
+  "peak_mb": 1145,
+  "total_s": 9.9,
+  "kind": "dataset",
+  "over_upload_limit": false,
+  "expected": {
+   "label_col": "Label",
+   "benign_label": "Benign",
+   "source_col": null,
+   "time_col": "Timestamp",
+   "hand_tuned": [
+    "drop",
+    "drop_labels"
+   ]
+  },
+  "match": {
+   "label_col": true,
+   "benign_label": true,
+   "source_col": true,
+   "time_col": true
+  },
+  "notes": ""
+ },
+ {
+  "file": "ctu13_nettisa.csv",
+  "bytes": 12281752,
+  "read_s": 0.1,
+  "rows": 41070,
+  "columns": 32,
+  "inspect_s": 0.1,
+  "detected": {
+   "label_col": "LABEL",
+   "benign_label": "clear",
+   "source_col": "SRC_IP",
+   "time_col": "TIME_FIRST"
+  },
+  "label_values": 7,
+  "numbers": 25,
+  "identifiers": 4,
+  "stage": "done",
+  "ok": true,
+  "run_s": 2.9,
+  "organizations": "organizations = three random thirds of the records (the host",
+  "kept_numbers": 25,
+  "withheld": {
+   "A": "neris",
+   "B": "fast_flux",
+   "C": "qvod"
+  },
+  "H1": {
+   "gain": 90.8,
+   "clears": true
+  },
+  "H2": {
+   "gain": 88.4,
+   "clears": true
+  },
+  "H3": null,
+  "verdict_sharing": [
+   "gain met, false-positive limit breached",
+   "gain met",
+   "gain met"
+  ],
+  "peak_mb": 583,
+  "total_s": 4.6,
+  "kind": "dataset",
+  "over_upload_limit": false,
+  "expected": {
+   "label_col": "LABEL",
+   "benign_label": "clear",
+   "source_col": "SRC_IP",
+   "time_col": "TIME_FIRST",
+   "hand_tuned": [
+    "drop",
+    "min_class_rows"
+   ]
+  },
+  "match": {
+   "label_col": true,
+   "benign_label": true,
+   "source_col": true,
+   "time_col": true
+  },
+  "notes": ""
+ },
+ {
+  "file": "dnp3.csv",
+  "bytes": 29076397,
+  "read_s": 0.2,
+  "rows": 41596,
+  "columns": 86,
+  "inspect_s": 0.3,
+  "detected": {
+   "label_col": "Label",
+   "benign_label": "NORMAL",
+   "source_col": "Dst IP",
+   "time_col": "Timestamp"
+  },
+  "label_values": 11,
+  "numbers": 65,
+  "identifiers": 3,
+  "stage": "done",
+  "ok": true,
+  "run_s": 11.4,
+  "organizations": "organizations = groups of hosts (each host belongs to one or",
+  "kept_numbers": 65,
+  "withheld": {
+   "A": "COLD_RESTART",
+   "B": "WARM_RESTART",
+   "C": "DISABLE_UNSOLICITED"
+  },
+  "H1": {
+   "gain": 66.7,
+   "clears": true
+  },
+  "H2": {
+   "gain": 33.3,
+   "clears": true
+  },
+  "H3": false,
+  "verdict_sharing": [
+   "gain met",
+   "not worth it (gain not met)",
+   "gain met, privacy trade-off"
+  ],
+  "peak_mb": 753,
+  "total_s": 13.5,
+  "kind": "dataset",
+  "over_upload_limit": false,
+  "expected": {
+   "label_col": "Label",
+   "benign_label": "NORMAL",
+   "source_col": "Dst IP",
+   "time_col": "Timestamp",
+   "hand_tuned": [
+    "drop"
+   ]
+  },
+  "match": {
+   "label_col": true,
+   "benign_label": true,
+   "source_col": true,
+   "time_col": true
+  },
+  "notes": ""
+ },
+ {
+  "file": "edge_iiotset_ml.csv",
+  "bytes": 62553851,
+  "read_s": 0.5,
+  "rows": 119994,
+  "columns": 63,
+  "inspect_s": 2.6,
+  "detected": {
+   "label_col": "Attack_type",
+   "benign_label": "Normal",
+   "source_col": "ip.dst_host",
+   "time_col": "frame.time"
+  },
+  "label_values": 15,
+  "numbers": 30,
+  "identifiers": 11,
+  "stage": "done",
+  "ok": true,
+  "run_s": 11.1,
+  "organizations": "organizations = three random thirds of the records (the host",
+  "kept_numbers": 30,
+  "withheld": {
+   "A": "DDoS_UDP",
+   "B": "DDoS_ICMP",
+   "C": "DDoS_HTTP"
+  },
+  "H1": {
+   "gain": 77.0,
+   "clears": true
+  },
+  "H2": {
+   "gain": 62.8,
+   "clears": true
+  },
+  "H3": false,
+  "verdict_sharing": [
+   "gain met",
+   "gain met",
+   "gain met"
+  ],
+  "peak_mb": 799,
+  "total_s": 15.7,
+  "kind": "dataset",
+  "over_upload_limit": false,
+  "expected": {
+   "label_col": "Attack_type",
+   "benign_label": "Normal",
+   "source_col": "ip.dst_host",
+   "time_col": "frame.time",
+   "hand_tuned": [
+    "drop",
+    "keep"
+   ]
+  },
+  "match": {
+   "label_col": true,
+   "benign_label": true,
+   "source_col": true,
+   "time_col": true
+  },
+  "notes": ""
+ },
+ {
+  "file": "electra_modbus.csv",
+  "bytes": 11755740,
+  "read_s": 0.0,
+  "rows": 119994,
+  "columns": 11,
+  "inspect_s": 0.4,
+  "detected": {
+   "label_col": "label",
+   "benign_label": "NORMAL",
+   "source_col": "dip",
+   "time_col": "Time"
+  },
+  "label_values": 8,
+  "numbers": 4,
+  "identifiers": 1,
+  "stage": "done",
+  "ok": true,
+  "run_s": 8.2,
+  "organizations": "organizations = three random thirds of the records (the host",
+  "kept_numbers": 4,
+  "withheld": {
+   "A": "MITM_UNALTERED",
+   "B": "READ_ATTACK",
+   "C": "RECOGNITION_ATTACK"
+  },
+  "H1": {
+   "gain": 40.4,
+   "clears": true
+  },
+  "H2": {
+   "gain": 39.7,
+   "clears": true
+  },
+  "H3": false,
+  "verdict_sharing": [
+   "not worth it (gain not met)",
+   "gain met",
+   "gain met"
+  ],
+  "peak_mb": 537,
+  "total_s": 10.1,
+  "kind": "dataset",
+  "over_upload_limit": false,
+  "expected": {
+   "label_col": "label",
+   "benign_label": "NORMAL",
+   "source_col": "dip",
+   "time_col": "Time",
+   "hand_tuned": [
+    "drop",
+    "keep"
+   ]
+  },
+  "match": {
+   "label_col": true,
+   "benign_label": true,
+   "source_col": true,
+   "time_col": true
+  },
+  "notes": ""
+ },
+ {
+  "file": "electra_s7comm.csv",
+  "bytes": 12165820,
+  "read_s": 0.0,
+  "rows": 119996,
+  "columns": 11,
+  "inspect_s": 0.4,
+  "detected": {
+   "label_col": "label",
+   "benign_label": "NORMAL",
+   "source_col": "dip",
+   "time_col": "Time"
+  },
+  "label_values": 8,
+  "numbers": 4,
+  "identifiers": 1,
+  "stage": "done",
+  "ok": true,
+  "run_s": 8.6,
+  "organizations": "organizations = three random thirds of the records (the host",
+  "kept_numbers": 4,
+  "withheld": {
+   "A": "COMMAND_ATTACK",
+   "B": "FALSE_ERROR_RESPONSE_ATTACK",
+   "C": "MITM_UNALTERED"
+  },
+  "H1": {
+   "gain": 33.3,
+   "clears": true
+  },
+  "H2": {
+   "gain": 33.3,
+   "clears": true
+  },
+  "H3": false,
+  "verdict_sharing": [
+   "not worth it (gain not met)",
+   "gain met, false-positive limit breached",
+   "not worth it (gain not met)"
+  ],
+  "peak_mb": 537,
+  "total_s": 10.5,
+  "kind": "dataset",
+  "over_upload_limit": false,
+  "expected": {
+   "label_col": "label",
+   "benign_label": "NORMAL",
+   "source_col": "dip",
+   "time_col": "Time",
+   "hand_tuned": [
+    "drop"
+   ]
+  },
+  "match": {
+   "label_col": true,
+   "benign_label": true,
+   "source_col": true,
+   "time_col": true
+  },
+  "notes": ""
+ },
+ {
+  "file": "iec104.csv",
+  "bytes": 4314428,
+  "read_s": 0.0,
+  "rows": 6828,
+  "columns": 84,
+  "inspect_s": 0.0,
+  "detected": {
+   "label_col": "Label",
+   "benign_label": "NORMAL",
+   "source_col": "Dst IP",
+   "time_col": "Timestamp"
+  },
+  "label_values": 12,
+  "numbers": 56,
+  "identifiers": 3,
+  "stage": "done",
+  "ok": true,
+  "run_s": 6.8,
+  "organizations": "organizations = three random thirds of the records (the host",
+  "kept_numbers": 56,
+  "withheld": {
+   "A": "c_ci_na_1",
+   "B": "c_ci_na_1_DoS",
+   "C": "c_rd_na_1"
+  },
+  "H1": {
+   "gain": 27.5,
+   "clears": true
+  },
+  "H2": {
+   "gain": 0.0,
+   "clears": false
+  },
+  "H3": false,
+  "verdict_sharing": [
+   "not worth it (gain not met)",
+   "gain met",
+   "not worth it (gain not met)"
+  ],
+  "peak_mb": 500,
+  "total_s": 8.4,
+  "kind": "dataset",
+  "over_upload_limit": false,
+  "expected": {
+   "label_col": "Label",
+   "benign_label": "NORMAL",
+   "source_col": "Dst IP",
+   "time_col": "Timestamp",
+   "hand_tuned": [
+    "drop"
+   ]
+  },
+  "match": {
+   "label_col": true,
+   "benign_label": true,
+   "source_col": true,
+   "time_col": true
+  },
+  "notes": ""
+ },
+ {
+  "file": "insdn.csv",
+  "bytes": 52284784,
+  "read_s": 0.5,
+  "rows": 120001,
+  "columns": 84,
+  "inspect_s": 0.6,
+  "detected": {
+   "label_col": "Label",
+   "benign_label": "Normal",
+   "source_col": "Dst IP",
+   "time_col": "Timestamp"
+  },
+  "label_values": 8,
+  "numbers": 62,
+  "identifiers": 3,
+  "stage": "done",
+  "ok": true,
+  "run_s": 10.2,
+  "organizations": "organizations = three random thirds of the records (the host",
+  "kept_numbers": 62,
+  "withheld": {
+   "A": "Probe",
+   "B": "DoS",
+   "C": "DDoS"
+  },
+  "H1": {
+   "gain": 99.6,
+   "clears": true
+  },
+  "H2": {
+   "gain": 99.3,
+   "clears": true
+  },
+  "H3": false,
+  "verdict_sharing": [
+   "gain met, false-positive limit breached",
+   "gain met",
+   "gain met"
+  ],
+  "peak_mb": 1126,
+  "total_s": 12.8,
+  "kind": "dataset",
+  "over_upload_limit": false,
+  "expected": {
+   "label_col": "Label",
+   "benign_label": "Normal",
+   "source_col": "Dst IP",
+   "time_col": "Timestamp",
+   "hand_tuned": [
+    "drop"
+   ]
+  },
+  "match": {
+   "label_col": true,
+   "benign_label": true,
+   "source_col": true,
+   "time_col": true
+  },
+  "notes": ""
+ },
+ {
+  "file": "iot23.csv",
+  "bytes": 13139642,
+  "read_s": 0.1,
+  "rows": 102373,
+  "columns": 20,
+  "inspect_s": 0.4,
+  "detected": {
+   "label_col": "attack_type",
+   "benign_label": "Benign",
+   "source_col": "id.orig_h",
+   "time_col": "ts"
+  },
+  "label_values": 12,
+  "numbers": 8,
+  "identifiers": 6,
+  "stage": "done",
+  "ok": true,
+  "run_s": 8.8,
+  "organizations": "organizations = three random thirds of the records (the host",
+  "kept_numbers": 8,
+  "withheld": {
+   "A": "DDoS",
+   "B": "PartOfAHorizontalPortScan",
+   "C": "C&C"
+  },
+  "H1": {
+   "gain": 49.4,
+   "clears": true
+  },
+  "H2": {
+   "gain": 15.1,
+   "clears": true
+  },
+  "H3": false,
+  "verdict_sharing": [
+   "gain met",
+   "gain met",
+   "not worth it (gain not met)"
+  ],
+  "peak_mb": 597,
+  "total_s": 10.8,
+  "kind": "dataset",
+  "over_upload_limit": false,
+  "expected": {
+   "label_col": "attack_type",
+   "benign_label": "Benign",
+   "source_col": "id.resp_h",
+   "time_col": "ts",
+   "hand_tuned": [
+    "drop",
+    "keep",
+    "min_class_rows"
+   ]
+  },
+  "match": {
+   "label_col": true,
+   "benign_label": true,
+   "source_col": false,
+   "time_col": true
+  },
+  "notes": "The tool picks the originating host (987 hosts); the hand-made settings used the responding host (50,267 values, one for every second record). Either way the hosts cannot form three organizations and the tool uses random thirds."
+ },
+ {
+  "file": "n_baiot.csv",
+  "bytes": 279539988,
+  "read_s": 2.8,
+  "rows": 222500,
+  "columns": 117,
+  "inspect_s": 0.6,
+  "detected": {
+   "label_col": "attack_type",
+   "benign_label": "benign",
+   "source_col": "device",
+   "time_col": null
+  },
+  "label_values": 11,
+  "numbers": 115,
+  "identifiers": 0,
+  "stage": "done",
+  "ok": true,
+  "run_s": 10.5,
+  "organizations": "organizations = groups of hosts (each host belongs to one or",
+  "kept_numbers": 115,
+  "withheld": {
+   "A": "mirai_ack",
+   "B": "gafgyt_udp",
+   "C": "gafgyt_tcp"
+  },
+  "H1": {
+   "gain": 37.1,
+   "clears": true
+  },
+  "H2": {
+   "gain": 33.8,
+   "clears": true
+  },
+  "H3": false,
+  "verdict_sharing": [
+   "gain met",
+   "not worth it (gain not met)",
+   "gain met"
+  ],
+  "peak_mb": 1739,
+  "total_s": 15.4,
+  "kind": "dataset",
+  "over_upload_limit": true,
+  "expected": {
+   "label_col": "attack_type",
+   "benign_label": "benign",
+   "source_col": "device",
+   "time_col": null,
+   "hand_tuned": []
+  },
+  "match": {
+   "label_col": true,
+   "benign_label": true,
+   "source_col": true,
+   "time_col": true
+  },
+  "notes": ""
+ },
+ {
+  "file": "nsl_kdd.csv",
+  "bytes": 11784389,
+  "read_s": 0.1,
+  "rows": 85592,
+  "columns": 42,
+  "inspect_s": 0.5,
+  "detected": {
+   "label_col": "attack",
+   "benign_label": "normal",
+   "source_col": null,
+   "time_col": null
+  },
+  "label_values": 40,
+  "numbers": 35,
+  "identifiers": 3,
+  "stage": "done",
+  "ok": true,
+  "run_s": 3.1,
+  "organizations": "organizations = three random thirds of the records (no host ",
+  "kept_numbers": 35,
+  "withheld": {
+   "A": "neptune",
+   "B": "satan",
+   "C": "smurf"
+  },
+  "H1": {
+   "gain": 99.3,
+   "clears": true
+  },
+  "H2": {
+   "gain": 76.8,
+   "clears": true
+  },
+  "H3": null,
+  "verdict_sharing": [
+   "gain met",
+   "gain met",
+   "gain met"
+  ],
+  "peak_mb": 652,
+  "total_s": 5.2,
+  "kind": "dataset",
+  "over_upload_limit": false,
+  "expected": {
+   "label_col": "attack",
+   "benign_label": "normal",
+   "source_col": null,
+   "time_col": null,
+   "hand_tuned": [
+    "drop"
+   ]
+  },
+  "match": {
+   "label_col": true,
+   "benign_label": true,
+   "source_col": true,
+   "time_col": true
+  },
+  "notes": ""
+ },
+ {
+  "file": "rt_iot2022.csv",
+  "bytes": 30637718,
+  "read_s": 0.2,
+  "rows": 68458,
+  "columns": 85,
+  "inspect_s": 0.3,
+  "detected": {
+   "label_col": "Attack_type",
+   "benign_label": "DOS_SYN_Hping",
+   "source_col": null,
+   "time_col": null
+  },
+  "label_values": 12,
+  "numbers": 78,
+  "identifiers": 5,
+  "stage": "done",
+  "ok": true,
+  "run_s": 3.1,
+  "organizations": "organizations = three random thirds of the records (no host ",
+  "kept_numbers": 78,
+  "withheld": {
+   "A": "Thing_Speak",
+   "B": "ARP_poisioning",
+   "C": "MQTT_Publish"
+  },
+  "H1": {
+   "gain": 96.7,
+   "clears": true
+  },
+  "H2": {
+   "gain": 86.2,
+   "clears": true
+  },
+  "H3": null,
+  "verdict_sharing": [
+   "gain met",
+   "gain met",
+   "gain met"
+  ],
+  "peak_mb": 813,
+  "total_s": 5.2,
+  "kind": "dataset",
+  "over_upload_limit": false,
+  "expected": {
+   "label_col": "Attack_type",
+   "benign_label": "Normal",
+   "source_col": null,
+   "time_col": null,
+   "hand_tuned": [
+    "drop",
+    "label_map"
+   ]
+  },
+  "match": {
+   "label_col": true,
+   "benign_label": false,
+   "source_col": true,
+   "time_col": true
+  },
+  "notes": "No label value means normal (the normal traffic is labeled by device: Thing_Speak, MQTT_Publish, Wipro_bulb, Amazon-Alexa). The tool takes the most frequent value and flags it as a guess (benign_guess) for the person to correct; the hand-made settings merge the four values."
+ },
+ {
+  "file": "ton_iot_network.csv",
+  "bytes": 16760279,
+  "read_s": 0.2,
+  "rows": 119994,
+  "columns": 44,
+  "inspect_s": 1.7,
+  "detected": {
+   "label_col": "type",
+   "benign_label": "normal",
+   "source_col": "dst_ip",
+   "time_col": null
+  },
+  "label_values": 10,
+  "numbers": 13,
+  "identifiers": 7,
+  "stage": "done",
+  "ok": true,
+  "run_s": 10.0,
+  "organizations": "organizations = groups of hosts (each host belongs to one or",
+  "kept_numbers": 13,
+  "withheld": {
+   "A": "ddos",
+   "B": "dos",
+   "C": "xss"
+  },
+  "H1": {
+   "gain": 4.1,
+   "clears": false
+  },
+  "H2": {
+   "gain": 0.3,
+   "clears": false
+  },
+  "H3": false,
+  "verdict_sharing": [
+   "not worth it (gain not met)",
+   "not worth it (gain not met)",
+   "gain met"
+  ],
+  "peak_mb": 797,
+  "total_s": 13.4,
+  "kind": "dataset",
+  "over_upload_limit": false,
+  "expected": {
+   "label_col": "type",
+   "benign_label": "normal",
+   "source_col": "dst_ip",
+   "time_col": null,
+   "hand_tuned": [
+    "drop"
+   ]
+  },
+  "match": {
+   "label_col": true,
+   "benign_label": true,
+   "source_col": true,
+   "time_col": true
+  },
+  "notes": ""
+ }
+]

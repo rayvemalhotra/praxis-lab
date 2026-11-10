@@ -1,0 +1,48 @@
+{
+ "the environment that ran the suite (Linux aarch64; it also holds test-only packages)": {
+  "packages_checked": 81,
+  "packages_with_advisories": [],
+  "not_checked": [
+   "torch (the CPU build is not on PyPI under that version name)"
+  ]
+ },
+ "the pinned versions of requirements-mac.txt and requirements.txt (the packages named there, without their dependencies)": {
+  "packages_checked": 6,
+  "packages_with_advisories": [],
+  "not_checked": [
+   "torch (the CPU build is not on PyPI under that version name)"
+  ]
+ },
+ "the Mac that serves the site, BEFORE the update to the new pins (pip freeze of its virtual environment at 96b832c; to be rerun after the update at release)": {
+  "packages_checked": 50,
+  "packages_with_advisories": [
+   {
+    "package": "pillow",
+    "version": "11.3.0",
+    "advisories": 56,
+    "clean_from": "13.0.0",
+    "ids": [
+     "CVE-2026-112390",
+     "CVE-2026-112391",
+     "CVE-2026-112393",
+     "CVE-2026-112395",
+     "CVE-2026-112399",
+     "CVE-2026-112400"
+    ]
+   },
+   {
+    "package": "streamlit",
+    "version": "1.50.0",
+    "advisories": 2,
+    "clean_from": "1.54.0",
+    "ids": [
+     "PYSEC-2026-212",
+     "PYSEC-2026-2285"
+    ]
+   }
+  ],
+  "not_checked": [
+   "torch (the CPU build is not on PyPI under that version name)"
+  ]
+ }
+}

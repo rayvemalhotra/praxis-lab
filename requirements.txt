@@ -1,7 +1,12 @@
+# Exact versions: the set the tests and the pressure suite ran on (Linux, Python 3.12, 10 November 2026).
+# pip-audit on this set: no known advisory (qa/PRESSURE_TEST_REPORT.md, section G). Streamlit 1.50.0 and the Pillow 11 it
+# required had known advisories; Streamlit 1.67.0 with Pillow 13.0.0 clears them. Pillow is a dependency of Streamlit and is
+# pinned here only so that an install can never fall back to an affected version.
 --extra-index-url https://download.pytorch.org/whl/cpu
-streamlit==1.50.0
-pandas>=2.2,<3
-numpy>=1.26,<3
-scikit-learn>=1.5,<2
+streamlit==1.67.0
+pillow==13.0.0
+pandas==2.3.3
+numpy==2.5.4
+scikit-learn==1.9.1
 torch==2.6.0+cpu
-pyarrow>=15
+pyarrow==26.0.1

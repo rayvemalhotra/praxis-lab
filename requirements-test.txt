@@ -1,0 +1,6 @@
+# Only for running the tests; the product does not need these.
+pytest==9.2.0
+tornado==6.6.1        # the sign-in probe of the pressure suite talks to the site over a websocket (tests/pressure/gate_probe.py)
+# Optional, for the parts of tests/pressure/run_all.py that are skipped without them:
+#   pip-audit        the dependency audit (section G of the report)
+#   playwright       the browser uploads and tests/screenshots.py, tests/render_text.py

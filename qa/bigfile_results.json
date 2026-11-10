@@ -1,0 +1,15 @@
+{
+ "bytes": 199999498,
+ "read_s": 8.7,
+ "rows": 362170,
+ "columns": 85,
+ "inspect_s": 1.8,
+ "label_col": "Label",
+ "quick_s": 10.4,
+ "h1": 96.5,
+ "peak_mb": 1832,
+ "machine": {
+  "platform": "darwin",
+  "cpus": 18
+ }
+}

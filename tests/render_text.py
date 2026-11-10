@@ -19,10 +19,10 @@ from playwright.sync_api import sync_playwright
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = sys.argv[1] if len(sys.argv) > 1 else "/tmp/rendered.md"
-PAGES = sys.argv[2].split(",") if len(sys.argv) > 2 else ["", "results", "evaluate", "sanitize", "agent", "research", "organizations", "definitions", "students"]
+PAGES = sys.argv[2].split(",") if len(sys.argv) > 2 else ["", "demo", "results", "evaluate", "agent", "research", "organizations", "definitions", "students"]
 RANGE = [int(x) for x in sys.argv[3].split("-")] if len(sys.argv) > 3 else None
 PY = os.environ.get("PRAXIS_PY", sys.executable)
-PORT = 8766
+PORT = int(os.environ.get("TP_RENDER_PORT", "8766"))
 
 
 def healthy():

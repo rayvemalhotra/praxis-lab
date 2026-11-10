@@ -1,0 +1,72 @@
+[
+ {
+  "test": "the whole history was read",
+  "ok": true,
+  "evidence": "7 commits, 13.4 MB of patches"
+ },
+ {
+  "test": "the access password of the site is nowhere in the git history",
+  "ok": true,
+  "evidence": "0 occurrences (the password itself is not shown)"
+ },
+ {
+  "test": "the access password is in no tracked file",
+  "ok": true,
+  "evidence": "no tracked file holds it"
+ },
+ {
+  "test": "history: GitHub token",
+  "ok": true,
+  "evidence": "0 lines match (test and example values set aside)"
+ },
+ {
+  "test": "history: AWS access key",
+  "ok": true,
+  "evidence": "0 lines match (test and example values set aside)"
+ },
+ {
+  "test": "history: private key block",
+  "ok": true,
+  "evidence": "0 lines match (test and example values set aside)"
+ },
+ {
+  "test": "history: Slack token",
+  "ok": true,
+  "evidence": "0 lines match (test and example values set aside)"
+ },
+ {
+  "test": "history: API key assignment",
+  "ok": true,
+  "evidence": "0 lines match (test and example values set aside)"
+ },
+ {
+  "test": "history: password assignment",
+  "ok": true,
+  "evidence": "0 lines match (test and example values set aside)"
+ },
+ {
+  "test": "no private file is tracked (secrets, password file, tunnel address, logs, contributions, virtual environment)",
+  "ok": true,
+  "evidence": "68 tracked files checked"
+ },
+ {
+  "test": ".gitignore names every private path",
+  "ok": true,
+  "evidence": "secrets, password file, tunnel address, contributions, logs, virtual environment, cache"
+ },
+ {
+  "test": "git itself confirms the two password files are ignored",
+  "ok": true,
+  "evidence": "git check-ignore"
+ },
+ {
+  "test": "the container runs as an ordinary user, and .dockerignore keeps the password files out of the image",
+  "ok": true,
+  "evidence": "USER line in the Dockerfile; .dockerignore lists the secrets"
+ },
+ {
+  "test": "every dependency is pinned to an exact version",
+  "ok": true,
+  "evidence": "requirements.txt and requirements-mac.txt"
+ }
+]

@@ -1,0 +1,27 @@
+{
+ "machine": {
+  "platform": "linux",
+  "cpus": 4
+ },
+ "runs": [
+  {
+   "at_once": 2,
+   "seconds": 15.2,
+   "errors": [],
+   "different_from_serial": 0,
+   "h1_gain_points": [
+    85.57,
+    85.57
+   ],
+   "h1_serial_points": 85.57,
+   "peak_mb": 485
+  }
+ ],
+ "serial": {
+  "seconds": 7.8,
+  "identical_when_repeated": true,
+  "h1_gain": 0.8557444769084318,
+  "peak_mb_after_two_serial_runs": 457,
+  "mb_before": 351
+ }
+}

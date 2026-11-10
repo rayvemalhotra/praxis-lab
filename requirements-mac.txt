@@ -1,6 +1,12 @@
-streamlit==1.50.0
-pandas>=2.2,<3
-numpy>=1.26,<3
-scikit-learn>=1.5,<2
-torch>=2.3
-pyarrow>=15
+# Exact versions for macOS arm64, Python 3.12 (10 November 2026). The same packages as requirements.txt, except PyTorch: the Mac pin below is a
+# different PyTorch release from the Linux CPU pin in requirements.txt. Scorecards computed on the two differ in the decimals for that reason
+# (measured on the built-in example, 10 November 2026: 18 of 290 values, all tracing numbers; every decision the same).
+# After changing this file, update the install before a release:  .venv/bin/pip install -r requirements-mac.txt
+# (sh share.sh release refuses while the installed Streamlit differs from the version pinned here).
+streamlit==1.67.0
+pillow==13.0.0
+pandas==2.3.3
+numpy==2.5.4
+scikit-learn==1.9.1
+torch==2.15.0
+pyarrow==26.0.1

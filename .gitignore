@@ -13,3 +13,8 @@ ACCESS_PASSWORD.txt
 screenshots/
 contributions/
 *.fingerprint.json
+.live/
+qa/_*
+assets/praxis_lab_logo.svg
+.live_next/
+qa/AUDIT_RESPONSE.md

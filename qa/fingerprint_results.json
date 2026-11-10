@@ -1,0 +1,237 @@
+[
+ {
+  "test": "agent on sample_organization_hospital_SYNTHETIC.csv: fingerprint written and its digest verifies",
+  "ok": true,
+  "evidence": "6 attack types, 19 behavior numbers, 38 KB on disk"
+ },
+ {
+  "test": "fingerprint of sample_organization_hospital_SYNTHETIC.csv: no identifier value of the source file",
+  "ok": true,
+  "evidence": "25,654 distinct identifier values from 8 columns searched in the file; found: none"
+ },
+ {
+  "test": "fingerprint of sample_organization_hospital_SYNTHETIC.csv: how often the lowest or highest stored quantile equals the true smallest or largest value",
+  "ok": null,
+  "evidence": "of 114 attack-type and number pairs, the 1% quantile equals the smallest value in 32 (28%) and the 99% quantile equals the largest in 9 (8%)"
+ },
+ {
+  "test": "agent on sample_organization_manufacturing_plant_SYNTHETIC.csv: fingerprint written and its digest verifies",
+  "ok": true,
+  "evidence": "8 attack types, 19 behavior numbers, 51 KB on disk"
+ },
+ {
+  "test": "fingerprint of sample_organization_manufacturing_plant_SYNTHETIC.csv: no identifier value of the source file",
+  "ok": true,
+  "evidence": "6,705 distinct identifier values from 7 columns searched in the file; found: none"
+ },
+ {
+  "test": "fingerprint of sample_organization_manufacturing_plant_SYNTHETIC.csv: how often the lowest or highest stored quantile equals the true smallest or largest value",
+  "ok": null,
+  "evidence": "of 152 attack-type and number pairs, the 1% quantile equals the smallest value in 36 (24%) and the 99% quantile equals the largest in 25 (16%)"
+ },
+ {
+  "test": "agent on sample_organization_water_utility_SYNTHETIC.csv: fingerprint written and its digest verifies",
+  "ok": true,
+  "evidence": "7 attack types, 19 behavior numbers, 45 KB on disk"
+ },
+ {
+  "test": "fingerprint of sample_organization_water_utility_SYNTHETIC.csv: no identifier value of the source file",
+  "ok": true,
+  "evidence": "28,785 distinct identifier values from 8 columns searched in the file; found: none"
+ },
+ {
+  "test": "fingerprint of sample_organization_water_utility_SYNTHETIC.csv: how often the lowest or highest stored quantile equals the true smallest or largest value",
+  "ok": null,
+  "evidence": "of 133 attack-type and number pairs, the 1% quantile equals the smallest value in 42 (32%) and the 99% quantile equals the largest in 18 (14%)"
+ },
+ {
+  "test": "agent on sample_power_grid_dnp3_REAL_CC-BY-4.0.csv: fingerprint written and its digest verifies",
+  "ok": true,
+  "evidence": "10 attack types, 65 behavior numbers, 280 KB on disk"
+ },
+ {
+  "test": "fingerprint of sample_power_grid_dnp3_REAL_CC-BY-4.0.csv: no identifier value of the source file",
+  "ok": true,
+  "evidence": "8,619 distinct identifier values from 4 columns searched in the file; found: none"
+ },
+ {
+  "test": "fingerprint of sample_power_grid_dnp3_REAL_CC-BY-4.0.csv: how often the lowest or highest stored quantile equals the true smallest or largest value",
+  "ok": null,
+  "evidence": "of 650 attack-type and number pairs, the 1% quantile equals the smallest value in 394 (61%) and the 99% quantile equals the largest in 351 (54%)"
+ },
+ {
+  "test": "hostile fingerprint: not JSON (random bytes)",
+  "ok": true,
+  "evidence": "before: TRACEBACK UnicodeDecodeError | now: refused: the file is not a fingerprint (it is not UTF-8 text)"
+ },
+ {
+  "test": "hostile fingerprint: not JSON (a CSV file)",
+  "ok": true,
+  "evidence": "before: TRACEBACK JSONDecodeError | now: refused: the file is not a fingerprint (it is not JSON, or it holds values that are not numbers)"
+ },
+ {
+  "test": "hostile fingerprint: JSON list instead of an object",
+  "ok": true,
+  "evidence": "before: TRACEBACK AttributeError | now: refused: the file is not a valid fingerprint: it is not a JSON object"
+ },
+ {
+  "test": "hostile fingerprint: JSON string",
+  "ok": true,
+  "evidence": "before: TRACEBACK AttributeError | now: refused: the file is not a valid fingerprint: it is not a JSON object"
+ },
+ {
+  "test": "hostile fingerprint: empty file",
+  "ok": true,
+  "evidence": "before: TRACEBACK JSONDecodeError | now: refused: the file is not a fingerprint (it is not JSON, or it holds values that are not numbers)"
+ },
+ {
+  "test": "hostile fingerprint: wrong format name",
+  "ok": true,
+  "evidence": "before: refused: not a fingerprint | now: refused: the file is not a valid fingerprint: its format field is not a ThreatPrint fingerprint"
+ },
+ {
+  "test": "hostile fingerprint: format only, every other key missing",
+  "ok": true,
+  "evidence": "before: shown | now: refused: the file is not a valid fingerprint: version"
+ },
+ {
+  "test": "hostile fingerprint: classes is a list",
+  "ok": true,
+  "evidence": "before: TRACEBACK AttributeError | now: refused: the file is not a valid fingerprint: classes"
+ },
+ {
+  "test": "hostile fingerprint: classes missing",
+  "ok": true,
+  "evidence": "before: shown | now: refused: the file is not a valid fingerprint: classes"
+ },
+ {
+  "test": "hostile fingerprint: features is a number",
+  "ok": true,
+  "evidence": "before: TRACEBACK TypeError | now: refused: the file is not a valid fingerprint: features"
+ },
+ {
+  "test": "hostile fingerprint: records is a string",
+  "ok": true,
+  "evidence": "before: TRACEBACK ValueError | now: refused: the file is not a valid fingerprint: attack type 'ransomware_smb': records"
+ },
+ {
+  "test": "hostile fingerprint: records is 10**400",
+  "ok": true,
+  "evidence": "before: shown | now: refused: the file is not a valid fingerprint: normal.records"
+ },
+ {
+  "test": "hostile fingerprint: NaN among the quantiles",
+  "ok": true,
+  "evidence": "before: shown | now: refused: the file is not a fingerprint (it is not JSON, or it holds values that are not numbers)"
+ },
+ {
+  "test": "hostile fingerprint: Infinity as payload size",
+  "ok": true,
+  "evidence": "before: shown | now: refused: the file is not a fingerprint (it is not JSON, or it holds values that are not numbers)"
+ },
+ {
+  "test": "hostile fingerprint: image tag as removed_columns_count (ui.stats puts its values into the page unescaped)",
+  "ok": true,
+  "evidence": "before: shown (markup from the file put into the page unescaped) | now: refused: the file is not a valid fingerprint: removed_columns_count or payload_bytes"
+ },
+ {
+  "test": "hostile fingerprint: script tag as payload_bytes",
+  "ok": true,
+  "evidence": "before: TRACEBACK TypeError | now: refused: the file is not a valid fingerprint: removed_columns_count or payload_bytes"
+ },
+ {
+  "test": "hostile fingerprint: script tag as a technique name",
+  "ok": true,
+  "evidence": "before: shown | now: refused: the file is not a valid fingerprint: attack type 'ransomware_smb': techniques"
+ },
+ {
+  "test": "hostile fingerprint: normal.records is a list",
+  "ok": true,
+  "evidence": "before: TRACEBACK TypeError | now: refused: the file is not a valid fingerprint: normal.records"
+ },
+ {
+  "test": "hostile fingerprint: hosts is a dict",
+  "ok": true,
+  "evidence": "before: TRACEBACK TypeError | now: refused: the file is not a valid fingerprint: hosts"
+ },
+ {
+  "test": "hostile fingerprint: integrity missing",
+  "ok": true,
+  "evidence": "before: shown | now: refused: the file is not a valid fingerprint: integrity"
+ },
+ {
+  "test": "hostile fingerprint: integrity.digest is a path (../../../etc/passwd)",
+  "ok": true,
+  "evidence": "before: shown | now: refused: the file is not a valid fingerprint: integrity"
+ },
+ {
+  "test": "hostile fingerprint: integrity.digest is a number",
+  "ok": true,
+  "evidence": "before: shown | now: refused: the file is not a valid fingerprint: integrity"
+ },
+ {
+  "test": "hostile fingerprint: quantiles of the wrong shape",
+  "ok": true,
+  "evidence": "before: shown | now: refused: the file is not a valid fingerprint: attack type 'ransomware_smb': quantiles"
+ },
+ {
+  "test": "hostile fingerprint: 100,000 features",
+  "ok": true,
+  "evidence": "before: shown | now: refused: the file is not a valid fingerprint: features"
+ },
+ {
+  "test": "hostile fingerprint: deeply nested JSON (100,000 levels)",
+  "ok": true,
+  "evidence": "before: TRACEBACK RecursionError | now: refused: the file is not a fingerprint (it is nested too deeply)"
+ },
+ {
+  "test": "hostile fingerprint: 50 MB of JSON",
+  "ok": true,
+  "evidence": "before: shown | now: refused: a fingerprint is a small file (tens of kilobytes); this file is 50.0 MB and was not read"
+ },
+ {
+  "test": "hostile fingerprints, total",
+  "ok": true,
+  "evidence": "26 files; before the check 13 ended in a traceback or put markup from the file into the page; now 0 do"
+ },
+ {
+  "test": "tampered fingerprint (one count changed): well-formed, and the digest check refuses it",
+  "ok": true,
+  "evidence": "verify = False"
+ },
+ {
+  "test": "the genuine fingerprint still loads and verifies; a file of the old format name is still read",
+  "ok": true,
+  "evidence": "load_fingerprint + verify on the agent's own output"
+ },
+ {
+  "test": "contribute, as the page did it: the file name came from the uploaded digest field",
+  "ok": null,
+  "evidence": "a digest of '../../../../tmp/tp_pwned' gives the file name '../../../../tmp/.json', which resolves to /tmp/.json (outside the folder: True); only the disabled state of a button stood in the way"
+ },
+ {
+  "test": "engine.save_contribution refuses a fingerprint whose digest is a path",
+  "ok": true,
+  "evidence": "refused: the file is not a valid fingerprint: integrity"
+ },
+ {
+  "test": "engine.save_contribution names the file from the digest it computes itself",
+  "ok": true,
+  "evidence": "file 2f3b78a5361c8d10.json"
+ },
+ {
+  "test": "contributions have an upper limit (here 5 files): a flood cannot fill the disk",
+  "ok": true,
+  "evidence": "8 more contributions sent: 4 kept, 4 refused, 5 files in the folder"
+ },
+ {
+  "test": "agent command line on 8 hostile inputs: one line for the person, no traceback, no dead process",
+  "ok": true,
+  "evidence": "empty file, binary file, no label, a PDF, the cell that ends pandas, a missing file, a wrong --label, --verify on a binary file"
+ },
+ {
+  "test": "the agent file has no network code and starts no other program",
+  "ok": true,
+  "evidence": "none of: socket, urllib, requests, http, ftplib, smtplib, subprocess"
+ }
+]

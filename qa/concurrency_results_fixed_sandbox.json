@@ -1,0 +1,43 @@
+{
+ "machine": {
+  "platform": "linux",
+  "cpus": 4
+ },
+ "runs": [
+  {
+   "at_once": 2,
+   "seconds": 15.0,
+   "errors": [],
+   "different_from_serial": 0,
+   "h1_gain_points": [
+    85.57,
+    85.57
+   ],
+   "h1_serial_points": 85.57,
+   "peak_mb": 478
+  },
+  {
+   "at_once": 6,
+   "seconds": 45.8,
+   "errors": [],
+   "different_from_serial": 0,
+   "h1_gain_points": [
+    85.57,
+    85.57,
+    85.57,
+    85.57,
+    85.57,
+    85.57
+   ],
+   "h1_serial_points": 85.57,
+   "peak_mb": 524
+  }
+ ],
+ "serial": {
+  "seconds": 7.3,
+  "identical_when_repeated": true,
+  "h1_gain": 0.8557444769084318,
+  "peak_mb_after_two_serial_runs": 456,
+  "mb_before": 347
+ }
+}
