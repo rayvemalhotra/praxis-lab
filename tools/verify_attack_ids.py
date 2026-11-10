@@ -1,4 +1,4 @@
-"""Check every MITRE ATT&CK identifier and name used in praxis_agent.py against MITRE's published STIX data.
+"""Check every MITRE ATT&CK identifier and name used in threatprint_agent.py against MITRE's published STIX data.
 
     python tools/verify_attack_ids.py ENTERPRISE.json ICS.json
 
@@ -9,7 +9,7 @@ import os
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-import praxis_agent as agent
+import threatprint_agent as agent
 
 
 def load(path):

@@ -19,7 +19,7 @@ from playwright.sync_api import sync_playwright
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = sys.argv[1] if len(sys.argv) > 1 else "/tmp/rendered.md"
-PAGES = sys.argv[2].split(",") if len(sys.argv) > 2 else ["", "results", "definitions", "evaluate", "sanitize", "students"]
+PAGES = sys.argv[2].split(",") if len(sys.argv) > 2 else ["", "results", "evaluate", "sanitize", "agent", "research", "organizations", "definitions", "students"]
 RANGE = [int(x) for x in sys.argv[3].split("-")] if len(sys.argv) > 3 else None
 PY = os.environ.get("PRAXIS_PY", sys.executable)
 PORT = 8766
@@ -42,10 +42,10 @@ def open_expanders(pg):
             pass
 
 
-GATE_PW = os.environ.get("PRAXIS_LAB_PASSWORD") or "render-check"
+GATE_PW = os.environ.get("TP_PASSWORD") or "render-check"
 srv = None
 if not healthy():
-    env = dict(os.environ, PRAXIS_LAB_PASSWORD=GATE_PW)
+    env = dict(os.environ, TP_PASSWORD=GATE_PW)
     srv = subprocess.Popen([os.path.join(os.path.dirname(PY), "streamlit"), "run", "app.py", "--server.port", str(PORT), "--server.address", "127.0.0.1"],
                            cwd=ROOT, stdout=open("/tmp/st2.log", "w"), stderr=subprocess.STDOUT, env=env)
     for _ in range(40):
@@ -90,7 +90,7 @@ try:
                 open_expanders(pg)
                 out.append(f"\n\n## page {path or 'start'}\n\n" + pg.locator("[data-testid='stMain']").inner_text())
         b.close()
-    open(OUT, "w").write("# Praxis Lab rendered pages\n" + "".join(out))
+    open(OUT, "w").write("# ThreatPrint rendered pages\n" + "".join(out))
     print("wrote", OUT)
 finally:
     if srv is not None:

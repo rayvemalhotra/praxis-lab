@@ -1,4 +1,4 @@
-"""Praxis Lab engine: the praxis study procedure as a library, for any labeled intrusion dataset.
+"""ThreatPrint engine: the praxis study procedure as a library, for any labeled intrusion dataset.
 
 This is Rayve Malhotra's praxis code (praxis-rayve/system.py, frozen protocol rev 7 and rev 8) with three changes
 so that a web tool can drive it: it takes a DataFrame or a settings dict instead of files in a fixed folder, every
@@ -54,7 +54,7 @@ FP_LIMIT = 0.01                                         # decision rule: false-p
 TRACE_MAX = 15000
 TRACE_MAX_HOSTS, TRACE_TOP_HOSTS = 200, 50                  # tracing with more hosts than this covers the busiest 50 only
 EVENT_GAP_S, EVENT_MAX_S, EVENT_MAX_ROWS = 15, 300, 200
-from praxis_agent import IDENT_RX  # noqa: E402  (one definition, shared with the local agent)
+from threatprint_agent import IDENT_RX  # noqa: E402  (one definition, shared with the local agent)
 
 
 @dataclass
@@ -689,9 +689,9 @@ def verdicts(card):
 
 
 # ================= helpers for the web tool =================
-# Column-role guessing and sanitizing live in praxis_agent.py (the local agent, no torch), so that the web tool and the
+# Column-role guessing and sanitizing live in threatprint_agent.py (the local agent, no torch), so that the web tool and the
 # agent an organization runs on its own machine apply exactly the same rules.
-from praxis_agent import (LABEL_NAME_RX, STRICT_LABEL_RX, NORMAL_RX, HOST_RX, TIME_RX, KEEP_HINT_RX, IDENT_NAME_RX,  # noqa: E402,F401
+from threatprint_agent import (LABEL_NAME_RX, STRICT_LABEL_RX, NORMAL_RX, HOST_RX, TIME_RX, KEEP_HINT_RX, IDENT_NAME_RX,  # noqa: E402,F401
                           inspect, sanitize)
 
 

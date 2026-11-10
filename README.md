@@ -1,16 +1,16 @@
 ---
-title: Praxis Lab
-colorFrom: blue
-colorTo: gray
+title: ThreatPrint
+colorFrom: green
+colorTo: indigo
 sdk: streamlit
 sdk_version: 1.50.0
 app_file: app.py
 pinned: false
 ---
 
-# Praxis Lab
+# ThreatPrint
 
-Does sharing help, and what does it expose? A web tool that runs a privacy-aware evaluation of collaborative intrusion detection on any labeled intrusion dataset: upload a table, confirm which columns are identifiers, and the tool makes three organizations, withholds one attack type from each, trains one detector per organization under four training conditions (isolated training, sanitized attack-record sharing, federated learning, centralized training), tests on the withheld attack type and reports the gains with 95% ranges, the false-positive rates, the data sent, and whether the sanitized records can be traced back to their source host.
+Know what sharing buys. Know what it exposes. A web product that runs a privacy-aware evaluation of collaborative intrusion detection on any labeled intrusion dataset: upload a table, confirm which columns are identifiers, and the tool makes three organizations, withholds one attack type from each, trains one detector per organization under four training conditions (isolated training, sanitized attack-record sharing, federated learning, centralized training), tests on the withheld attack type and reports the gains with 95% ranges, the false-positive rates, the data sent, and whether the sanitized records can be traced back to their source host.
 
 The procedure is the frozen protocol of a George Washington University Doctor of Engineering praxis by Rayve Malhotra: *Privacy-Aware Evaluation of Sanitized Attack-Record Sharing and Federated Learning for Intrusion Detection on Industrial Network Data*. The engine (`engine.py`) is the praxis code (`system.py`) as a library; the study logic is unchanged.
 
@@ -30,9 +30,11 @@ Then open http://localhost:8501.
 
 | File | What |
 |---|---|
-| `app.py` | the web tool: Start here, Results on the datasets, Evaluate your own data, Sanitize a file, Definitions, For students, Local agent and fingerprint, The research, For organizations |
+| `app.py` | the web product: Overview, Results, Evaluate, Sanitize, Agent, Research, Organizations, Glossary, Students |
+| `ui.py` | the design system: colors, type, cards, badges and the charts (bars, forest plot, heat map, diagrams) drawn as inline SVG, no chart library |
+| `static/` | the two typefaces served with the app (Inter and JetBrains Mono, SIL Open Font License; the licence texts are in the folder), so that no page calls a third-party server |
 | `engine.py` | the five-step procedure as a library: `engine.run(settings, frame=DataFrame, budget=engine.QUICK or engine.PROTOCOL)` returns the scorecard; `engine.inspect(df)` guesses column roles; `engine.sanitize(...)` returns what a peer would receive |
-| `praxis_agent.py` | the local agent, one readable file with no network code (pandas and numpy only): an organization runs it on its own machine; it guesses column roles, sanitizes, maps attack labels to common families and MITRE ATT&CK v20.1, and writes a fingerprint (summary statistics per attack type, no records) with a SHA3-256 integrity digest. Also the single definition of the column rules the web tool uses |
+| `threatprint_agent.py` | the local agent, one readable file with no network code (pandas and numpy only): an organization runs it on its own machine; it guesses column roles, sanitizes, maps attack labels to common families and MITRE ATT&CK v20.1, and writes a fingerprint (summary statistics per attack type, no records) with a SHA3-256 integrity digest. Also the single definition of the column rules the web tool uses |
 | `fp_experiment.py` | fingerprint sharing as an experimental fifth arm (not a praxis training condition): the receiver trains on its own records plus made-up records drawn from its peers' fingerprints; `tools/run_fingerprint.py` runs it on every dataset |
 | `samples/` | two files to try the tool with: a synthetic water utility (made by `tools/make_sample_org.py`) and a sample of real power-grid DNP3 flows (CC BY 4.0, see `samples/README.md`) |
 | `tools/verify_attack_ids.py` | checks every MITRE ATT&CK identifier and name used by the agent against MITRE's published STIX data |
@@ -45,7 +47,7 @@ Then open http://localhost:8501.
 | `tests/screenshots.py` | opens every page in a headless browser and saves screenshots (needs Playwright) |
 | `tests/rebuild_cards.py` | rebuilds `results/*.json` from the cached training runs of `system.py` (praxis folders, read only) |
 | `Dockerfile` | the same tool in a container, port 7860 |
-| `.streamlit/config.toml` | upload limit 200 MB, usage statistics off, minimal toolbar |
+| `.streamlit/config.toml` | upload limit 200 MB, usage statistics off, minimal toolbar, the theme and the self-hosted typefaces |
 | `share.sh` | runs the app with a password on a temporary public https link from one computer (Cloudflare quick tunnel) |
 
 ## Using the engine without the web page
@@ -65,18 +67,18 @@ Budgets: `QUICK` (one seed, 24 passes, 400 resamples, 40,000 records at most) sh
 ## The local agent and the fingerprint
 
 ```
-python praxis_agent.py my_records.csv                      # writes my_records.fingerprint.json; nothing is sent anywhere
-python praxis_agent.py my_records.csv --sanitized out.csv  # also writes the sanitized attack records
-python praxis_agent.py --verify my_records.fingerprint.json
+python threatprint_agent.py my_records.csv                      # writes my_records.fingerprint.json; nothing is sent anywhere
+python threatprint_agent.py my_records.csv --sanitized out.csv  # also writes the sanitized attack records
+python threatprint_agent.py --verify my_records.fingerprint.json
 ```
 
-For every attack type with at least 50 records the fingerprint stores the record count rounded down to the nearest ten, 41 quantiles (1% to 99%) of every behavior number and the rank correlations between them. It stores no rows, no identifier columns and no minimum or maximum values. It is a summary, not a formal privacy protection; what a fingerprint reveals about its sender has not been measured. The page Local agent and fingerprint in the web tool checks the digest of an uploaded fingerprint, shows the MITRE ATT&CK coverage, compares it with the library and reports whether the full evaluation can run on the data behind it. The signature field is reserved for a post-quantum signature (ML-DSA, FIPS 204); signing is designed, not built.
+For every attack type with at least 50 records the fingerprint stores the record count rounded down to the nearest ten, 41 quantiles (1% to 99%) of every behavior number and the rank correlations between them. It stores no rows, no identifier columns and no minimum or maximum values. It is a summary, not a formal privacy protection; what a fingerprint reveals about its sender has not been measured. The Agent page of the web product checks the digest of an uploaded fingerprint, shows the MITRE ATT&CK coverage, compares it with the library and reports whether the full evaluation can run on the data behind it. The signature field is reserved for a post-quantum signature (ML-DSA, FIPS 204); signing is designed, not built.
 
 Fingerprint sharing (train on made-up records drawn from peers' fingerprints) is an experiment of this tool. It is not one of the four training conditions of the praxis, and its results are shown apart from them.
 
 ## Access password
 
-With no password set, the tool is open (a local install). To ask visitors for a shared password, set the environment variable `PRAXIS_LAB_PASSWORD`
+With no password set, the tool is open (a local install). To ask visitors for a shared password, set the environment variable `TP_PASSWORD`
 (on Streamlit Community Cloud or a Hugging Face Space: a secret with that name), or put `[access]` / `password = "..."` in `.streamlit/secrets.toml`
 (never committed). A wrong try is slowed down; a right one is remembered in the browser for a day.
 
@@ -85,7 +87,7 @@ With no password set, the tool is open (a local install). To ask visitors for a 
 The repository is ready for Streamlit Community Cloud (deploy `app.py` from the GitHub repository; 1 GB of memory, so prefer the quick look there)
 or a Hugging Face Space (Streamlit SDK; the front matter at the top of this file is read by the Space; 16 GB of memory, protocol runs are fine).
 A protocol run on a large upload can take tens of minutes on a free host; the quick look takes about a minute. Any machine with Docker:
-`docker build -t praxis-lab . && docker run -p 7860:7860 praxis-lab`. Tests run on every push (`.github/workflows/tests.yml`).
+`docker build -t threatprint . && docker run -p 7860:7860 threatprint`. Tests run on every push (`.github/workflows/tests.yml`).
 
 ## Adding a dataset
 

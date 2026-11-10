@@ -23,7 +23,7 @@ for f in sorted(glob.glob(os.path.join(DS, "settings", "*.json"))):
 - Host column: {i.get('host', '')}; label column: `{s['label_col']}`; normal value: `{s['benign_label']}`
 - Licence and use: {i.get('licence', 'cite the makers; analysis use')}
 """)
-head = """# Datasets used by Praxis Lab
+head = """# Datasets used by ThreatPrint
 
 Working samples (at most 120,000 records, sampled by label so that rare attack types survive) made with `Praxis_Lab/tools/sample_dataset.py`
 from the makers' files. Each has a settings file in `settings/` (label column, normal value, host column, time column, columns removed before

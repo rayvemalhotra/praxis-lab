@@ -1,5 +1,5 @@
 #!/bin/sh
-# Put Praxis Lab on a public https link with a password (Cloudflare quick tunnel, no account needed).
+# Put ThreatPrint on a public https link with a password (Cloudflare quick tunnel, no account needed).
 # The link works only while this Mac is on and this script's processes are running.
 #   sh share.sh            start the app with the password and open the link (prints the link; password is in .streamlit/secrets.toml)
 #   sh share.sh stop       stop the app and the tunnel
@@ -37,7 +37,7 @@ done
 [ -z "$URL" ] && { echo "no link yet; see tunnel.log"; exit 1; }
 echo "$URL" > tunnel.url
 echo ""
-echo "Praxis Lab link:   $URL"
+echo "ThreatPrint link:  $URL"
 echo "Password:          in $SECRETS (open it to read or change it; restart with sh share.sh after a change)"
 echo "Local address:     http://127.0.0.1:8501"
 echo ""

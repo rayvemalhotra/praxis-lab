@@ -2,13 +2,33 @@
 headless = true
 maxUploadSize = 200
 enableXsrfProtection = true
+enableStaticServing = true
 
 [browser]
 gatherUsageStats = false
 
-[theme]
-base = "light"
-primaryColor = "#1f4e79"
-
 [client]
 toolbarMode = "minimal"
+
+[theme]
+base = "light"
+primaryColor = "#0d9488"
+backgroundColor = "#f6f8fc"
+secondaryBackgroundColor = "#eef2f8"
+textColor = "#0b1530"
+font = "Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif"
+headingFont = "Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif"
+codeFont = "'JetBrains Mono', ui-monospace, Menlo, monospace"
+baseRadius = "10px"
+
+[[theme.fontFaces]]
+family = "Inter"
+url = "app/static/inter-latin-wght-normal.woff2"
+weight = "100 900"
+style = "normal"
+
+[[theme.fontFaces]]
+family = "JetBrains Mono"
+url = "app/static/jetbrains-mono-latin-wght-normal.woff2"
+weight = "100 800"
+style = "normal"

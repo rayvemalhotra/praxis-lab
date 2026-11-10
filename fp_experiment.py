@@ -1,7 +1,7 @@
-"""Fingerprint sharing: an EXPERIMENTAL arm of Praxis Lab. It is not one of the four training conditions of the praxis.
+"""Fingerprint sharing: an EXPERIMENTAL arm of ThreatPrint. It is not one of the four training conditions of the praxis.
 
 Idea: instead of sanitized attack records (records travel) or model weights (federated learning), each organization
-sends a statistical fingerprint of each of its attack types (praxis_agent.class_fingerprints: quantiles and rank
+sends a statistical fingerprint of each of its attack types (threatprint_agent.class_fingerprints: quantiles and rank
 correlations, groups of at least K records). The receiver draws made-up records from its peers' fingerprints, adds
 them to its own records and trains the same detector with the same training budget and the same alarm rule.
 
@@ -17,7 +17,7 @@ import torch
 from sklearn.preprocessing import StandardScaler
 
 import engine
-import praxis_agent as agent
+import threatprint_agent as agent
 from engine import ORG, BATCH, MIN_GAIN, FP_LIMIT, Detector
 
 

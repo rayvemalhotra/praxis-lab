@@ -1,6 +1,7 @@
-"""Headless tests of the web tool and the engine.   python -m pytest tests -q"""
+"""Headless tests of ThreatPrint (the web product, the engine, the local agent).   python -m pytest tests -q"""
 import json
 import os
+import re
 import sys
 
 import pandas as pd
@@ -14,6 +15,9 @@ import engine  # noqa: E402
 
 APP = os.path.join(ROOT, "app.py")
 BANNED = ["first", "proven", "anonymized", "anonymous", "guarantee", "no leakage", "removes the risk"]
+PAGES = ["start", "results", "evaluate", "sanitize", "agent", "research", "organizations", "definitions", "students"]
+for _k in ("PRAXIS_LAB_PAGE", "PRAXIS_LAB_PASSWORD", "PRAXIS_LAB_OPEN", "TP_OPEN"):
+    os.environ.pop(_k, None)
 
 
 TEST_PW = "test-password-for-the-suite"
@@ -21,8 +25,8 @@ TEST_PW = "test-password-for-the-suite"
 
 def run_page(page, timeout=600):
     """Open one page; pass the access gate with a known password (the environment variable wins over secrets.toml)."""
-    os.environ["PRAXIS_LAB_PAGE"] = page
-    os.environ["PRAXIS_LAB_PASSWORD"] = TEST_PW
+    os.environ["TP_PAGE"] = page
+    os.environ["TP_PASSWORD"] = TEST_PW
     at = AppTest.from_file(APP, default_timeout=timeout)
     at.run()
     if at.text_input(key="_access_input") if any(x.key == "_access_input" for x in at.text_input) else None:
@@ -73,10 +77,7 @@ def test_start_page():
     assert not at.exception
     t = all_text(at)
     assert "withheld attack type" in t and "isolated training" in t and "centralized training" in t
-    low = t.lower()
-    for w in BANNED:
-        assert w not in low.split("first rows")[0] or w != "first", w
-    assert "—" not in t                                   # no em dashes
+    assert "Know what sharing buys" in t and "ThreatPrint" in t
 
 
 def test_results_page_shows_every_dataset():
@@ -91,7 +92,25 @@ def test_results_page_shows_every_dataset():
 def test_definitions_page():
     at = run_page("definitions")
     assert not at.exception
-    assert len(at.dataframe) == 1
+    t = all_text(at)
+    assert "Attack-class recall" in t and "Withheld attack type" in t and "Decision rule" in t
+    at.text_input(key="gl_q").set_value("tracing").run()            # the search narrows the glossary
+    t = all_text(at)
+    assert "Tracing (H3)" in t and "Attack-class recall" not in t
+
+
+def test_every_page_is_branded_and_clean():
+    """Every page opens, carries the product name, never the working name, no em dash and none of the banned words."""
+    for page in PAGES:
+        at = run_page(page)
+        assert not at.exception, (page, [str(e.value)[:300] for e in at.exception])
+        t = all_text(at)
+        assert "ThreatPrint" in t, page
+        assert "Praxis Lab" not in t, page
+        assert "\u2014" not in t, page
+        low = re.sub(r"<[^>]+>", " ", t).lower()
+        for w in BANNED:
+            assert not re.search(r"\b" + re.escape(w) + r"\b", low), (page, w)
 
 
 def test_evaluate_page_runs_example_end_to_end():
@@ -124,36 +143,38 @@ def test_sanitize_page_waits_for_file():
 
 
 def test_ui_text_has_no_em_dash_or_banned_words():
-    """Only the text shown to people is checked: every string literal in app.py."""
+    """Only the text shown to people is checked: every string literal in app.py and ui.py."""
     import ast
-    tree = ast.parse(open(APP, encoding="utf-8").read())
-    texts = [n.value for n in ast.walk(tree) if isinstance(n, ast.Constant) and isinstance(n.value, str)]
+    texts = []
+    for f in (APP, os.path.join(ROOT, "ui.py")):
+        tree = ast.parse(open(f, encoding="utf-8").read())
+        texts += [n.value for n in ast.walk(tree) if isinstance(n, ast.Constant) and isinstance(n.value, str)]
     low = "\n".join(texts).lower()
     assert "\u2014" not in low
     for w in ("anonymized", "anonymous", "guarantee", "no leakage", "removes the risk", "proven"):
         assert w not in low, w
-    for w in ("roads", "road 1", "road 2", "working alone", "(alone)", "unseen", "never seen", "never-seen"):
+    for w in ("roads", "road 1", "road 2", "working alone", "(alone)", "unseen", "never seen", "never-seen", "praxis lab"):
         assert w not in low, w
 
 
 def test_password_gate_blocks_and_admits():
-    os.environ["PRAXIS_LAB_PASSWORD"] = "test-password-123"
+    os.environ["TP_PASSWORD"] = "test-password-123"
     try:
-        os.environ["PRAXIS_LAB_PAGE"] = "definitions"
+        os.environ["TP_PAGE"] = "definitions"
         at = AppTest.from_file(APP, default_timeout=120)
         at.run()
         assert not at.exception
-        assert not at.exception
         assert "access password" in all_text(at).lower()
-        assert len(at.dataframe) == 0                      # the definitions table is not shown before the password
+        assert "Attack-class recall" not in all_text(at)   # the glossary is not shown before the password
         at.text_input(key="_access_input").set_value("wrong")
         at.button[0].click().run()
         assert "did not match" in all_text(at)
+        assert "Attack-class recall" not in all_text(at)
         at.text_input(key="_access_input").set_value("test-password-123")
         at.button[0].click().run()
-        assert len(at.dataframe) == 1                      # admitted: the definitions table is there
+        assert "Attack-class recall" in all_text(at)       # admitted: the glossary is there
     finally:
-        os.environ.pop("PRAXIS_LAB_PASSWORD", None)
+        os.environ["TP_PASSWORD"] = TEST_PW
 
 
 def test_research_and_organizations_pages():
@@ -168,7 +189,7 @@ def test_research_and_organizations_pages():
 
 def test_agent_classify_and_fingerprint_roundtrip(tmp_path):
     import numpy as np
-    import praxis_agent as agent
+    import threatprint_agent as agent
     assert agent.classify("DDoS_UDP")["family"] == "Distributed denial of service"
     assert agent.classify("ARP_poisioning")["techniques"][0]["id"] == "T1557.002"
     assert agent.classify("COLD_RESTART")["techniques"][0]["id"] == "T0816"
@@ -176,7 +197,9 @@ def test_agent_classify_and_fingerprint_roundtrip(tmp_path):
     df = engine.example_data()
     roles = agent.inspect(df)
     fp = agent.build_fingerprint(df, roles["label_col"], roles["benign_label"], roles["numbers"], source_col=roles["source_col"], time_col=roles["time_col"])
-    assert agent.verify(fp) and len(fp["classes"]) == 6
+    assert agent.verify(fp) and len(fp["classes"]) == 6 and fp["format"] == "threatprint-fingerprint"
+    old = dict(fp, format="praxis-lab-fingerprint")                  # files written before the rename are still read
+    assert old["format"] in agent.FORMATS
     text = json.dumps(fp)
     assert "10.0." not in text and "192.168." not in text            # no addresses from the example table
     c = next(iter(fp["classes"].values()))
@@ -196,10 +219,28 @@ def test_agent_page_and_samples():
         assert os.path.exists(os.path.join(ROOT, "samples", f))
 
 
+def test_scorecard_shows_all_four_conditions_and_labels_the_experiment():
+    # keep the two tests that import the app last: importing it as a module runs it outside a Streamlit session
+    os.environ["TP_OPEN"] = "1"
+    import app as _app  # noqa
+    cards = _app.load_cards()
+    assert len(cards) >= 25
+    for c in cards:
+        for o in engine.ORG:
+            panel = _app.org_panel(c, o)
+            for name in _app.SHORT.values():
+                assert name in panel, (c["name"], o, name)
+            if _app.exp_of(c):
+                assert "Fingerprint sharing (experimental)" in panel
+            tbl = _app.org_table(c, o)
+            assert list(tbl["Training condition"][:4]) == list(_app.SHORT.values())
+
+
 def test_report_html_is_self_contained():
-    # keep this test last: importing the app as a module runs it outside a Streamlit session
     import glob as _g
+    os.environ["TP_OPEN"] = "1"
     import app as _app  # noqa
     cards = [json.load(open(f)) for f in sorted(_g.glob(os.path.join(ROOT, "results", "*.json"))) if not os.path.basename(f).startswith("_")]
-    html = _app.report_html(cards[0]) if hasattr(_app, "report_html") else ""
+    html = _app.report_html(cards[0])
     assert "<html" in html and "Step 5. Scorecard" in html and "decision rule" in html.lower()
+    assert "ThreatPrint report" in html and "Praxis Lab" not in html and "http" not in html.split("</style>")[0]   # no outside fonts or scripts

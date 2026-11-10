@@ -1,4 +1,4 @@
-"""Make a SYNTHETIC sample organization file for trying Praxis Lab: a fictional water utility with 24 devices.
+"""Make a SYNTHETIC sample organization file for trying ThreatPrint: a fictional water utility with 24 devices.
 
     python tools/make_sample_org.py            -> samples/sample_organization_water_utility_SYNTHETIC.csv
 

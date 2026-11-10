@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
-"""Praxis Lab local agent.
+"""ThreatPrint local agent.
 
 Run this on your own machine, on your own records. It reads a labeled table of network or device records, works out
 which columns are identifiers, removes them, maps each attack label to a common attack family and to MITRE ATT&CK,
 and writes a FINGERPRINT: a small file of summary statistics per attack type. The fingerprint holds no records and no
 identifier columns. Nothing is sent anywhere: this file has no network code. You decide whether to upload the
-fingerprint to a Praxis Lab site.
+fingerprint to a ThreatPrint site.
 
-    python praxis_agent.py my_records.csv                        writes my_records.fingerprint.json
-    python praxis_agent.py my_records.csv --sanitized out.csv    also writes the sanitized table (attack records only)
-    python praxis_agent.py my_records.csv --label attack_type --normal normal --host device_name --time timestamp
-    python praxis_agent.py --verify my_records.fingerprint.json  checks the integrity digest of a fingerprint
+    python threatprint_agent.py my_records.csv                        writes my_records.fingerprint.json
+    python threatprint_agent.py my_records.csv --sanitized out.csv    also writes the sanitized table (attack records only)
+    python threatprint_agent.py my_records.csv --label attack_type --normal normal --host device_name --time timestamp
+    python threatprint_agent.py --verify my_records.fingerprint.json  checks the integrity digest of a fingerprint
 
 Needs Python 3.9 or newer with pandas and numpy. The file is one page of plain Python so that a security team can
 read all of it before running it.
@@ -34,8 +34,9 @@ import time
 import numpy as np
 import pandas as pd
 
-AGENT_VERSION = "0.2"
-FORMAT = "praxis-lab-fingerprint"
+AGENT_VERSION = "0.3"
+FORMAT = "threatprint-fingerprint"
+FORMATS = (FORMAT, "praxis-lab-fingerprint")           # the second is the name used until 9 November 2026
 ATTACK_VERSION = "MITRE ATT&CK v20.1 (Enterprise and ICS), identifiers checked on 9 November 2026"
 K_MIN = 50                                   # minimum records per attack type; smaller groups are left out
 GRID = [round(x, 4) for x in np.linspace(0.01, 0.99, 41)]
@@ -268,7 +269,7 @@ def digest(fp):
 
 
 def verify(fp):
-    return fp.get("format") == FORMAT and fp.get("integrity", {}).get("digest") == digest(fp)
+    return fp.get("format") in FORMATS and fp.get("integrity", {}).get("digest") == digest(fp)
 
 
 def _bucket(n):
@@ -296,7 +297,7 @@ def build_fingerprint(df, label_col, benign_label, numbers, source_col=None, tim
 
 
 def readiness(fp):
-    """Can the Praxis Lab evaluation run on the data behind this fingerprint? Returns a list of (ok, sentence)."""
+    """Can the ThreatPrint evaluation run on the data behind this fingerprint? Returns a list of (ok, sentence)."""
     n_types = len(fp.get("classes", {}))
     out = [(n_types >= 3, f"{n_types} attack types with at least {fp.get('min_group_size', K_MIN)} records "
                           "(three are needed, so that each of the three organizations can withhold a different one)"),
@@ -313,7 +314,7 @@ def readiness(fp):
 
 # ---------------------------------------------------------------- command line
 def main():
-    ap = argparse.ArgumentParser(description="Praxis Lab local agent: sanitize a labeled table and write its fingerprint. Nothing is sent anywhere.")
+    ap = argparse.ArgumentParser(description="ThreatPrint local agent: sanitize a labeled table and write its fingerprint. Nothing is sent anywhere.")
     ap.add_argument("file", nargs="?", help="CSV or Parquet file with one header row")
     ap.add_argument("--label", help="label column (attack type or normal)")
     ap.add_argument("--normal", help="label value that means normal traffic")
@@ -354,7 +355,7 @@ def main():
         print(f"  {lab:32s} about {c['records']:>6,} records   {c['family']:40s} {technique_text(c['techniques'])}")
     if fp["suppressed"]:
         print(f"Left out ({len(fp['suppressed'])} attack types with fewer than {a.k} records).")
-    print("\nReadiness for the Praxis Lab evaluation:")
+    print("\nReadiness for the ThreatPrint evaluation:")
     for good, text in readiness(fp):
         print(f"  [{'ok' if good else '--'}] {text}")
     out = a.out or (os.path.splitext(a.file)[0] + ".fingerprint.json")
